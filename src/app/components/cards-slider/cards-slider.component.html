@@ -1,7 +1,30 @@
-<div class="h-1/2">
-    <ngx-slick-carousel #slickModal="slick-carousel" [config]="slideConfig">
-        <div ngxSlickItem *ngFor="let slide of slides">
-            <img src="{{ slide.img }}" alt="">
-        </div>
-    </ngx-slick-carousel>
-</div>
+<section class="h-[300vh] relative">
+    <div class="sticky top-0 overflow-hidden h-screen">
+        <ul class="img-group flex">
+           <li class="img-container flex w-screen h-screen grow-0 shrink-0 basis-auto items-center justify-evenly flex-row">
+                <img class="w-1/4 rounded-3xl" src="ElPoderDelAhora.webp" alt="">
+                <div class="w-1/2">
+                    <h2 class="m-0 text-white text-5xl font-bold tracking-tight leading-[1.2] relative bottom-8 inline-block">El poder del ahora</h2>
+                    <p class="text-2xl text-stone-400">“Un libro que no solo se lee, sino que se vive. Me ayudó a entender el valor de estar presente y a tomar distancia de mis pensamientos. Es una lectura obligada si buscas paz mental.”</p>
+                    <span class="text-stone-500">— Ana M.</span>
+                </div>
+           </li>
+           <li class="img-container flex w-screen h-screen grow-0 shrink-0 basis-auto items-center justify-evenly flex-row-reverse">
+                <img class="w-1/4 rounded-3xl" src="ElPrincipe.webp" alt="">
+                <div class="w-1/2">
+                    <h2 class="m-0 text-white text-5xl font-bold tracking-tight leading-[1.2] relative bottom-8 inline-block">El principe</h2>
+                    <p class="text-2xl text-stone-400">“Una obra maestra de la estrategia y el poder. Aunque fue escrita hace siglos, sigue siendo increíblemente relevante en política, liderazgo y negocios. Me hizo cuestionar la moralidad en la toma de decisiones.”</p>
+                    <span class="text-stone-500">— Carlos R.</span>
+                </div>
+           </li>
+           <li class="img-container flex w-screen h-screen grow-0 shrink-0 basis-auto items-center justify-evenly flex-row">
+                <img class="w-1/4 rounded-3xl" src="NoMepuedesLastimar.webp" alt="">
+                <div class="w-1/2">
+                    <h2 class="m-0 text-white text-5xl font-bold tracking-tight leading-[1.2] relative bottom-8 inline-block">No me puedes lastimar</h2>
+                    <p class="text-2xl text-stone-400">“Una historia brutalmente honesta que te sacude y te motiva. Goggins no ofrece excusas, solo disciplina y voluntad inquebrantable. Después de leerlo, dejé de buscar motivación y empecé a construirla.”</p>
+                    <span class="text-stone-500 text-lg">— Lucía G.</span>
+                </div>
+           </li>
+        </ul>
+    </div>
+</section>
