@@ -21,7 +21,7 @@ export class SigninComponent {
 
   constructor(private userService: UserService){
     this.email = new FormControl('', [Validators.required, Validators.email]);
-    this.password = new FormControl('', [Validators.required, Validators.minLength(8)])
+    this.password = new FormControl('', [Validators.required, Validators.minLength(6)])
     this.username = new FormControl('', [Validators.required, Validators.minLength(3)])
     this.rememberMe = new FormControl(false)
     
@@ -38,17 +38,14 @@ export class SigninComponent {
       this.userService.registerUser(this.signinForm.value).subscribe({
         next: res => {
           this.message = 'Verifique su correo electronico.';
-          
-          const storage = this.rememberMe ? localStorage : sessionStorage;
-          if ((res as any).session?.access_token) {
-            storage.setItem('token', (res as any).session.access_token);
-          }
+          this.error = ''
           this.signinForm.reset();
+          console.log(res)
         },
         error: err => {
-          this.error = 'Error al registrar el usuario. Por favor, inténtelo de nuevo.';
+          this.error = err.message || 'Error al registrar el usuario.';
           this.message = '';
-          console.error(err);
+          console.log(err);
         }
       })
     }

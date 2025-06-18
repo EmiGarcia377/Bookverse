@@ -1,4 +1,4 @@
-<div class="h-full w-screen bg-[url('assets/libreria.jpg')] bg-cover bg-fixed">
+<div class="h-screen w-screen bg-[url('assets/libreria.jpg')] bg-cover bg-fixed">
     <div class="w-1/2 h-full bg-gradient-to-tr from-stone-950 to-zinc-800 rounded-tr-4xl rounded-br-4xl flex flex-col justify-center items-center gap-10">
         <div class="flex items-center justify-center z-50">
             <a routerLink="" class="font-extrabold text-7xl text-white">Bookverse</a>
@@ -33,6 +33,11 @@
                     <input formControlName="rememberMe" type="checkbox" class="mt-4 mr-4" id="remember" name="remember" value="false">
                     <label for="remember" class="text-zinc-100">Recuerdame</label>
                 </fieldset>
+                @if (message && !error) {
+                    <p class="text-zinc-100">{{ message }}</p>
+                } @else if (error) {
+                    <p class="text-red-400">{{ error }}</p>
+                }
                 <button [disabled]="signinForm.invalid" (click)="onSubmit()" class="p-2 bg-white rounded-3xl cursor-pointer hover:bg-zinc-300 transition-all ease-in">Iniciar sesion</button>
             </form>
         </div>
