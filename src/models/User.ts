@@ -1,7 +1,6 @@
 export default interface User {
     email: string;
+    password: string;
     username: string;
-    message?: any;
-    session?: any;
-    error?: string;
+    rememberMe?: boolean;
 }

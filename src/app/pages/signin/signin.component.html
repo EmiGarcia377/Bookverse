@@ -1,19 +1,34 @@
 <div class="h-screen w-screen bg-[url('assets/libreria.jpg')] bg-cover bg-fixed">
+    <ng-template #template>
+        <div class="fixed inset-0 flex items-center justify-center z-50">
+            <div class="bg-white p-10 rounded-lg shadow-lg w-1/3">
+                @if (message && !error) {
+                    <h2 class="text-2xl font-bold mb-4">{{ message }}</h2>
+                    <p class="text-xl">Para iniciar sesion revisa tu <a class="text-xl text-amber-600 hover:underline-offset-1 hover:underline transition-all ease-in" href="https://mail.google.com/mail/u/0/#inbox">correo electronico</a> y inicia sesion!</p>
+                } @else if (error && !message) {
+                    <h2 class="text-2xl font-bold mb-4">Error al registrarse</h2>
+                    <p class="text-xl">Error al registrar su solicitud. Presiona Escape para volver a intentar</p>
+                    <p class="text-red-500 text-xl">{{ error }}</p>
+                }
+            </div>
+        </div>
+    </ng-template>
+        
     <div class="w-1/2 h-full bg-gradient-to-tr from-stone-950 to-zinc-800 rounded-tr-4xl rounded-br-4xl flex flex-col justify-center items-center gap-10">
         <div class="flex items-center justify-center z-50">
             <a routerLink="" class="font-extrabold text-7xl text-white">Bookverse</a>
         </div>
-        <div class="flex flex-col items-center gap-5">
+        <div class="flex flex-col items-center gap-5 w-3/4">
             <h1 class="text-3xl text-white">Bienvenido a Booverse!</h1>
             <p class="text-2xl text-zinc-200">Registrate para continuar</p>
-            <form [formGroup]="signinForm" class="flex flex-col gap-6 h-full py-10">
+            <form [formGroup]="signinForm" class="flex flex-col gap-6 h-full py-10 w-1/2">
                 <fieldset class="flex flex-col">
                     <label class="text-zinc-100 mb-4" for="email">Correo electronico</label>
                     <input formControlName="email" class="bg-stone-200 mb-1.5 rounded-2xl focus:outline-none focus:rounded-none py-1.5 px-3 transition-all placeholder:text-zinc-700 placeholder:opacity-80" type="email" placeholder="ej. correo@dominio.com" required id="email">
                     @if(email.invalid && email.touched){
                         <p class="text-red-400">Tipo de email invalido</p>
                     }
-                    <a class="text-zinc-600 underline">¿Ya tienes una cuenta? Inicia sesion</a>
+                    <a class="text-zinc-600 underline" routerLink="../login">¿Ya tienes una cuenta? Inicia sesion</a>
                 </fieldset>
                 <fieldset class="flex flex-col gap-4">
                     <label class="text-zinc-100" for="username">Usuario</label>
@@ -26,19 +41,14 @@
                     <label class="text-zinc-100" for="password">Contraseña</label>
                     <input formControlName="password" class="bg-stone-200 rounded-2xl focus:outline-none focus:rounded-none py-1.5 px-3 transition-all" type="password" required id="password">
                     @if(password.invalid && password.touched){
-                        <p class="text-red-400">Contraseña invalida</p>
+                        <p class="text-red-400">La Contraseña debe contener al menos un digito</p>
                     }
                 </fieldset>
                 <fieldset>
                     <input formControlName="rememberMe" type="checkbox" class="mt-4 mr-4" id="remember" name="remember" value="false">
                     <label for="remember" class="text-zinc-100">Recuerdame</label>
                 </fieldset>
-                @if (message && !error) {
-                    <p class="text-zinc-100">{{ message }}</p>
-                } @else if (error) {
-                    <p class="text-red-400">{{ error }}</p>
-                }
-                <button [disabled]="signinForm.invalid" (click)="onSubmit()" class="p-2 bg-white rounded-3xl cursor-pointer hover:bg-zinc-300 transition-all ease-in">Iniciar sesion</button>
+                <button [disabled]="signinForm.invalid" (click)="onRegister()" class="p-2 bg-white rounded-3xl cursor-pointer hover:bg-zinc-300 transition-all ease-in">Registrate</button>
             </form>
         </div>
     </div>

@@ -1,52 +1,52 @@
 import { Component, TemplateRef, viewChild, ViewContainerRef } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { DialogService } from '../../services/dialog.service';
 
 @Component({
-  selector: 'app-signin',
+  selector: 'app-login',
   imports: [RouterLink, ReactiveFormsModule],
-  templateUrl: './signin.component.html',
+  templateUrl: './login.component.html',
   styles: ``
 })
-export class SigninComponent {
-  signinForm: FormGroup;
+export class LoginComponent {
+  loginForm: FormGroup;
   email: FormControl;
   password: FormControl;
-  username: FormControl;
-  rememberMe: FormControl
   error: string = '';
   message: string = '';
 
-
-  constructor(private userService: UserService, private dialogService: DialogService){
+  constructor(private userService: UserService, private router: Router, private dialogService: DialogService){
     this.email = new FormControl('', [Validators.required, Validators.email]);
-    this.password = new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/[a-zA-Z]+\d+/i)])
-    this.username = new FormControl('', [Validators.required, Validators.minLength(3)])
-    this.rememberMe = new FormControl(false)
+    this.password = new FormControl('', [Validators.required, Validators.minLength(6)]);
     
-    this.signinForm = new FormGroup({
+    this.loginForm = new FormGroup({
       email: this.email,
-      password: this.password,
-      username: this.username,
-      rememberMe: this.rememberMe 
+      password: this.password 
     });
   }
   
   resTemplate = viewChild(TemplateRef);
   resViewContainerRef = viewChild('template', {read: ViewContainerRef});
 
-  onRegister(){ 
-    this.userService.registerUser(this.signinForm.value).subscribe({
+  onLogin(){
+    this.userService.loginUser(this.loginForm.value).subscribe({
       next: res => {
         this.message = res?.message;
         this.error = '';
         this.dialogService.openDialog(this.resTemplate()!, this.resViewContainerRef()!);
-        this.signinForm.reset();
+        const storage = res?.rememberMe ? localStorage : sessionStorage;
+        if(res?.rememberMe){
+          storage.setItem('token', res?.access_token);
+        }
+        if(res?.userId){
+          this.router.navigate(['../dashboard/', res.userId]);
+        }
+        this.loginForm.reset();
       },
       error: err => {
-        this.error = err.message || 'Error al registrar el usuario.';
+        this.error = err.message || 'Error al iniciar sesion.';
         this.message = '';
         this.dialogService.openDialog(this.resTemplate()!, this.resViewContainerRef()!);
       }
