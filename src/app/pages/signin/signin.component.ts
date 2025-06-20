@@ -23,7 +23,7 @@ export class SigninComponent {
   constructor(private userService: UserService, private dialogService: DialogService){
     this.email = new FormControl('', [Validators.required, Validators.email]);
     this.password = new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/[a-zA-Z]+\d+/i)])
-    this.username = new FormControl('', [Validators.required, Validators.minLength(3)])
+    this.username = new FormControl('', [Validators.required, Validators.minLength(3), Validators.max(25)])
     this.rememberMe = new FormControl(false)
     
     this.signinForm = new FormGroup({

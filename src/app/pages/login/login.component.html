@@ -24,14 +24,14 @@
                 <fieldset class="flex flex-col">
                     <label class="text-zinc-100 mb-4" for="email">Correo electronico</label>
                     <input formControlName="email" class="bg-stone-200 mb-1.5 rounded-2xl focus:outline-none focus:rounded-none py-1.5 px-3 transition-all placeholder:text-zinc-700 placeholder:opacity-80" type="email" placeholder="ej. correo@dominio.com" required id="email">
-                    @if(email.touched){
+                    @if(email.invalid && email.touched){
                         <p class="text-red-400">Ingresa tu correo electronico para iniciar sesion</p>
                     }
                 </fieldset>
                 <fieldset class="flex flex-col gap-4">
                     <label class="text-zinc-100" for="password">Contraseña</label>
                     <input formControlName="password" class="bg-stone-200 rounded-2xl focus:outline-none focus:rounded-none py-1.5 px-3 transition-all" type="password" required id="password">
-                    @if(password.touched){
+                    @if(password.invalid && password.touched){
                         <p class="text-red-400">Ingresa tu Contraseña para iniciar sesion</p>
                     }
                 </fieldset>

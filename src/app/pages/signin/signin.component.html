@@ -31,10 +31,10 @@
                     <a class="text-zinc-600 underline" routerLink="../login">¿Ya tienes una cuenta? Inicia sesion</a>
                 </fieldset>
                 <fieldset class="flex flex-col gap-4">
-                    <label class="text-zinc-100" for="username">Usuario</label>
+                    <label class="text-zinc-100" for="username">Nombre</label>
                     <input formControlName="username" class="bg-stone-200 mb-1.5 rounded-2xl focus:outline-none focus:rounded-none py-1.5 px-3 transition-all placeholder:text-zinc-700 placeholder:opacity-80" type="text" placeholder="ej. usuario123" required id="username">
                     @if(username.invalid && username.touched){
-                        <p class="text-red-400">El usuario debe contener al menos 3 letras</p>
+                        <p class="text-red-400">¿Como te llamas?</p>
                     }
                 </fieldset>
                 <fieldset class="flex flex-col gap-4">
