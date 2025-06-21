@@ -5,30 +5,33 @@ import { UserService } from '../../services/user.service';
 import { DialogService } from '../../services/dialog.service';
 
 @Component({
-  selector: 'app-signin',
+  selector: 'app-register',
   imports: [RouterLink, ReactiveFormsModule],
-  templateUrl: './signin.component.html',
+  templateUrl: './register.component.html',
   styles: ``
 })
-export class SigninComponent {
+export class RegisterComponent {
   signinForm: FormGroup;
   email: FormControl;
   password: FormControl;
+  name: FormControl;
   username: FormControl;
-  rememberMe: FormControl
+  rememberMe: FormControl;
   error: string = '';
   message: string = '';
 
 
   constructor(private userService: UserService, private dialogService: DialogService){
     this.email = new FormControl('', [Validators.required, Validators.email]);
-    this.password = new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/[a-zA-Z]+\d+/i)])
-    this.username = new FormControl('', [Validators.required, Validators.minLength(3), Validators.max(25)])
+    this.password = new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/[a-zA-Z]+\d+/i)]);
+    this.name = new FormControl('', [Validators.required, Validators.minLength(3), Validators.max(25)]);
+    this.username = new FormControl('', [Validators.min(3), Validators.max(15)]);
     this.rememberMe = new FormControl(false)
     
     this.signinForm = new FormGroup({
       email: this.email,
       password: this.password,
+      name: this.name, 
       username: this.username,
       rememberMe: this.rememberMe 
     });

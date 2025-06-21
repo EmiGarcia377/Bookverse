@@ -28,12 +28,11 @@ export class DialogService {
   }
 
   overlayDetachment(overlayRef: OverlayRef){
-    const backdropClick$ = overlayRef.backdropClick();
     const escapeKey$ = overlayRef.keydownEvents().pipe(
       filter((e:KeyboardEvent) => e.key === 'Escape')
     );
 
-    merge(backdropClick$, escapeKey$).subscribe(() => {
+    merge(escapeKey$).subscribe(() => {
       overlayRef.dispose();
     });
   }
