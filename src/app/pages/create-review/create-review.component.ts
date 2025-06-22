@@ -2,6 +2,7 @@ import { Component, ElementRef, TemplateRef, viewChild, ViewChild, ViewContainer
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../services/dialog.service';
 import { RouterLink } from '@angular/router';
+import { ReviewsService } from '../../services/reviews.service';
 
 @Component({
   selector: 'app-create-review',
@@ -18,7 +19,7 @@ export class CreateReviewComponent {
   error: string = '';
   message: string = '';
 
-  constructor(private dialogService: DialogService) {
+  constructor(private dialogService: DialogService, private reviewsService: ReviewsService) {
     this.revTitle = new FormControl('', [Validators.required, Validators.min(5)]);
     this.revScore = new FormControl('', Validators.required);
     this.revContent = new FormControl('', [Validators.required, Validators.min(30)]);
@@ -43,7 +44,18 @@ export class CreateReviewComponent {
     this.dialogService.openDialog(this.dialogTemplate()!, this.dialogViewContainerRef()!);
   }
   submitRev(){
-    console.log(this.revForm);
+    this.reviewsService.createReview(this.revForm.value).subscribe({
+      next: res =>{
+        this.message = res.message;
+        this.error = '';
+        this.dialogService.openDialog(this.dialogTemplate()!, this.dialogViewContainerRef()!);
+      },
+      error: err =>{
+        this.error = err.error.message;
+        this.message = '';
+        console.log(err)
+      }
+    })
   }
   goDashboard(){
 
