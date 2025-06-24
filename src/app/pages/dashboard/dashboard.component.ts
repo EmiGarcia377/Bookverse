@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { RouterLink } from '@angular/router';
+import { ReviewsService } from '../../services/reviews.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,8 @@ export class DashboardComponent implements OnInit {
     fullName: '',
     username: ''
   };
-  constructor(private userService: UserService) { }
+  reviews: any[] = []
+  constructor(private userService: UserService, private reviewsService: ReviewsService) { }
 
   ngOnInit(): void {
     this.userService.getUser().subscribe({
@@ -26,6 +28,10 @@ export class DashboardComponent implements OnInit {
         this.error = err.error.message;
       }
     });
-
+    this.reviewsService.getReview().subscribe({
+      next: res =>{
+        this.reviews = res.reviews;
+      }
+    });
   }
 }

@@ -1,25 +1,26 @@
-import { Component, ElementRef, TemplateRef, viewChild, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, viewChild, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../services/dialog.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ReviewsService } from '../../services/reviews.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-create-review',
-  imports: [ RouterLink, ReactiveFormsModule ],
+  imports: [ReactiveFormsModule],
   templateUrl: './create-review.component.html',
   styles: ``
 })
-export class CreateReviewComponent {
-
+export class CreateReviewComponent implements OnInit{
   revForm: FormGroup;
   revTitle: FormControl;
   revScore: FormControl;
   revContent: FormControl;
   error: string = '';
   message: string = '';
+  userId: string = '';
 
-  constructor(private dialogService: DialogService, private reviewsService: ReviewsService) {
+  constructor(private dialogService: DialogService, private reviewsService: ReviewsService, private router: Router, private userService: UserService) {
     this.revTitle = new FormControl('', [Validators.required, Validators.min(5)]);
     this.revScore = new FormControl('', Validators.required);
     this.revContent = new FormControl('', [Validators.required, Validators.min(30)]);
@@ -28,6 +29,13 @@ export class CreateReviewComponent {
       title: this.revTitle,
       score: this.revScore,
       content: this.revContent
+    })
+  }
+
+  ngOnInit(): void {
+    this.userService.getUser().subscribe({
+      next: res => this.userId = res.userId,
+      error: err => this.error = err.message
     })
   }
 
@@ -48,16 +56,15 @@ export class CreateReviewComponent {
       next: res =>{
         this.message = res.message;
         this.error = '';
-        this.dialogService.openDialog(this.dialogTemplate()!, this.dialogViewContainerRef()!);
+        this.router.navigate(['../dashboard/', res.userId]);
       },
       error: err =>{
         this.error = err.error.message;
         this.message = '';
-        console.log(err)
       }
     })
   }
   goDashboard(){
-
+    this.router.navigate(['../dashboard/', this.userId]);
   }
 }

@@ -12,4 +12,8 @@ export class ReviewsService {
   createReview(reviewForm: any){
     return this.http.post<any>(`${this.apiUrl}/create-review`, reviewForm);
   }
+
+  getReview(){
+    return this.http.get<any>(`${this.apiUrl}/getReview`);
+  }
 }
