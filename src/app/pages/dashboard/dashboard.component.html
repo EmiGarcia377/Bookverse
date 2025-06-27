@@ -1,18 +1,20 @@
 <div class="h-screen flex flex-row bg-gradient-to-b from-zinc-700 to-zinc-800 overflow-hidden">
-    <nav class="w-1/4 h-full flex flex-col items-center justify-evenly border-r-2 border-r-zinc-950 bg-zinc-800">
-        <div class="w-3/4 flex flex-row gap-3 items-center bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in">
-            @if (error) {
+    <nav class="w-1/4 h-full flex flex-col items-center justify-evenly border-r-2 border-r-zinc-950 bg-zinc-800 shadow-xl shadow-zinc-900">
+        @if (error) {
+            <div class="w-3/4 flex flex-row gap-3 items-center bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in">
                 <p class="text-white font-light text-sm text-center">{{ error }}</p>
                 <a class="text-amber-500 opacity-90 text-center" routerLink="../../login">Inicia sesion</a>
-            } @else {
+            </div>
+        } @else if (message) {
+            <div (click)="goProfile()" class="w-3/4 flex flex-row gap-3 items-center bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in cursor-pointer">
                 <img class="w-16 rounded-full" src="userDef.png" alt="User profile photo">
                 <div>
                     <p class="text-white font-bold line-clamp-1">{{user.fullName}}</p>
                     <p class="text-white opacity-80 font-light line-clamp-1">{{ user.username }}</p>
                 </div>
-            }
-        </div>
-        <div class="w-3/4 h-3/6 flex flex-col items-center gap-10">
+            </div>
+        }
+        <div class="w-3/4 h-3/6 flex flex-col items-center gap-7">
             <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-60 cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                 <img class="w-7" src="home.svg">
                 <p class="text-white text-2xl inline-block">Inicio</p>
@@ -29,25 +31,22 @@
                 <img class="w-7" src="bookmark.svg">
                 <p class="text-white text-2xl inline-block">Guardados</p>
             </button>
-            <button routerLink="../../create-review" class="bg-gradient-to-r from-amber-600 to-amber-400 text-white text-xl rounded-3xl p-3 w-60 cursor-pointer hover:contrast-125 transition-all ease-in-out">
+            <button routerLink="../create-review" class="bg-gradient-to-r from-amber-600 to-amber-400 text-white text-xl rounded-3xl p-3 w-60 cursor-pointer hover:contrast-125 transition-all ease-in-out">
                 Comparte tu opinion
             </button>
         </div>
-        <div>
-        <a routerLink="" class="font-extrabold text-5xl text-white">Bookverse</a> 
-        </div>
     </nav>
-    <div class="w-1/2 h-full overflow-y-auto flex flex-col items-center scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800">
+    <div class="w-3/4 h-full overflow-y-auto flex flex-col items-center scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800">
         @for (review of reviews; track $index) {
             <section class="flex flex-col p-5 gap-7 w-11/12">
-                <div class="flex flex-row gap-3">
-                    <img class="rounded-full w-12" src="userDef.png" alt="User profile photo">
-                    <div class="flex flex-col">
-                        <p class="text-white font-bold">{{ review.users.full_name }}</p>
-                        <p class="text-white opacity-80 font-light">{{ review.users.username }}</p>
-                    </div>
-                </div>
                 <div class="rounded-3xl border-2 border-zinc-800 bg-zinc-700 p-5">
+                    <div class="flex flex-row gap-3 pb-3">
+                        <img class="rounded-full w-12" src="userDef.png" alt="User profile photo">
+                        <div class="flex flex-col">
+                            <p class="text-white font-bold">{{ review.users.full_name }}</p>
+                            <p class="text-white opacity-80 font-light">{{ review.users.username }}</p>
+                        </div>
+                    </div>
                     <p class="text-white text-xl font-bold pb-2"> {{ review.title }}</p>
                     <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }}</p>
                     <p class="text-white">
@@ -57,7 +56,7 @@
             </section>
         }
     </div>
-    <nav class="w-1/4 h-full flex flex-col items-center justify-evenly border-l-2 border-l-zinc-950 bg-zinc-800">
+    <!--<nav class="w-1/4 h-full flex flex-col items-center justify-evenly border-l-2 border-l-zinc-950 bg-zinc-800">
         <div class="w-4/5 flex flex-col gap-5 border-2 border-neutral-900 rounded-2xl p-4">
             <p class="text-amber-500 opacity-90 font-bold text-2xl">Tendencias en reseñas y libros</p>
             <ul class="flex flex-col gap-3">
@@ -135,4 +134,4 @@
             </ul>
         </div>
     </nav>
-</div>
+</div>-->

@@ -41,7 +41,7 @@ export class LoginComponent {
           storage.setItem('token', res?.access_token);
         }
         if(res?.userId){
-          this.router.navigate(['../dashboard/', res.userId]);
+          this.router.navigate(['../dashboard/']);
         }
         this.loginForm.reset();
       },

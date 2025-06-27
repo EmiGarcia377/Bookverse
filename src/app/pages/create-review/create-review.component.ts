@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, TemplateRef, viewChild, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, TemplateRef, viewChild, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../services/dialog.service';
 import { Router, RouterLink } from '@angular/router';
@@ -11,7 +11,7 @@ import { UserService } from '../../services/user.service';
   templateUrl: './create-review.component.html',
   styles: ``
 })
-export class CreateReviewComponent implements OnInit{
+export class CreateReviewComponent{
   revForm: FormGroup;
   revTitle: FormControl;
   revScore: FormControl;
@@ -32,13 +32,6 @@ export class CreateReviewComponent implements OnInit{
     })
   }
 
-  ngOnInit(): void {
-    this.userService.getUser().subscribe({
-      next: res => this.userId = res.userId,
-      error: err => this.error = err.message
-    })
-  }
-
   dialogTemplate = viewChild(TemplateRef);
   dialogViewContainerRef = viewChild('template', {read: ViewContainerRef});
   @ViewChild('autoTextarea') textarea!: ElementRef<HTMLTextAreaElement>;
@@ -56,7 +49,7 @@ export class CreateReviewComponent implements OnInit{
       next: res =>{
         this.message = res.message;
         this.error = '';
-        this.router.navigate(['../dashboard/', res.userId]);
+        this.router.navigate(['../dashboard']);
       },
       error: err =>{
         this.error = err.error.message;
@@ -65,6 +58,6 @@ export class CreateReviewComponent implements OnInit{
     })
   }
   goDashboard(){
-    this.router.navigate(['../dashboard/', this.userId]);
+    this.router.navigate(['../dashboard/']);
   }
 }

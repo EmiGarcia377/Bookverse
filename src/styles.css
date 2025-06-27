@@ -1,2 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+.ocultar-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.ocultar-scroll::-webkit-scrollbar {
+  display: none;
+}
