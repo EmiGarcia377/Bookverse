@@ -6,7 +6,7 @@
             </div>
             <img class="w-36 rounded-full" src="userDef.png" alt="User profile photo">
             <p class="text-white font-bold line-clamp-1">{{ user.fullName }}</p>
-            <p class="text-white opacity-80 font-light line-clamp-1">{{ user.username }}</p>
+            <p class="text-white opacity-80 font-light line-clamp-1">{{ '@' + user.username }}</p>
             <div class="flex flex-row gap-4">
                 <p class="text-white text-lg opacity-75 font-light">followers:</p>
                 <p class="text-white text-lg opacity-75 font-light">following:</p>
@@ -24,7 +24,7 @@
                             <img class="rounded-full w-12" src="userDef.png" alt="User profile photo">
                             <div class="flex flex-col">
                                 <p class="text-white font-bold">{{ review.users.full_name }}</p>
-                                <p class="text-white opacity-80 font-light">{{ review.users.username }}</p>
+                                <p class="text-white opacity-80 font-light">{{ '@' + review.users.username }}</p>
                             </div>
                         </div>
                         <p class="text-white text-xl font-bold pb-2">{{ review.title }}</p>
