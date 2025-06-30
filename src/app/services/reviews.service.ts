@@ -16,4 +16,8 @@ export class ReviewsService {
   getReview(){
     return this.http.get<any>(`${this.apiUrl}/getReview`);
   }
+
+  getUserReview(userId: string){
+    return this.http.get<any>(`${this.apiUrl}/getUserReview/${userId}`, { params: { userId }});
+  }
 }
