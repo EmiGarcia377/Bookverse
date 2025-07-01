@@ -17,6 +17,6 @@ export class UserService {
     return this.http.post<any>(`${this.apiUrl}/login`, userData);
   }
   getUser(){
-    return this.http.get<any>(`${this.apiUrl}/getUser`);
+    return this.http.get<User>(`${this.apiUrl}/getUser`);
   }
 }

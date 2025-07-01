@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { uuid } from '../../models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,10 @@ export class ReviewsService {
     return this.http.get<any>(`${this.apiUrl}/getReview`);
   }
 
-  getUserReview(userId: string){
+  getUserReview(userId: uuid | null){
+    if (!userId) {
+      throw new Error('User ID is required to fetch user reviews');
+    }
     return this.http.get<any>(`${this.apiUrl}/getUserReview/${userId}`, { params: { userId }});
   }
 }

@@ -1,6 +1,8 @@
+export type uuid = `${string}-${string}-${string}-${string}` | `${string}-${string}-${string}-${string}-${string}`;
 export default interface User {
-    email: string;
-    password: string;
-    username: string;
-    rememberMe?: boolean;
+    message?: string | undefined;
+    userId: uuid | null;
+    email?: string;
+    username: string | null;
+    fullName: string | null;
 }
