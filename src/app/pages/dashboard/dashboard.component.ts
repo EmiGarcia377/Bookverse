@@ -54,6 +54,39 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['../profile/', this.user.userId]);
   }
 
+  editReview(){
+    if(this.menuToggle !== null){
+      this.router.navigate(['../edit-review/', this.reviews[this.menuToggle].id]);
+    }
+  }
+
+  delReview(){
+    if(this.menuToggle !== null){
+      const reviewId = this.reviews[this.menuToggle].id;
+
+      this.reviewsService.deleteReview(reviewId).subscribe({
+        next: res => {
+          if(this.menuToggle !== null){
+            this.message = res.message;
+            this.reviews.splice(this.menuToggle, 1);
+            this.menuToggle = null;
+          };
+          this.reviewsService.getReview().subscribe({
+              next: res => {
+                this.reviews = res.reviews;
+              },
+              error: err => {
+                console.log(err);
+              }
+          });
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+    }
+  }
+
   @HostListener('document:click', ['$event'])
   cerrarMenus(event: MouseEvent) {
     const target = event.target as HTMLElement;

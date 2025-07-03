@@ -55,6 +55,39 @@ export class ProfileComponent implements OnInit{
     this.menuToggle = this.menuToggle === index ? null : index;
   }
 
+  editReview(){
+    if(this.menuToggle !== null){
+      this.router.navigate(['../edit-review/', this.reviews[this.menuToggle].id]);
+    }
+  }
+
+  delReview(){
+    if(this.menuToggle !== null){
+      const reviewId = this.reviews[this.menuToggle].id;
+
+      this.reviewsService.deleteReview(reviewId).subscribe({
+        next: res => {
+          if(this.menuToggle !== null){
+            this.message = res.message;
+            this.reviews.splice(this.menuToggle, 1);
+            this.menuToggle = null;
+          };
+          this.reviewsService.getReview().subscribe({
+              next: res => {
+                this.reviews = res.reviews;
+              },
+              error: err => {
+                console.log(err);
+              }
+          });
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+    }
+  }
+
   goDashboard(){
     this.router.navigate(['../dashboard/']);
   }

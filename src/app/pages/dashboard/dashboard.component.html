@@ -36,7 +36,7 @@
             </button>
         </div>
     </nav>
-    <div class="w-3/4 h-full overflow-y-auto flex flex-col items-center scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800">
+    <div class="w-3/4 h-full overflow-y-auto flex flex-col items-center scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800 ocultar-scroll">
         @for (review of reviews; track $index) {
             <section class="flex flex-col p-5 gap-7 w-11/12">
                 <div class="rounded-3xl border-2 border-zinc-800 bg-zinc-700 p-5">
@@ -48,17 +48,19 @@
                                     <p class="text-white opacity-80 font-light">{{ '@' + review.users.username }}</p>
                                 </div>
                             </div>
-                            <div class="relative inline-block text-left" #menuContainer>
-                                <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
-                                @if (menuToggle === $index) {
-                                    <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
-                                        <ul class="py-1">
-                                            <li class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
-                                            <li class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
-                                        </ul>
-                                    </div>
-                                }
-                            </div>
+                            @if (review.users.username === user.username) {
+                                <div class="relative inline-block text-left" #menuContainer>
+                                    <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                    @if (menuToggle === $index) {
+                                        <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                            <ul class="py-1">
+                                                <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                            </ul>
+                                        </div>
+                                    }
+                                </div>
+                            }
                         </div>
                     <p class="text-white text-xl font-bold pb-2"> {{ review.title }}</p>
                     <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>

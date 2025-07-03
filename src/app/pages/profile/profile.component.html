@@ -1,5 +1,5 @@
 <div class="h-screen flex flex-row justify-center bg-gradient-to-b from-zinc-700 to-zinc-800 overflow-hidden">
-    <div class="w-3/4 bg-zinc-700 border-l-1 border-r-1 border-l-zinc-800 border-r-zinc-800 shadow-2xl shadow-zinc-900 ocultar-scroll overflow-y-auto ">
+    <div class="w-3/4 bg-zinc-700 border-l-1 border-r-1 border-l-zinc-800 border-r-zinc-800 shadow-2xl shadow-zinc-900 ocultar-scroll overflow-y-auto">
         <div class="flex flex-col items-center p-10 gap-3 rounded-b-2xl bg-zinc-900">
             <div class="flex flex-row justify-items-start w-full">
                 <button (click)="goDashboard()" class="p-1 rounded-full cursor-pointer hover:bg-zinc-600 hover:scale-105 transition-all ease-in-out"><img src="arrow_left.svg" alt=""></button>
@@ -28,21 +28,23 @@
                                     <p class="text-white opacity-80 font-light">{{ '@' + review.users.username }}</p>
                                 </div>
                             </div>
-                            <div class="relative inline-block text-left" #menuContainer>
-                                <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
-                                @if (menuToggle === $index) {
-                                    <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
-                                        <ul class="py-1">
-                                            <li class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
-                                            <li class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
-                                        </ul>
-                                    </div>
-                                }
-                            </div>
+                            @if (review.users.username === user.username) {
+                                <div class="relative inline-block text-left" #menuContainer>
+                                    <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                    @if (menuToggle === $index) {
+                                        <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                            <ul class="py-1">
+                                                <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                            </ul>
+                                        </div>
+                                    }
+                                </div>
+                            }
                         </div>
                         <p class="text-white text-xl font-bold pb-2">{{ review.title }}</p>
                         <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
-                        <p class="text-white">
+                        <p class="text-white line-clamp-12">
                             {{ review.content }}
                         </p>
                     </div>

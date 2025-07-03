@@ -24,4 +24,19 @@ export class ReviewsService {
     }
     return this.http.get<any>(`${this.apiUrl}/getUserReview/${userId}`, { params: { userId }});
   }
+
+  getReviewById(reviewId: string){
+    return this.http.get<any>(`${this.apiUrl}/getReviewById/${reviewId}`, { params: { reviewId }});
+  }
+
+  editReview(reviewId: uuid, reviewData: any){
+    return this.http.put<any>(`${this.apiUrl}/editReview/${reviewId}`, reviewData, { params: { reviewId }});
+  }
+
+  deleteReview(reviewId: uuid){
+    if(!reviewId){
+      throw new Error('Review ID is required to delete a review');
+    }
+    return this.http.delete<any>(`${this.apiUrl}/deleteReview/${reviewId}`, { params: { reviewId }});
+  }
 }
