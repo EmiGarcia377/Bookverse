@@ -11,12 +11,12 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   registerUser(userData: User) {
-    return this.http.post<any>(`${this.apiUrl}/register`, userData);
+    return this.http.post<any>(`${this.apiUrl}/users/register`, userData);
   }
   loginUser(userData: User){
-    return this.http.post<any>(`${this.apiUrl}/login`, userData);
+    return this.http.post<any>(`${this.apiUrl}/users/login`, userData);
   }
   getUser(){
-    return this.http.get<User>(`${this.apiUrl}/getUser`);
+    return this.http.get<User>(`${this.apiUrl}/users/getUser`);
   }
 }
