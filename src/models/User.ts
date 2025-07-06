@@ -5,4 +5,6 @@ export default interface User {
     email?: string;
     username: string | null;
     fullName: string | null;
+    followers?: number;
+    following?: number;
 }

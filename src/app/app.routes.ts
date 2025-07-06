@@ -6,6 +6,8 @@ import { CreateReviewComponent } from './pages/create-review/create-review.compo
 import { RegisterComponent } from './pages/register/register.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EditReviewComponent } from './pages/edit-review/edit-review.component';
+import { UserDashComponent } from './pages/user-dash/user-dash.component';
+import { UserConfigComponent } from './pages/user-config/user-config.component';
 
 export const routes: Routes = [
     { path: '', component: MainComponent },
@@ -14,5 +16,7 @@ export const routes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'create-review', component: CreateReviewComponent },
     { path: 'profile/:userId', component: ProfileComponent },
-    { path: 'edit-review/:reviewId', component: EditReviewComponent }
+    { path: 'edit-review/:reviewId', component: EditReviewComponent },
+    { path: 'user-dashboard/:userId', component: UserDashComponent },
+    { path: 'user-config', component: UserConfigComponent }
 ];

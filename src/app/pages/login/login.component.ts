@@ -37,11 +37,9 @@ export class LoginComponent {
         this.error = '';
         this.dialogService.openDialog(this.resTemplate()!, this.resViewContainerRef()!);
         const storage = res?.rememberMe ? localStorage : sessionStorage;
-        if(res?.rememberMe){
-          storage.setItem('token', res?.access_token);
-        }
-        if(res?.userId){
-          this.router.navigate(['../dashboard/']);
+        storage.setItem('user_id', res?.userId);
+        if(res){
+          this.router.navigate(['../dashboard']);
         }
         this.loginForm.reset();
       },

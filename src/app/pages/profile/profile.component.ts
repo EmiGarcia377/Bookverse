@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ReviewsService } from '../../services/reviews.service';
 import { UserService } from '../../services/user.service';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import User from '../../../models/User';
 
 @Component({
@@ -13,9 +13,11 @@ import User from '../../../models/User';
 export class ProfileComponent implements OnInit{
   error: string = '';
   message: string | undefined = '';
-  user: User = { message: undefined, userId: null, username: null, fullName: null};
+  user: User = { message: undefined, userId: null, username: null, fullName: null, followers: 0, following: 0 };
   reviews: any[] = [];
   menuToggle: number | null = null;
+  revId: string | null = '';
+  sessionId: string | null = ''
 
   @ViewChild('menuContainer') menuContainer!: ElementRef;
 
@@ -23,19 +25,24 @@ export class ProfileComponent implements OnInit{
     private userService: UserService, 
     private reviewsService: ReviewsService, 
     private router: Router,
+    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ){}
   ngOnInit(): void {
-     this.userService.getUser().subscribe({
+    this.revId = this.route.snapshot.paramMap.get('userId');
+    this.userService.getUserById(this.revId!).subscribe({
       next: res =>{
         this.message = res.message
-        this.user.userId = res.userId;
-        this.user.username = res.username;
-        this.user.fullName = res.fullName;
+        this.user.userId = res.data.id;
+        this.user.username = res.data.username;
+        this.user.fullName = res.data.full_name;
+        this.user.followers = res.data.followers;
+        this.user.following = res.data.following;
         this.error = '';
         this.reviewsService.getUserReview(this.user.userId).subscribe({
           next: res =>{
             this.reviews = res.reviews;
+            this.sessionId = sessionStorage.getItem('user_id') ? sessionStorage.getItem('user_id') : localStorage.getItem('user_id');
           },
           error: err =>{
             this.error = err.error.message;
@@ -47,6 +54,7 @@ export class ProfileComponent implements OnInit{
       error: err =>{
         this.error = err.error.message;
         this.message = '';
+        console.log(err);
       }
     });
   }
@@ -89,7 +97,7 @@ export class ProfileComponent implements OnInit{
   }
 
   goDashboard(){
-    this.router.navigate(['../dashboard/']);
+    this.router.navigate(['../dashboard']);
   }
 
   @HostListener('document:click', ['$event'])

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import User from '../../models/User';
+import User, { uuid } from '../../models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +18,11 @@ export class UserService {
   }
   getUser(){
     return this.http.get<User>(`${this.apiUrl}/users/getUser`);
+  }
+  getUserById(userId: string | null){
+    if(!userId){
+      throw new Error('No se encontro el ID del usuario');
+    }
+    return this.http.get<any>(`${this.apiUrl}/users/getUser/${userId}`, { params: { userId } });
   }
 }

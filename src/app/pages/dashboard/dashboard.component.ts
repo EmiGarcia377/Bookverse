@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChi
 import { UserService } from '../../services/user.service';
 import { Router, RouterLink } from '@angular/router';
 import { ReviewsService } from '../../services/reviews.service';
-import User from '../../../models/User';
+import User, { uuid } from '../../../models/User';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +13,7 @@ import User from '../../../models/User';
 export class DashboardComponent implements OnInit {
   error: string = '';
   message: string | undefined = '';
-  user: User = { message: undefined, userId: null, username: null, fullName: null};
+  user: User = { message: undefined, userId: null, username: null, fullName: null };
   reviews: any[] = []
   menuToggle: number | null = null;
   constructor(
@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit {
       error: err =>{
         this.error = err.error.message;
         this.message = '';
+        console.log(err);
       }
     });
     this.reviewsService.getReview().subscribe({
@@ -50,8 +51,12 @@ export class DashboardComponent implements OnInit {
     this.menuToggle = this.menuToggle === index ? null : index;
   }
 
-  goProfile(){
-    this.router.navigate(['../profile/', this.user.userId]);
+  goProfile(userId: uuid){
+    this.router.navigate(['../profile/', userId]);
+  }
+
+  goUserDash(){
+    this.router.navigate(['../user-dashboard/', this.user.userId]);
   }
 
   editReview(){
