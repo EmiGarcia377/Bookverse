@@ -7,5 +7,7 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export class UserDashComponent {
+  error: string = '';
+  message: string = '';
 
 }

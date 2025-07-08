@@ -1,1 +1,274 @@
-<p>user-dash works!</p>
+<div class="h-screen flex flex-row max-w-screen min-h-full bg-gradient-to-b from-zinc-700 to-zinc-900 overflow-hidden">
+    <nav class="w-1/5 h-full flex flex-col items-center justify-between py-6 bg-zinc-800">
+        <!-- @if (error != "") {
+            <div class="w-1/2 flex flex-row gap-3 items-center bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in">
+                <p class="text-white font-light text-center">{{ error }}</p>
+                <a class="text-amber-500 opacity-90 text-center" routerLink="../login">Inicia sesion</a>
+            </div>
+        } @else if (message != '') {
+        <div class="w-3/4 flex flex-row gap-3 items-center bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in cursor-pointer">
+            <img class="w-10 h-10 rounded-full" src="userDef.png" alt="User profile photo">
+            <div>
+                <p class="text-white font-bold line-clamp-1">Full name</p>
+                    <p class="text-white opacity-80 font-light line-clamp-1">Username</p>
+                </div>
+            </div>
+        } -->
+        <div class="w-3/4 flex flex-col gap-4">
+            <div class="w-full flex flex-row gap-3 items-center p-3 rounded-4xl hover:contrast-125 transition-all ease-in cursor-pointer">
+                <img class="w-10 h-10 rounded-full" src="userDef.png" alt="User profile photo">
+                <div>
+                    <p class="text-white opacity-80 font-light text-xl line-clamp-1">Username</p>
+                </div>
+            </div>
+            <div class="w-full">
+                <div class="flex flex-row items-center gap-1 inset-shadow-sm inset-shadow-zinc-800 w-full rounded-xl bg-zinc-700 p-3 outline-1 outline-zinc-600 text-white mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400 transition-all ease-out">
+                    <img class="w-4 h-4" src="search.svg">
+                    <input class="bg-transparent focus:outline-none w-full placeholder-white/70" placeholder="Buscar..." type="text">
+                </div>
+            </div>
+            <div class="w-full flex flex-col items-start gap-2">
+                <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                    <img class="w-7" src="booktracker.svg">
+                    <p class="text-white text-lg inline-block">Book tracker</p>
+                </button>
+                <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                    <img class="w-7" src="post.svg">
+                    <p class="text-white text-lg inline-block">Mis publicaciones</p>
+                </button>
+                <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                    <img class="w-7" src="notifications.svg">
+                    <p class="text-white text-lg inline-block">Notificaciones</p>
+                </button>
+                <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                    <img class="w-7" src="bookmark.svg">
+                    <p class="text-white text-lg text-left inline-block">Publicaciones guardadas</p>
+                </button>
+                <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                    <img class="w-7" src="favorites.svg">
+                    <p class="text-white text-lg inline-block">Favoritos</p>
+                </button>
+            </div>
+            <hr class="text-zinc-700 border-1 rounded-2xl">
+        </div>
+        <div class="w-3/4 flex flex-col gap-4">
+            <hr class="text-zinc-700 border-1 rounded-2xl">
+            <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                    <img class="w-7" src="feedback.svg">
+                    <p class="text-white text-lg inline-block">Feedback</p>
+            </button>
+            <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                    <img class="w-7" src="settings.svg">
+                    <p class="text-white text-lg inline-block">Configuracion</p>
+            </button>
+        </div>
+    </nav>
+    <div class="p-6 flex flex-col gap-4 w-full overflow-y-auto">
+        <div>
+            <h1 class="text-white text-5xl font-medium pb-4">Hola, [username]</h1>
+            <h2 class="text-white text-lg opacity-80 ml-3">Bienvenido a tu espacio personal!</h2>
+        </div>
+        <div class="flex flex-col">
+            <div class="bg-zinc-800 rounded-xl p-3 flex flex-col">
+                <h3 class="text-3xl text-white font-medium p-4 mb-4">Book tracker</h3>
+                <div class="flex flex-row justify-evenly">
+                    <section>
+                        <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                            <img class="rounded-2xl w-60 h-90" src="ElPrincipe.webp" alt="Titulo del libro">
+                            <p class="text-white text-xl text-center">Titulo del libro</p>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
+                            <p class="text-white text-sm">Autor:</p>
+                            <p class="text-white text-sm">Total de paginas: </p>
+                            <p class="text-white text-sm">Genero: </p>
+                            <p class="text-white text-sm">Estatus: </p>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                            <img class="rounded-2xl w-60 h-90" src="ElPoderDelAhora.webp" alt="Titulo del libro">
+                            <p class="text-white text-xl text-center">Titulo del libro</p>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
+                            <p class="text-white text-sm">Autor:</p>
+                            <p class="text-white text-sm">Total de paginas: </p>
+                            <p class="text-white text-sm">Genero: </p>
+                            <p class="text-white text-sm">Estatus: </p>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                            <img class="rounded-2xl w-60 h-90" src="NoMepuedesLastimar.webp" alt="Titulo del libro">
+                            <p class="text-white text-xl text-center">Titulo del libro</p>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
+                            <p class="text-white text-sm">Autor:</p>
+                            <p class="text-white text-sm">Total de paginas: </p>
+                            <p class="text-white text-sm">Genero: </p>
+                            <p class="text-white text-sm">Estatus: </p>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                            <img class="rounded-2xl w-60 h-90" src="NoMepuedesLastimar.webp" alt="Titulo del libro">
+                            <p class="text-white text-xl text-center">Titulo del libro</p>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
+                            <p class="text-white text-sm">Autor:</p>
+                            <p class="text-white text-sm">Total de paginas: </p>
+                            <p class="text-white text-sm">Genero: </p>
+                            <p class="text-white text-sm">Estatus: </p>
+                        </div>
+                    </section>
+                </div>
+                <div class="w-full flex justify-center mt-5">
+                    <button class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full cursor-pointer shadow-lg/30 transition-all">
+                        Ir a Book Tracker
+                    </button>
+                </div>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-4">
+                <div class="bg-zinc-800 rounded-xl p-3 flex flex-col">
+                    <h3 class="text-3xl text-white font-medium p-4 mb-4">Publicaciones recientes</h3>
+                    <section class="flex flex-col p-5 gap-7 w-11/12">
+                        <div class="rounded-3xl border-2 border-zinc-800 bg-zinc-700 p-5">
+                            <div class="flex flex-row justify-between items-center pb-3">
+                                    <div class="items-center flex flex-row gap-3 pb-3">
+                                        <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
+                                        <div class="flex flex-col hover:cursor-pointer">
+                                            <p class="text-white font-bold hover:underline hover:cursor-pointer">Full Name</p>
+                                            <p class="text-white opacity-80 font-light">Username</p>
+                                        </div>
+                                    </div>
+                                    <!-- @if (review.users.username === user.username) {
+                                        <div class="relative inline-block text-left" #menuContainer>
+                                            <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                            @if (menuToggle === $index) {
+                                                <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                                    <ul class="py-1">
+                                                        <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                        <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                        </div>
+                                    } -->
+                                </div>
+                            <p class="text-white text-xl font-bold pb-2">Titulo</p>
+                            <p class="text-white opacity-85 pb-2 italic">Puntuacion: Puntuacion ⭐</p>
+                            <p class="text-white">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Necessitatibus fugit vel aut voluptates, perspiciatis unde doloribus ullam eius repudiandae voluptatibus dolor. Iure, fugiat maxime autem labore voluptatum expedita aspernatur saepe.
+                            </p>
+                        </div>
+                    </section>
+                    <section class="flex flex-col p-5 gap-7 w-11/12">
+                        <div class="rounded-3xl border-2 border-zinc-800 bg-zinc-700 p-5">
+                            <div class="flex flex-row justify-between items-center pb-3">
+                                    <div class="items-center flex flex-row gap-3 pb-3">
+                                        <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
+                                        <div class="flex flex-col hover:cursor-pointer">
+                                            <p class="text-white font-bold hover:underline hover:cursor-pointer">Full Name</p>
+                                            <p class="text-white opacity-80 font-light">Username</p>
+                                        </div>
+                                    </div>
+                                    <!-- @if (review.users.username === user.username) {
+                                        <div class="relative inline-block text-left" #menuContainer>
+                                            <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                            @if (menuToggle === $index) {
+                                                <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                                    <ul class="py-1">
+                                                        <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                        <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                        </div>
+                                    } -->
+                                </div>
+                            <p class="text-white text-xl font-bold pb-2">Titulo</p>
+                            <p class="text-white opacity-85 pb-2 italic">Puntuacion: Puntuacion ⭐</p>
+                            <p class="text-white">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Necessitatibus fugit vel aut voluptates, perspiciatis unde doloribus ullam eius repudiandae voluptatibus dolor. Iure, fugiat maxime autem labore voluptatum expedita aspernatur saepe.
+                            </p>
+                        </div>
+                    </section>
+                    <div class="w-full flex justify-center">
+                        <button class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full cursor-pointer shadow-lg/30 transition-all">
+                            Ver mas
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 rounded-xl p-3 flex flex-col">
+                    <h3 class="text-3xl text-white font-medium p-4 mb-4">Publicaciones guardadas</h3>
+                    <section class="flex flex-col p-5 gap-7 w-11/12">
+                        <div class="rounded-3xl border-2 border-zinc-800 bg-zinc-700 p-5">
+                            <div class="flex flex-row justify-between items-center pb-3">
+                                    <div class="items-center flex flex-row gap-3 pb-3">
+                                        <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
+                                        <div class="flex flex-col hover:cursor-pointer">
+                                            <p class="text-white font-bold hover:underline hover:cursor-pointer">Full Name</p>
+                                            <p class="text-white opacity-80 font-light">Username</p>
+                                        </div>
+                                    </div>
+                                    <!-- @if (review.users.username === user.username) {
+                                        <div class="relative inline-block text-left" #menuContainer>
+                                            <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                            @if (menuToggle === $index) {
+                                                <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                                    <ul class="py-1">
+                                                        <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                        <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                        </div>
+                                    } -->
+                                </div>
+                            <p class="text-white text-xl font-bold pb-2">Titulo</p>
+                            <p class="text-white opacity-85 pb-2 italic">Puntuacion: Puntuacion ⭐</p>
+                            <p class="text-white">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Necessitatibus fugit vel aut voluptates, perspiciatis unde doloribus ullam eius repudiandae voluptatibus dolor. Iure, fugiat maxime autem labore voluptatum expedita aspernatur saepe.
+                            </p>
+                        </div>
+                    </section>
+                    <section class="flex flex-col p-5 gap-7 w-11/12">
+                        <div class="rounded-3xl border-2 border-zinc-800 bg-zinc-700 p-5">
+                            <div class="flex flex-row justify-between items-center pb-3">
+                                    <div class="items-center flex flex-row gap-3 pb-3">
+                                        <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
+                                        <div class="flex flex-col hover:cursor-pointer">
+                                            <p class="text-white font-bold hover:underline hover:cursor-pointer">Full Name</p>
+                                            <p class="text-white opacity-80 font-light">Username</p>
+                                        </div>
+                                    </div>
+                                    <!-- @if (review.users.username === user.username) {
+                                        <div class="relative inline-block text-left" #menuContainer>
+                                            <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                            @if (menuToggle === $index) {
+                                                <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                                    <ul class="py-1">
+                                                        <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                        <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                        </div>
+                                    } -->
+                                </div>
+                            <p class="text-white text-xl font-bold pb-2">Titulo</p>
+                            <p class="text-white opacity-85 pb-2 italic">Puntuacion: Puntuacion ⭐</p>
+                            <p class="text-white">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Necessitatibus fugit vel aut voluptates, perspiciatis unde doloribus ullam eius repudiandae voluptatibus dolor. Iure, fugiat maxime autem labore voluptatum expedita aspernatur saepe.
+                            </p>
+                        </div>
+                    </section>
+                    <div class="w-full flex justify-center">
+                        <button class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full cursor-pointer shadow-lg/30 transition-all">
+                            Ver mas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
