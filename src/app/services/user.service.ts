@@ -25,4 +25,7 @@ export class UserService {
     }
     return this.http.get<any>(`${this.apiUrl}/users/getUser/${userId}`, { params: { userId } });
   }
+  getUserId(){
+    return this.http.get<any>(`${this.apiUrl}/users/getId`);
+  }
 }

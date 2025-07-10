@@ -1,5 +1,5 @@
 <div class="h-screen flex flex-row bg-gradient-to-b from-zinc-700 to-zinc-800 overflow-hidden">
-    <nav class="w-1/4 h-full flex flex-col items-center justify-evenly border-r-2 border-r-zinc-950 bg-zinc-800 shadow-xl shadow-zinc-900">
+    <nav class="w-1/4 h-full flex flex-col items-center justify-evenly bg-zinc-800 shadow-xl shadow-zinc-900">
         @if (error != "") {
             <div class="w-1/2 flex flex-row gap-3 items-center bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in">
                 <p class="text-white font-light text-center">{{ error }}</p>
@@ -15,40 +15,40 @@
             </div>
         }
         <div class="w-3/4 h-3/6 flex flex-col items-center gap-7">
-            <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-60 cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+            <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                 <img class="w-7" src="home.svg">
                 <p class="text-white text-2xl inline-block">Inicio</p>
             </button>
-            <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-60 cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+            <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                 <img class="w-7" src="search.svg">
                 <p class="text-white text-2xl inline-block">Explorar</p>
             </button>
-            <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-60 cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+            <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                 <img class="w-7" src="notifications.svg">
                 <p class="text-white text-2xl inline-block">Notificaciones</p>
             </button>
-            <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-60 cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+            <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                 <img class="w-7" src="bookmark.svg">
                 <p class="text-white text-2xl inline-block">Guardados</p>
             </button>
-            <button routerLink="../create-review" class="bg-gradient-to-r from-amber-600 to-amber-400 text-white text-xl rounded-3xl p-3 w-60 cursor-pointer hover:contrast-125 transition-all ease-in-out">
+            <button routerLink="../create-review" class="bg-gradient-to-r from-amber-600 to-amber-400 text-white text-xl rounded-3xl p-3 w-full cursor-pointer hover:contrast-125 transition-all ease-in-out">
                 Comparte tu opinion
             </button>
         </div>
     </nav>
     <div class="w-3/4 h-full overflow-y-auto flex flex-col items-center scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800 ocultar-scroll">
         @for (review of reviews; track $index) {
-            <section class="flex flex-col p-5 gap-7 w-11/12">
-                <div class="rounded-3xl border-2 border-zinc-800 bg-zinc-700 p-5">
+            <section class="flex flex-col gap-7 w-11/12 rounded-3xl bg-zinc-700 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
+                <div (click)="goReview(review.id)">
                     <div class="flex flex-row justify-between items-center pb-3">
                             <div class="items-center flex flex-row gap-3 pb-3">
                                 <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
                                 <div (click)="goProfile(review.user_id)" class="flex flex-col hover:cursor-pointer">
-                                    <p class="text-white font-bold hover:underline hover:cursor-pointer">{{ review.users.full_name }}</p>
-                                    <p class="text-white opacity-80 font-light">{{ '@' + review.users.username }}</p>
+                                    <p class="text-white font-bold hover:underline hover:cursor-pointer">{{ review.full_name }}</p>
+                                    <p class="text-white opacity-80 font-light">{{ '@' + review.username }}</p>
                                 </div>
                             </div>
-                            @if (review.users.username === user.username) {
+                            @if (review.username === user.username) {
                                 <div class="relative inline-block text-left" #menuContainer>
                                     <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
                                     @if (menuToggle === $index) {
@@ -64,14 +64,34 @@
                         </div>
                     <p class="text-white text-xl font-bold pb-2"> {{ review.title }}</p>
                     <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
-                    <p class="text-white">
+                    <p class="text-white line-clamp-15">
                         {{ review.content }}
                     </p>
                 </div>
+                <div class="p-2">
+                        <ul class="flex flex-row gap-2">
+                            <li class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                <img class="w-5 h-5" src="comments.svg" alt="">
+                                <p class="text-white">0</p>
+                            </li>
+                            <li class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                @if (review.liked_by_current_user) {
+                                    <img src="liked.svg" alt="">
+                                } @else {
+                                    <img class="w-5 h-5" src="favorites.svg" alt="">
+                                }
+                                <p class="text-white">{{ review.like_count }}</p>
+                            </li>
+                            <li class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                <img class="w-5 h-5" src="bookmarkRev.svg" alt="">
+                                <p class="text-white">0</p>
+                            </li>
+                        </ul>
+                    </div>
             </section>
         }
     </div>
-    <!--<nav class="w-1/4 h-full flex flex-col items-center justify-evenly border-l-2 border-l-zinc-950 bg-zinc-800">
+    <!-- <nav class="w-1/4 h-full flex flex-col items-center justify-evenly border-l-2 border-l-zinc-950 bg-zinc-800">
         <div class="w-4/5 flex flex-col gap-5 border-2 border-neutral-900 rounded-2xl p-4">
             <p class="text-amber-500 opacity-90 font-bold text-2xl">Tendencias en reseñas y libros</p>
             <ul class="flex flex-col gap-3">
@@ -148,5 +168,5 @@
                 </li>
             </ul>
         </div>
-    </nav>
-</div>-->
+    </nav>-->
+</div>

@@ -80,7 +80,7 @@ export class ProfileComponent implements OnInit{
             this.reviews.splice(this.menuToggle, 1);
             this.menuToggle = null;
           };
-          this.reviewsService.getReview().subscribe({
+          this.reviewsService.getUserReview(this.user.userId).subscribe({
               next: res => {
                 this.reviews = res.reviews;
               },
@@ -94,10 +94,6 @@ export class ProfileComponent implements OnInit{
         }
       });
     }
-  }
-
-  goDashboard(){
-    this.router.navigate(['../dashboard']);
   }
 
   @HostListener('document:click', ['$event'])

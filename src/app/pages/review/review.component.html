@@ -1,0 +1,107 @@
+<div class="h-screen flex flex-row justify-center bg-gradient-to-b from-zinc-700 to-zinc-800 overflow-hidden">
+    <div class="w-3/4 bg-zinc-700 shadow-2xl shadow-zinc-900 ocultar-scroll overflow-y-auto">
+        <div class="flex flex-row p-7 justify-items-start w-full">
+            <button routerLink="../../dashboard" class="p-1 rounded-full cursor-pointer hover:bg-zinc-600 hover:scale-105 transition-all ease-in-out"><img src="arrow_left.svg" alt=""></button>
+        </div>
+        <div class="flex flex-col flex-wrap items-center gap-4">
+            <section class="flex flex-col w-11/12">
+                <div class="rounded-3xl bg-zinc-700 p-5 border-2 border-zinc-800">
+                    <div class="flex flex-row justify-between items-center pb-3">
+                        <div class="flex flex-row items-center gap-3 pb-3">
+                            <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
+                            <div class="flex flex-col">
+                                <p class="text-white font-bold">{{ review.users.full_name }}</p>
+                                <p class="text-white opacity-80 font-light">{{ review.users.username }}</p>
+                            </div>
+                        </div>
+                        <!-- @if (review.users.id === sessionId) {
+                            <div class="relative inline-block text-left" #menuContainer>
+                                <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                @if (menuToggle === $index) {
+                                    <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                        <ul class="py-1">
+                                            <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                            <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        } -->
+                    </div>
+                    <p class="text-white text-xl font-bold pb-2">{{ review.title }}</p>
+                    <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
+                    <p class="text-white">
+                        {{ review.content }}
+                    </p>
+                    <div class="p-2">
+                        <ul class="flex flex-row gap-2">
+                            <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                <img class="w-5 h-5" src="comments.svg" alt="Icono de comentarios">
+                                <p class="text-white">0</p>
+                            </li>
+                            <li (click)="likeReview()" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                <img class="w-5 h-5" src="favorites.svg" alt="Icono de likes">
+                                <p class="text-white">{{likes}}</p>
+                            </li>
+                            <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                <img class="w-5 h-5" src="bookmarkRev.svg" alt="Icono de guardados">
+                                <p class="text-white">0</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <div class="p-3 flex flex-row justify-between items-center w-11/12">
+                <textarea class="w-4/5 bg-zinc-800 p-2 rounded-lg inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/50 hover:shadow-zinc-900 focus:outline-0 focus-within:ring-2 focus-within:ring-amber-400 transition-all ease-out text-white" placeholder="Comenta algo..." type="text"></textarea>
+                <button class="w-1/6 h-12 bg-amber-500 hover:bg-amber-600 inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/50 hover:shadow-zinc-900 text-white font-semibold px-6 py-3 rounded-lg cursor-pointer transition-all">Publicar</button>
+            </div>
+            <section class="flex flex-col w-11/12">
+                <div class="rounded-3xl bg-zinc-700 p-5">
+                    <div class="flex flex-row justify-between items-center pb-3">
+                        <div class="flex flex-row items-center gap-3 pb-3">
+                            <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
+                            <div class="flex flex-col">
+                                <p class="text-white font-bold">Full Name</p>
+                                <p class="text-white opacity-80 font-light">Username</p>
+                            </div>
+                        </div>
+                        <!-- @if (review.users.id === sessionId) {
+                            <div class="relative inline-block text-left" #menuContainer>
+                                <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                @if (menuToggle === $index) {
+                                    <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                        <ul class="py-1">
+                                            <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                            <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        } -->
+                    </div>
+                    <p class="text-white text-xl font-bold pb-2">Titulo</p>
+                    <p class="text-white opacity-85 pb-2 italic">Puntuacion: 0 ⭐</p>
+                    <p class="text-white">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam dolorum vel hic? Soluta provident quaerat dolor doloribus, officiis velit fugiat vel voluptas esse, ex odit ad rem nulla veniam at.
+                    </p>
+                    <div class="p-2">
+                        <ul class="flex flex-row gap-2">
+                            <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                <img class="w-5 h-5" src="comments.svg" alt="Icono de comentarios">
+                                <p class="text-white">0</p>
+                            </li>
+                            <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                <img class="w-5 h-5" src="favorites.svg" alt="Icono de likes">
+                                <p class="text-white">0</p>
+                            </li>
+                            <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                <img class="w-5 h-5" src="bookmarkRev.svg" alt="Icono de guardados">
+                                <p class="text-white">0</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

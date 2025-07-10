@@ -14,8 +14,8 @@ export class ReviewsService {
     return this.http.post<any>(`${this.apiUrl}/reviews/create`, reviewForm);
   }
 
-  getReview(){
-    return this.http.get<any>(`${this.apiUrl}/reviews/`);
+  getReview(userId: any){
+    return this.http.get<any>(`${this.apiUrl}/reviews/${userId}`, { params: { userId }});
   }
 
   getUserReview(userId: uuid | null){
@@ -38,5 +38,17 @@ export class ReviewsService {
       throw new Error('Review ID is required to delete a review');
     }
     return this.http.delete<any>(`${this.apiUrl}/reviews/delete/${reviewId}`, { params: { reviewId }});
+  }
+
+  getLikes(reviewId: uuid){
+    if(!reviewId) throw new Error('No se encontro el id de la reseña, por favor intente de nuevo');
+    return this.http.get<any>(`${this.apiUrl}/likes/${reviewId}`, { params: { reviewId }});
+  }
+
+  likeReview(userId: uuid | null, reviewId: uuid){
+    if(!userId){
+      throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
+    }
+    return this.http.post<any>(`${this.apiUrl}/likes/like/${userId}`, { userId, reviewId });
   }
 }

@@ -33,16 +33,24 @@ export class DashboardComponent implements OnInit {
         this.user.username = res.username;
         this.user.fullName = res.fullName;
         this.error = '';
+        this.reviewsService.getReview(this.user.userId).subscribe({
+          next: res =>{
+            this.reviews = res.reviews;
+            console.log(this.reviews);
+          },
+          error: err => console.log(err)
+        });
       },
       error: err =>{
         this.error = err.error.message;
         this.message = '';
         console.log(err);
-      }
-    });
-    this.reviewsService.getReview().subscribe({
-      next: res =>{
-        this.reviews = res.reviews;
+        this.reviewsService.getReview(this.user.userId).subscribe({
+          next: res =>{
+            this.reviews = res.reviews;
+          },
+          error: err => console.log(err)
+        });
       }
     });
   }
@@ -57,6 +65,10 @@ export class DashboardComponent implements OnInit {
 
   goUserDash(){
     this.router.navigate(['../user-dashboard/', this.user.userId]);
+  }
+
+  goReview(reviewId: uuid){
+    this.router.navigate(['../review/', reviewId]);
   }
 
   editReview(){
@@ -76,7 +88,7 @@ export class DashboardComponent implements OnInit {
             this.reviews.splice(this.menuToggle, 1);
             this.menuToggle = null;
           };
-          this.reviewsService.getReview().subscribe({
+          this.reviewsService.getReview(this.user.userId).subscribe({
               next: res => {
                 this.reviews = res.reviews;
               },

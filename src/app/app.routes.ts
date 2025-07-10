@@ -8,6 +8,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { EditReviewComponent } from './pages/edit-review/edit-review.component';
 import { UserDashComponent } from './pages/user-dash/user-dash.component';
 import { UserConfigComponent } from './pages/user-config/user-config.component';
+import { ReviewComponent } from './pages/review/review.component';
 
 export const routes: Routes = [
     { path: '', component: MainComponent },
@@ -18,5 +19,6 @@ export const routes: Routes = [
     { path: 'profile/:userId', component: ProfileComponent },
     { path: 'edit-review/:reviewId', component: EditReviewComponent },
     { path: 'user-dashboard/:userId', component: UserDashComponent },
-    { path: 'user-config', component: UserConfigComponent }
+    { path: 'user-config', component: UserConfigComponent },
+    { path: 'review/:reviewId', component: ReviewComponent }
 ];
