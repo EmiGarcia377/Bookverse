@@ -12,7 +12,7 @@
                 <p class="text-white text-lg opacity-75 font-light">Seguidos: {{ user.following }}</p>
             </div>
             <div class="flex flex-row gap-4">
-                @if (user.userId === sessionId) {
+                @if (user.userId === currentUser?.userId) {
                     <button routerLink="../../user-config" class="border-1 border-zinc-600 text-white text-l rounded-3xl p-2 cursor-pointer hover:bg-zinc-500 transition-colors ease-in-out">Configurar perfil</button>
                     <button routerLink="../../create-review" class="bg-gradient-to-r from-amber-600 to-amber-400 text-white text-l rounded-3xl p-2 cursor-pointer hover:contrast-125 transition-all ease-in-out">Crear reseña</button>
                 } @else {
@@ -22,19 +22,19 @@
         </div>
         <div class="flex flex-col flex-wrap items-center">
             @for (review of reviews; track $index) {
-                <section class="flex flex-col p-5 gap-7 w-11/12">
-                    <div class="rounded-3xl border-2 border-zinc-800 bg-zinc-700 p-5">
-                        <div class="flex flex-row justify-between items-center pb-3">
-                            <div class="flex flex-row items-center gap-3 pb-3">
+                <section class="flex flex-col gap-7 w-11/12 rounded-3xl bg-zinc-700 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
+                <div (click)="goReview(review.id)">
+                    <div class="flex flex-row justify-between items-center pb-3">
+                            <div class="items-center flex flex-row gap-3 pb-3">
                                 <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
-                                <div class="flex flex-col">
-                                    <p class="text-white font-bold">{{ review.users.full_name }}</p>
-                                    <p class="text-white opacity-80 font-light">{{ '@' + review.users.username }}</p>
+                                <div class="flex flex-col hover:cursor-pointer">
+                                    <p class="text-white font-bold hover:underline hover:cursor-pointer">{{ review.full_name }}</p>
+                                    <p class="text-white opacity-80 font-light">{{ '@' + review.username }}</p>
                                 </div>
                             </div>
-                            @if (review.users.id === sessionId) {
-                                <div class="relative inline-block text-left" #menuContainer>
-                                    <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                            @if (review.username === user.username) {
+                                <div class="relative inline-block text-left z-100" #menuContainer>
+                                    <button (click)="toggleMenu($index)" class="p-2 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
                                     @if (menuToggle === $index) {
                                         <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
                                             <ul class="py-1">
@@ -46,13 +46,33 @@
                                 </div>
                             }
                         </div>
-                        <p class="text-white text-xl font-bold pb-2">{{ review.title }}</p>
-                        <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
-                        <p class="text-white line-clamp-12">
-                            {{ review.content }}
-                        </p>
+                    <p class="text-white text-xl font-bold pb-2"> {{ review.title }}</p>
+                    <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
+                    <p class="text-white line-clamp-15">
+                        {{ review.content }}
+                    </p>
+                </div>
+                <div class="p-2">
+                        <ul class="flex flex-row gap-2">
+                            <li class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                <img class="w-5 h-5" src="comments.svg" alt="">
+                                <p class="text-white">0</p>
+                            </li>
+                            <li (click)="toggleLikeReview(review.liked_by_current_user, currentUser?.userId, review.id)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                @if (review.liked_by_current_user) {
+                                    <img src="liked.svg" alt="">
+                                } @else {
+                                    <img class="w-5 h-5" src="favorites.svg" alt="">
+                                }
+                                <p class="text-white">{{ review.like_count }}</p>
+                            </li>
+                            <li class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                <img class="w-5 h-5" src="bookmarkRev.svg" alt="">
+                                <p class="text-white">0</p>
+                            </li>
+                        </ul>
                     </div>
-                </section>
+            </section>
             }
         </div>
     </div>

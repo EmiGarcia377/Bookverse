@@ -1,7 +1,7 @@
 <div class="h-screen flex flex-row bg-gradient-to-b from-zinc-700 to-zinc-800 overflow-hidden">
     <nav class="w-1/4 h-full flex flex-col items-center justify-evenly bg-zinc-800 shadow-xl shadow-zinc-900">
         @if (error != "") {
-            <div class="w-1/2 flex flex-row gap-3 items-center bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in">
+            <div class="w-3/4 flex flex-row gap-3 items-center justify-evenly bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in">
                 <p class="text-white font-light text-center">{{ error }}</p>
                 <a class="text-amber-500 opacity-90 text-center" routerLink="../login">Inicia sesion</a>
             </div>
@@ -37,31 +37,32 @@
         </div>
     </nav>
     <div class="w-3/4 h-full overflow-y-auto flex flex-col items-center scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800 ocultar-scroll">
+        
         @for (review of reviews; track $index) {
             <section class="flex flex-col gap-7 w-11/12 rounded-3xl bg-zinc-700 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
                 <div (click)="goReview(review.id)">
                     <div class="flex flex-row justify-between items-center pb-3">
-                            <div class="items-center flex flex-row gap-3 pb-3">
-                                <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
-                                <div (click)="goProfile(review.user_id)" class="flex flex-col hover:cursor-pointer">
-                                    <p class="text-white font-bold hover:underline hover:cursor-pointer">{{ review.full_name }}</p>
-                                    <p class="text-white opacity-80 font-light">{{ '@' + review.username }}</p>
-                                </div>
+                        <div (click)="goProfile(review.user_id)" class="items-center flex flex-row gap-3 pb-3">
+                            <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
+                            <div class="flex flex-col hover:cursor-pointer">
+                                <p class="text-white font-bold hover:underline hover:cursor-pointer">{{ review.full_name }}</p>
+                                <p class="text-white opacity-80 font-light">{{ '@' + review.username }}</p>
                             </div>
-                            @if (review.username === user.username) {
-                                <div class="relative inline-block text-left" #menuContainer>
-                                    <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
-                                    @if (menuToggle === $index) {
-                                        <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
-                                            <ul class="py-1">
-                                                <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
-                                                <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
-                                            </ul>
-                                        </div>
-                                    }
-                                </div>
-                            }
                         </div>
+                        @if (review.username === user.username) {
+                            <div (click)="toggleMenu($index)" class="inline-block text-left z-100 p-3" #menuContainer>
+                                <button class="p-2 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                @if (menuToggle === $index) {
+                                    <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                        <ul class="py-1">
+                                            <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                            <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
                     <p class="text-white text-xl font-bold pb-2"> {{ review.title }}</p>
                     <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
                     <p class="text-white line-clamp-15">
@@ -74,7 +75,7 @@
                                 <img class="w-5 h-5" src="comments.svg" alt="">
                                 <p class="text-white">0</p>
                             </li>
-                            <li class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                            <li (click)="toggleLikeReview(review.liked_by_current_user, user.userId, review.id)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 @if (review.liked_by_current_user) {
                                     <img src="liked.svg" alt="">
                                 } @else {

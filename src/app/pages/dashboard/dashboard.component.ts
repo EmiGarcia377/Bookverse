@@ -33,10 +33,10 @@ export class DashboardComponent implements OnInit {
         this.user.username = res.username;
         this.user.fullName = res.fullName;
         this.error = '';
+        this.userService.setCurrentUserData(this.user);
         this.reviewsService.getReview(this.user.userId).subscribe({
           next: res =>{
             this.reviews = res.reviews;
-            console.log(this.reviews);
           },
           error: err => console.log(err)
         });
@@ -74,6 +74,26 @@ export class DashboardComponent implements OnInit {
   editReview(){
     if(this.menuToggle !== null){
       this.router.navigate(['../edit-review/', this.reviews[this.menuToggle].id]);
+    }
+  }
+
+  toggleLikeReview(liked: boolean, userId: uuid | null, reviewId: uuid){
+    if(!liked){
+      this.reviewsService.likeReview(userId, reviewId).subscribe({
+        next: res => {
+          const reviewIndex = this.reviews.findIndex((review) => review.id === reviewId);
+          this.reviews[reviewIndex].like_count = res.count;
+          this.reviews[reviewIndex].liked_by_current_user = true;
+        }
+      });
+    } else {
+      this.reviewsService.unlikeReview(userId, reviewId).subscribe({
+        next: res => {
+          const reviewIndex = this.reviews.findIndex((review) => review.id === reviewId);
+          this.reviews[reviewIndex].like_count = res.count;
+          this.reviews[reviewIndex].liked_by_current_user = false;
+        }
+      })
     }
   }
 

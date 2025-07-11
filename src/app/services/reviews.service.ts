@@ -18,15 +18,15 @@ export class ReviewsService {
     return this.http.get<any>(`${this.apiUrl}/reviews/${userId}`, { params: { userId }});
   }
 
-  getUserReview(userId: uuid | null){
-    if (!userId) {
-      throw new Error('User ID is required to fetch user reviews');
+  getUserReviews(profileId: uuid | null, userId: any){
+    if (!profileId) {
+      throw new Error(`El usuario con el id ${profileId} no existe`);
     }
-    return this.http.get<any>(`${this.apiUrl}/reviews/getUserReview/${userId}`, { params: { userId }});
+    return this.http.get<any>(`${this.apiUrl}/reviews/getUserReviews/${profileId}/${userId}`, { params: { profileId, userId }});
   }
 
-  getReviewById(reviewId: string){
-    return this.http.get<any>(`${this.apiUrl}/reviews/getReviewById/${reviewId}`, { params: { reviewId }});
+  getReviewById(reviewId: string, userId: any){
+    return this.http.get<any>(`${this.apiUrl}/reviews/getReviewById/${reviewId}/${userId}`, { params: { reviewId, userId } });
   }
 
   editReview(reviewId: uuid, reviewData: any){
@@ -40,15 +40,13 @@ export class ReviewsService {
     return this.http.delete<any>(`${this.apiUrl}/reviews/delete/${reviewId}`, { params: { reviewId }});
   }
 
-  getLikes(reviewId: uuid){
-    if(!reviewId) throw new Error('No se encontro el id de la reseña, por favor intente de nuevo');
-    return this.http.get<any>(`${this.apiUrl}/likes/${reviewId}`, { params: { reviewId }});
+  likeReview(userId: uuid | null, reviewId: uuid){
+    if(!userId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
+    return this.http.post<any>(`${this.apiUrl}/reviews/like/${userId}`, { userId, reviewId });
   }
 
-  likeReview(userId: uuid | null, reviewId: uuid){
-    if(!userId){
-      throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
-    }
-    return this.http.post<any>(`${this.apiUrl}/likes/like/${userId}`, { userId, reviewId });
+  unlikeReview(userId: uuid | null, reviewId: uuid){
+    if(!userId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
+    return this.http.delete<any>(`${this.apiUrl}/reviews/unlike/${reviewId}`, { body: { userId, reviewId }});
   }
 }

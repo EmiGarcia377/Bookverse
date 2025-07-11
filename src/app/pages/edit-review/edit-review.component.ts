@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../services/dialog.service';
 import { ReviewsService } from '../../services/reviews.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-edit-review',
@@ -19,6 +20,7 @@ export class EditReviewComponent implements OnInit{
   error: string = '';
   message: string = '';
   revId: string | null = '';
+  userId: string | null = '';
   review: any = {
     id: this.revId,
     title: '',
@@ -30,7 +32,8 @@ export class EditReviewComponent implements OnInit{
     private router: Router, 
     private route: ActivatedRoute,
     private dialogService: DialogService, 
-    private reviewService: ReviewsService
+    private reviewService: ReviewsService,
+    private userService: UserService
   ) {
     this.revTitle = new FormControl('', [Validators.required, Validators.min(5)]);
     this.revScore = new FormControl('', Validators.required);
@@ -45,7 +48,9 @@ export class EditReviewComponent implements OnInit{
 
   ngOnInit(): void {
     this.revId = this.route.snapshot.paramMap.get('reviewId');
-    this.reviewService.getReviewById(this.revId!).subscribe({
+    this.userId = this.userService.getCurrentUserData();
+
+    this.reviewService.getReviewById(this.revId!, this.userId).subscribe({
       next: res => {
         this.review = res.review;
         this.revTitle.setValue(this.review.title);

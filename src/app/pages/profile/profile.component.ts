@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChi
 import { ReviewsService } from '../../services/reviews.service';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import User from '../../../models/User';
+import User, { uuid } from '../../../models/User';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit{
   reviews: any[] = [];
   menuToggle: number | null = null;
   revId: string | null = '';
-  sessionId: string | null = ''
+  currentUser: any;
 
   @ViewChild('menuContainer') menuContainer!: ElementRef;
 
@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit{
     private cdr: ChangeDetectorRef
   ){}
   ngOnInit(): void {
+    this.currentUser = this.userService.getCurrentUserData();
     this.revId = this.route.snapshot.paramMap.get('userId');
     this.userService.getUserById(this.revId!).subscribe({
       next: res =>{
@@ -39,15 +40,15 @@ export class ProfileComponent implements OnInit{
         this.user.followers = res.data.followers;
         this.user.following = res.data.following;
         this.error = '';
-        this.reviewsService.getUserReview(this.user.userId).subscribe({
+        this.reviewsService.getUserReviews(this.user.userId, this.currentUser?.userId).subscribe({
           next: res =>{
             this.reviews = res.reviews;
-            this.sessionId = sessionStorage.getItem('user_id') ? sessionStorage.getItem('user_id') : localStorage.getItem('user_id');
           },
           error: err =>{
             this.error = err.error.message;
             this.message = '';
             this.reviews = [];
+            console.log(err);
           }
         });
       },
@@ -69,6 +70,10 @@ export class ProfileComponent implements OnInit{
     }
   }
 
+  goReview(reviewId: uuid){
+    this.router.navigate(['../review/', reviewId]);
+  }
+
   delReview(){
     if(this.menuToggle !== null){
       const reviewId = this.reviews[this.menuToggle].id;
@@ -80,7 +85,7 @@ export class ProfileComponent implements OnInit{
             this.reviews.splice(this.menuToggle, 1);
             this.menuToggle = null;
           };
-          this.reviewsService.getUserReview(this.user.userId).subscribe({
+          this.reviewsService.getUserReviews(this.user.userId, this.currentUser.userId).subscribe({
               next: res => {
                 this.reviews = res.reviews;
               },
@@ -96,6 +101,26 @@ export class ProfileComponent implements OnInit{
     }
   }
 
+  toggleLikeReview(liked: boolean, userId: uuid | null, reviewId: uuid){
+    if(!liked){
+      this.reviewsService.likeReview(userId, reviewId).subscribe({
+        next: res => {
+          const reviewIndex = this.reviews.findIndex((review) => review.id === reviewId);
+          this.reviews[reviewIndex].like_count = res.count;
+          this.reviews[reviewIndex].liked_by_current_user = true;
+        }
+      });
+    } else {
+      this.reviewsService.unlikeReview(userId, reviewId).subscribe({
+        next: res => {
+          const reviewIndex = this.reviews.findIndex((review) => review.id === reviewId);
+          this.reviews[reviewIndex].like_count = res.count;
+          this.reviews[reviewIndex].liked_by_current_user = false;
+        }
+      })
+    }
+  }
+  
   @HostListener('document:click', ['$event'])
   cerrarMenus(event: MouseEvent) {
     const target = event.target as HTMLElement;

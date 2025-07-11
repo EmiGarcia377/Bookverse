@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-dash',
-  imports: [],
+  imports: [ RouterLink ],
   templateUrl: './user-dash.component.html',
   styles: ``
 })
