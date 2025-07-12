@@ -2,8 +2,7 @@
     <nav class="w-1/4 h-full flex flex-col items-center justify-evenly bg-zinc-800 shadow-xl shadow-zinc-900">
         @if (error != "") {
             <div class="w-3/4 flex flex-row gap-3 items-center justify-evenly bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in">
-                <p class="text-white font-light text-center">{{ error }}</p>
-                <a class="text-amber-500 opacity-90 text-center" routerLink="../login">Inicia sesion</a>
+                <a class="text-amber-500 opacity-90 text-center" routerLink="../login">{{ error }}</a>
             </div>
         } @else if (message != '') {
             <div (click)="goUserDash()" class="w-3/4 flex flex-row gap-3 items-center bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in cursor-pointer">
@@ -16,10 +15,6 @@
         }
         <div class="w-3/4 h-3/6 flex flex-col items-center gap-7">
             <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
-                <img class="w-7" src="home.svg">
-                <p class="text-white text-2xl inline-block">Inicio</p>
-            </button>
-            <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                 <img class="w-7" src="search.svg">
                 <p class="text-white text-2xl inline-block">Explorar</p>
             </button>
@@ -31,13 +26,16 @@
                 <img class="w-7" src="bookmark.svg">
                 <p class="text-white text-2xl inline-block">Guardados</p>
             </button>
+            <button routerLink="../user-config" class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                <img class="w-7" src="settings.svg">
+                <p class="text-white text-2xl inline-block">Configuracion</p>
+            </button>
             <button routerLink="../create-review" class="bg-gradient-to-r from-amber-600 to-amber-400 text-white text-xl rounded-3xl p-3 w-full cursor-pointer hover:contrast-125 transition-all ease-in-out">
                 Comparte tu opinion
             </button>
         </div>
     </nav>
     <div class="w-3/4 h-full overflow-y-auto flex flex-col items-center scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800 ocultar-scroll">
-        
         @for (review of reviews; track $index) {
             <section class="flex flex-col gap-7 w-11/12 rounded-3xl bg-zinc-700 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
                 <div (click)="goReview(review.id)">
@@ -71,9 +69,9 @@
                 </div>
                 <div class="p-2">
                         <ul class="flex flex-row gap-2">
-                            <li class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                            <li (click)="goReview(review.id)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 <img class="w-5 h-5" src="comments.svg" alt="">
-                                <p class="text-white">0</p>
+                                <p class="text-white">{{ review.comments_count }}</p>
                             </li>
                             <li (click)="toggleLikeReview(review.liked_by_current_user, user.userId, review.id)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 @if (review.liked_by_current_user) {

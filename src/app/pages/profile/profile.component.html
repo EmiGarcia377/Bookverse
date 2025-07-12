@@ -32,7 +32,7 @@
                                     <p class="text-white opacity-80 font-light">{{ '@' + review.username }}</p>
                                 </div>
                             </div>
-                            @if (review.username === user.username) {
+                            @if (review.username === currentUser?.username) {
                                 <div class="relative inline-block text-left z-100" #menuContainer>
                                     <button (click)="toggleMenu($index)" class="p-2 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
                                     @if (menuToggle === $index) {
@@ -56,7 +56,7 @@
                         <ul class="flex flex-row gap-2">
                             <li class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 <img class="w-5 h-5" src="comments.svg" alt="">
-                                <p class="text-white">0</p>
+                                <p class="text-white">{{ review.comments_count }}</p>
                             </li>
                             <li (click)="toggleLikeReview(review.liked_by_current_user, currentUser?.userId, review.id)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 @if (review.liked_by_current_user) {

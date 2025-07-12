@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit {
         this.reviewsService.getReview(this.user.userId).subscribe({
           next: res =>{
             this.reviews = res.reviews;
+            console.log(this.reviews)
           },
           error: err => console.log(err)
         });

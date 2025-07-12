@@ -49,4 +49,14 @@ export class ReviewsService {
     if(!userId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
     return this.http.delete<any>(`${this.apiUrl}/reviews/unlike/${reviewId}`, { body: { userId, reviewId }});
   }
+
+  createComment(userId: uuid | null, reviewId: uuid, comment: string){
+    if(!userId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
+    return this.http.post<any>(`${this.apiUrl}/reviews/comment`, { userId, reviewId, comment });
+  }
+
+  getCommentsByReview(reviewId: string | null){
+    if(!reviewId) throw new Error('Por favor ingresa una reseña valida');
+    return this.http.get<any>(`${this.apiUrl}/reviews/comment/${reviewId}`, { params: { reviewId }});
+  }
 }
