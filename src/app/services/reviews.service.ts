@@ -55,6 +55,16 @@ export class ReviewsService {
     return this.http.post<any>(`${this.apiUrl}/reviews/comment`, { userId, reviewId, comment });
   }
 
+  editComment(userId: uuid | null, commentId: uuid, comment: string){
+    if(!userId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
+    return this.http.patch<any>(`${this.apiUrl}/reviews/editComment`, { userId, commentId, comment });
+  }
+
+  delComment(commentId: uuid, userId: uuid | null, reviewId: string | null){
+    if(!userId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
+    return this.http.delete<any>(`${this.apiUrl}/reviews/delComment`, { body: { userId, commentId, reviewId }});
+  }
+
   getCommentsByReview(reviewId: string | null){
     if(!reviewId) throw new Error('Por favor ingresa una reseña valida');
     return this.http.get<any>(`${this.apiUrl}/reviews/comment/${reviewId}`, { params: { reviewId }});
