@@ -66,9 +66,13 @@
                                 }
                                 <p class="text-white">{{ review.like_count }}</p>
                             </li>
-                            <li class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
-                                <img class="w-5 h-5" src="bookmarkRev.svg" alt="">
-                                <p class="text-white">0</p>
+                            <li (click)="toggleSaveReview(review.saved_by_current_user, user.userId, review.id)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                @if (review.saved_by_current_user) {
+                                    <img src="bookmarked.svg" alt="Icono de guardado">
+                                } @else {
+                                    <img class="w-5 h-5" src="bookmarkRev.svg" alt="Icono de guardados">
+                                }
+                                <p class="text-white">{{ review.saved_count }}</p>
                             </li>
                         </ul>
                     </div>

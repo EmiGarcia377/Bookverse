@@ -120,6 +120,32 @@ export class ProfileComponent implements OnInit{
       })
     }
   }
+
+  toggleSaveReview(saved: boolean, userId: uuid | null, reviewId: uuid){
+    if(!saved){
+      this.reviewsService.saveReview(userId, reviewId).subscribe({
+        next: res => {
+          const reviewIndex = this.reviews.findIndex((review) => review.id === reviewId);
+          this.reviews[reviewIndex].saved_count = res.count;
+          this.reviews[reviewIndex].saved_by_current_user = true;
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+    } else {
+      this.reviewsService.unsaveReview(userId, reviewId).subscribe({
+        next: res => {
+          const reviewIndex = this.reviews.findIndex((review) => review.id === reviewId);
+          this.reviews[reviewIndex].saved_count = res.count;
+          this.reviews[reviewIndex].saved_by_current_user = false;
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+    }
+  }
   
   @HostListener('document:click', ['$event'])
   cerrarMenus(event: MouseEvent) {

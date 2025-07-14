@@ -29,6 +29,11 @@ export class ReviewsService {
     return this.http.get<any>(`${this.apiUrl}/reviews/getReviewById/${reviewId}/${userId}`, { params: { reviewId, userId } });
   }
 
+  getSavedReviews(userId: string | null){
+    if(!userId) return
+    return this.http.get<any>(`${this.apiUrl}/reviews/getSavedReviews/${userId}`, { params: { userId }});
+  }
+
   editReview(reviewId: uuid, reviewData: any){
     return this.http.put<any>(`${this.apiUrl}/reviews/edit/${reviewId}`, reviewData, { params: { reviewId }});
   }
@@ -48,6 +53,16 @@ export class ReviewsService {
   unlikeReview(userId: uuid | null, reviewId: uuid){
     if(!userId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
     return this.http.delete<any>(`${this.apiUrl}/reviews/unlike/${reviewId}`, { body: { userId, reviewId }});
+  }
+
+  saveReview(userId: uuid | null, reviewId: uuid){
+    if(!userId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
+    return this.http.post<any>(`${this.apiUrl}/reviews/save`, { userId, reviewId });
+  }
+
+  unsaveReview(userId: uuid | null, reviewId: uuid){
+    if(!userId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
+    return this.http.delete<any>(`${this.apiUrl}/reviews/unsave`, { body: { userId, reviewId }});
   }
 
   createComment(userId: uuid | null, reviewId: uuid, comment: string){

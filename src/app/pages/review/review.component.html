@@ -1,4 +1,4 @@
-<div class="h-screen flex flex-row justify-center bg-gradient-to-b from-zinc-700 to-zinc-800 overflow-hidden">
+<div class="h-screen flex flex-row justify-center bg-[url('assets/libreria-bg.jpg')] bg-cover bg-fixed overflow-hidden">
     <div class="w-3/4 bg-zinc-700 shadow-2xl shadow-zinc-900 ocultar-scroll overflow-y-auto">
         <div class="flex flex-row p-7 justify-items-start w-full">
             <button routerLink="../../dashboard" class="p-1 rounded-full cursor-pointer hover:bg-zinc-600 hover:scale-105 transition-all ease-in-out"><img src="arrow_left.svg" alt=""></button>
@@ -41,15 +41,19 @@
                             </li>
                             <li (click)="toggleLikeReview(review.liked_by_current_user)" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 @if (review.liked_by_current_user) {
-                                    <img class="w-5 h-5" src="liked.svg" alt="">
+                                    <img class="w-5 h-5" src="liked.svg" alt="Icono de me gusta">
                                 } @else {
-                                    <img class="w-5 h-5" src="favorites.svg" alt="">
+                                    <img class="w-5 h-5" src="favorites.svg" alt="Icono de me gusta">
                                 }
                                 <p class="text-white">{{ review.like_count }}</p>
                             </li>
-                            <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
-                                <img class="w-5 h-5" src="bookmarkRev.svg" alt="Icono de guardados">
-                                <p class="text-white">0</p>
+                            <li (click)="toggleSaveReview(review.saved_by_current_user)" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                @if (review.saved_by_current_user) {
+                                    <img src="bookmarked.svg" alt="Icono de guardado">
+                                } @else {
+                                    <img class="w-5 h-5" src="bookmarkRev.svg" alt="Icono de guardados">
+                                }
+                                <p class="text-white">{{ review.saved_count }}</p>
                             </li>
                         </ul>
                     </div>

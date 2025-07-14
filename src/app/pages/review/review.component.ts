@@ -36,6 +36,7 @@ export class ReviewComponent implements OnInit {
           this.reviewsService.getReviewById(this.reviewId, this.userId).subscribe({
             next: res => {
               this.review = res.review;
+              console.log(res)
               this.reviewsService.getCommentsByReview(this.reviewId).subscribe({
                 next: res => {
                   this.comments = res.comments;
@@ -143,6 +144,30 @@ export class ReviewComponent implements OnInit {
           this.review.liked_by_current_user = false;
         }
       })
+    }
+  }
+
+  toggleSaveReview(saved: boolean){
+    if(!saved){
+      this.reviewsService.saveReview(this.userId, this.review.id).subscribe({
+        next: res => {
+          this.review.saved_count = res.count;
+          this.review.saved_by_current_user = true;
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+    } else {
+      this.reviewsService.unsaveReview(this.userId, this.review.id).subscribe({
+        next: res => {
+          this.review.saved_count = res.count;
+          this.review.saved_by_current_user = false;
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
     }
   }
 
