@@ -34,6 +34,11 @@ export class UserService {
     return this.http.get<any>(`${this.apiUrl}/users/getId`);
   }
 
+  updateUser(userData: User, userId: uuid | null){
+    if(!userId) throw new Error('No se encontro el ID del usuario');
+    return this.http.put<any>(`${this.apiUrl}/users/updateUser/${userId}`, userData, { params: { userId }});
+  }
+
   setCurrentUserData(data: any){
     this.userData = data;
   }

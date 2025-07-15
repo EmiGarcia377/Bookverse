@@ -11,6 +11,13 @@
                 <p class="text-white text-lg opacity-75 font-light">Seguidores: {{ user.followers }}</p>
                 <p class="text-white text-lg opacity-75 font-light">Seguidos: {{ user.following }}</p>
             </div>
+            <div class="max-w-3/5 mb-6">
+                @if (user.biography != '') {
+                    <p class="text-white text-lg font-medium w-full break-all">{{ user.biography }}</p>
+                } @else {
+                    <p class="text-white opacity-70 text-lg font-medium w-full">Este usuario no tiene biografia</p>
+                }
+            </div>
             <div class="flex flex-row gap-4">
                 @if (user.userId === currentUser?.userId) {
                     <button routerLink="../../user-config" class="border-1 border-zinc-600 text-white text-l rounded-3xl p-2 cursor-pointer hover:bg-zinc-500 transition-colors ease-in-out">Configurar perfil</button>

@@ -13,7 +13,7 @@ import User, { uuid } from '../../../models/User';
 export class ProfileComponent implements OnInit{
   error: string = '';
   message: string | undefined = '';
-  user: User = { message: undefined, userId: null, username: null, fullName: null, followers: 0, following: 0 };
+  user: User = { message: undefined, userId: null, username: null, fullName: null, followers: 0, following: 0, biography: '' };
   reviews: any[] = [];
   menuToggle: number | null = null;
   revId: string | null = '';
@@ -39,6 +39,7 @@ export class ProfileComponent implements OnInit{
         this.user.fullName = res.data.full_name;
         this.user.followers = res.data.followers;
         this.user.following = res.data.following;
+        this.user.biography = res.data.biography;
         this.error = '';
         this.reviewsService.getUserReviews(this.user.userId, this.currentUser?.userId).subscribe({
           next: res =>{
