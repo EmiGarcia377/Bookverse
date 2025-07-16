@@ -11,7 +11,7 @@
                         <div (click)="goReview(review.id)">
                             <div class="flex flex-row justify-between items-center pb-3">
                                 <div (click)="goProfile(review.user_id)" class="items-center flex flex-row gap-3 pb-3">
-                                    <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
+                                    <img class="rounded-full w-10 h-10" [src]="review.profilepic_url || 'userDef.png'" alt="User profile photo">
                                     <div class="flex flex-col hover:cursor-pointer">
                                         <p class="text-white font-bold hover:underline hover:cursor-pointer">{{ review.full_name }}</p>
                                         <p class="text-white opacity-80 font-light">{{ '@' + review.username }}</p>

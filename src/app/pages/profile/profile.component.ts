@@ -40,6 +40,7 @@ export class ProfileComponent implements OnInit{
         this.user.followers = res.data.followers;
         this.user.following = res.data.following;
         this.user.biography = res.data.biography;
+        this.user.profilePic = res.data.profilepic_url;
         this.error = '';
         this.reviewsService.getUserReviews(this.user.userId, this.currentUser?.userId).subscribe({
           next: res =>{

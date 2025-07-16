@@ -8,4 +8,5 @@ export default interface User {
     fullName: string | null;
     followers?: number;
     following?: number;
+    profilePic?: string;
 }

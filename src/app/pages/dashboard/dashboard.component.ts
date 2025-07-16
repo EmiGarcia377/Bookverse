@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
         this.user.userId = res.userId;
         this.user.username = res.username;
         this.user.fullName = res.fullName;
+        this.user.profilePic = res.profilePic;
         this.error = '';
         this.userService.setCurrentUserData(this.user);
         this.reviewsService.getReview(this.user.userId).subscribe({
@@ -59,11 +60,12 @@ export class DashboardComponent implements OnInit {
     this.menuToggle = this.menuToggle === index ? null : index;
   }
 
-  goProfile(userId: uuid){
+  goProfile(userId: uuid | null){
     this.router.navigate(['../profile/', userId]);
   }
 
   goUserDash(){
+    if(!this.user.userId) throw new Error("Inicia sesion para poder acceder a tu dashboard!")
     this.router.navigate(['../user-dashboard/', this.user.userId]);
   }
 

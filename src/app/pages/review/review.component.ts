@@ -36,7 +36,6 @@ export class ReviewComponent implements OnInit {
           this.reviewsService.getReviewById(this.reviewId, this.userId).subscribe({
             next: res => {
               this.review = res.review;
-              console.log(res)
               this.reviewsService.getCommentsByReview(this.reviewId).subscribe({
                 next: res => {
                   this.comments = res.comments;

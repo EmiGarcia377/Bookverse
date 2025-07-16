@@ -4,7 +4,7 @@
             <div class="flex flex-row justify-items-start w-full">
                 <button routerLink="../../dashboard" class="p-1 rounded-full cursor-pointer hover:bg-zinc-600 hover:scale-105 transition-all ease-in-out"><img src="arrow_left.svg" alt=""></button>
             </div>
-            <img class="w-36 rounded-full" src="userDef.png" alt="User profile photo">
+            <img class="w-36 rounded-full" [src]="user.profilePic || 'userDef.png'" alt="User profile photo">
             <p class="text-white font-bold line-clamp-1">{{ user.fullName }}</p>
             <p class="text-white opacity-80 font-light line-clamp-1">{{ '@' + user.username }}</p>
             <div class="flex flex-row gap-4">
@@ -33,7 +33,7 @@
                 <div (click)="goReview(review.id)">
                     <div class="flex flex-row justify-between items-center pb-3">
                             <div class="items-center flex flex-row gap-3 pb-3">
-                                <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
+                                <img class="rounded-full w-10 h-10" [src]="review.profilepic_url || 'userDef.png'"  alt="User profile photo">
                                 <div class="flex flex-col hover:cursor-pointer">
                                     <p class="text-white font-bold hover:underline hover:cursor-pointer">{{ review.full_name }}</p>
                                     <p class="text-white opacity-80 font-light">{{ '@' + review.username }}</p>

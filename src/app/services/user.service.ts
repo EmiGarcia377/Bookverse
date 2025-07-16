@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import User, { uuid } from '../../models/User';
+import { param } from 'jquery';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,14 @@ export class UserService {
   updateUser(userData: User, userId: uuid | null){
     if(!userId) throw new Error('No se encontro el ID del usuario');
     return this.http.put<any>(`${this.apiUrl}/users/updateUser/${userId}`, userData, { params: { userId }});
+  }
+
+  updatepfp(file: File, userId: uuid | null){
+    if(!userId) throw new Error('No se encontro el ID del usuario');
+    const formData = new FormData();
+    formData.append('avatars', file);
+    formData.append('userId', userId);
+    return this.http.post<string>(`${this.apiUrl}/users/updatepfp/${userId}`, formData, { params: { userId }});
   }
 
   setCurrentUserData(data: any){

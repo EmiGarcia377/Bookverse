@@ -5,8 +5,8 @@
                 <a class="text-amber-500 opacity-90 text-center" routerLink="../login">{{ error }}</a>
             </div>
         } @else if (message != '') {
-            <div (click)="goUserDash()" class="w-3/4 flex flex-row gap-3 items-center bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in cursor-pointer">
-                <img class="w-10 h-10 rounded-full" src="userDef.png" alt="User profile photo">
+            <div (click)="goProfile(user.userId)" class="w-3/4 flex flex-row gap-3 items-center bg-zinc-900 p-3 rounded-4xl hover:contrast-125 transition-all ease-in cursor-pointer">
+                <img class="w-13 h-13 rounded-full" [src]="user.profilePic || 'userDef.png'" alt="User profile photo">
                 <div>
                     <p class="text-white font-bold line-clamp-1">{{ user.fullName }}</p>
                     <p class="text-white opacity-80 font-light line-clamp-1">{{ '@' + user.username }}</p>
@@ -14,9 +14,9 @@
             </div>
         }
         <div class="w-3/4 h-3/6 flex flex-col items-center gap-7">
-            <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
-                <img class="w-7" src="search.svg">
-                <p class="text-white text-2xl inline-block">Explorar</p>
+            <button (click)="goUserDash()" class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                <img class="w-7" src="user.svg">
+                <p class="text-white text-2xl inline-block">Dashboard</p>
             </button>
             <button class=" flex flex-row gap-3 items-center rounded-3xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                 <img class="w-7" src="notifications.svg">
@@ -42,7 +42,7 @@
                     <div (click)="goReview(review.id)">
                         <div class="flex flex-row justify-between items-center pb-3">
                             <div (click)="goProfile(review.user_id)" class="items-center flex flex-row gap-3 pb-3">
-                                <img class="rounded-full w-10 h-10" src="userDef.png" alt="User profile photo">
+                                <img class="rounded-full w-13 h-13" [src]="review.profilepic_url || 'userDef.png'" alt="User profile photo">
                                 <div class="flex flex-col hover:cursor-pointer">
                                     <p class="text-white font-bold hover:underline hover:cursor-pointer">{{ review.full_name }}</p>
                                     <p class="text-white opacity-80 font-light">{{ '@' + review.username }}</p>

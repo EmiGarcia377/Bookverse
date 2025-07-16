@@ -8,8 +8,8 @@
         <div class="max-w-4xl mx-auto p-6 space-y-8">
             <h1 class="text-2xl font-bold text-center text-white">Configuración del perfil público</h1>
             <div class="flex flex-col items-center space-y-2">
-                <img src="userDef.png" alt="Avatar" class="w-28 h-28 rounded-full object-cover border">
-                <input type="file" id="profile-image" accept="image/*" (change)="onFileSelected($event)" hidden/>
+                <img [src]="user.profilePic || 'userDef.png'" alt="Avatar" class="w-28 h-28 rounded-full object-cover border">
+                <input type="file" name="avatars" id="profile-image" accept="image/*" (change)="onFileSelected($event)" hidden/>
                 <label for="profile-image" class="cursor-pointer text-sm text-blue-400 hover:underline">Cambiar foto de perfil</label>
             </div>
             <form [formGroup]="userInfoForm" (submit)="updateUser()" class="space-y-6">
@@ -31,6 +31,11 @@
                     <label class="block mb-1 text-sm font-semibold text-white">Correo electrónico</label>
                     <input formControlName="email" type="email" [class.opacity-70]="!emailEditable" [class.opacity-100]="emailEditable" class="w-full bg-zinc-800 p-2 mb-2 rounded-lg inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/50 hover:shadow-zinc-900 focus:outline-0 focus-within:ring-2 focus-within:ring-amber-400 transition-all ease-out resize-none text-white"/>
                     <p (click)="toggleEmail()" class="text-white opacity-80 underline hover:no-underline cursor-pointer inline-block">Cambiar correo</p>
+                </div>
+                <div>
+                    <p class="block mb-1 text-lg font-bold text-white">Reestablecer contraseña</p>
+                    <label class="block mb-1 text-sm font-semibold text-white">Contraseña</label>
+                    <input formControlName="password" placeholder="********" type="password" class="w-full bg-zinc-800 p-2 mb-2 rounded-lg inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/50 hover:shadow-zinc-900 focus:outline-0 focus-within:ring-2 focus-within:ring-amber-400 transition-all ease-out resize-none text-white"/>
                 </div>
                 <div class="text-center">
                     <button [disabled]="userInfoForm.invalid" type="submit" class="bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 cursor-pointer">
