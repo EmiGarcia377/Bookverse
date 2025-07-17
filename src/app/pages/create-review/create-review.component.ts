@@ -1,8 +1,8 @@
 import { Component, ElementRef, TemplateRef, viewChild, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../services/dialog.service';
-import { Router } from '@angular/router';
 import { ReviewsService } from '../../services/reviews.service';
+import { RoutesService } from '../../services/routes.service';
 
 @Component({
   selector: 'app-create-review',
@@ -22,7 +22,7 @@ export class CreateReviewComponent{
   constructor(
     private dialogService: DialogService, 
     private reviewsService: ReviewsService, 
-    private router: Router
+    public routesService: RoutesService
   ) 
   {
     this.revTitle = new FormControl('', [Validators.required, Validators.min(5)]);
@@ -53,15 +53,12 @@ export class CreateReviewComponent{
       next: res =>{
         this.message = res.message;
         this.error = '';
-        this.router.navigate(['../dashboard']);
+        this.routesService.goDashboard();
       },
       error: err =>{
         this.error = err.error.message;
         this.message = '';
       }
     })
-  }
-  goDashboard(){
-    this.router.navigate(['../dashboard/']);
   }
 }

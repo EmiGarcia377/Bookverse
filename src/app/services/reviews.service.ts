@@ -84,4 +84,9 @@ export class ReviewsService {
     if(!reviewId) throw new Error('Por favor ingresa una reseña valida');
     return this.http.get<any>(`${this.apiUrl}/reviews/comment/${reviewId}`, { params: { reviewId }});
   }
+
+  getUserDashboard(userId: uuid | null){
+    if(!userId) throw new Error("Necesitas iniciar sesion para poder realizar esta accion!");
+    return this.http.get<any>(`${this.apiUrl}/reviews/getUserDashboard/${userId}`, { params: { userId }});
+  }
 }

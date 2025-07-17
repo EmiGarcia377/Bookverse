@@ -4,6 +4,7 @@ import { DialogService } from '../../services/dialog.service';
 import { ReviewsService } from '../../services/reviews.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { RoutesService } from '../../services/routes.service';
 
 @Component({
   selector: 'app-edit-review',
@@ -28,12 +29,12 @@ export class EditReviewComponent implements OnInit{
     content: ''
   };
 
-  constructor(
-    private router: Router, 
+  constructor( 
     private route: ActivatedRoute,
     private dialogService: DialogService, 
     private reviewService: ReviewsService,
-    private userService: UserService
+    private userService: UserService,
+    public routesService: RoutesService
   ) {
     this.revTitle = new FormControl('', [Validators.required, Validators.min(5)]);
     this.revScore = new FormControl('', Validators.required);
@@ -79,7 +80,7 @@ export class EditReviewComponent implements OnInit{
       next: res => {
         this.message = res.message;
         this.error = '';
-        this.router.navigate(['../dashboard']);
+        this.routesService.goDashboard();
       },
       error: err => {
         this.error = err.error.message;
@@ -91,9 +92,5 @@ export class EditReviewComponent implements OnInit{
 
   confirmCancel(){
     this.dialogService.openDialog(this.dialogTemplate()!, this.dialogViewContainerRef()!);
-  }
-
-  goDashboard(){
-    this.router.navigate(['../dashboard/']);
   }
 }

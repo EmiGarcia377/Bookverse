@@ -30,7 +30,7 @@
         <div class="flex flex-col flex-wrap items-center">
             @for (review of reviews; track $index) {
                 <section class="flex flex-col gap-7 w-11/12 rounded-3xl bg-zinc-700 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
-                <div (click)="goReview(review.id)">
+                <div (click)="routesService.goReview(review.id)">
                     <div class="flex flex-row justify-between items-center pb-3">
                             <div class="items-center flex flex-row gap-3 pb-3">
                                 <img class="rounded-full w-10 h-10" [src]="review.profilepic_url || 'userDef.png'"  alt="User profile photo">
@@ -41,12 +41,12 @@
                             </div>
                             @if (review.username === currentUser?.username) {
                                 <div class="relative inline-block text-left z-100" #menuContainer>
-                                    <button (click)="toggleMenu($index)" class="p-2 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                    <button (click)="reviewActionsService.toggleMenu($index, menuToggle)" class="p-2 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
                                     @if (menuToggle === $index) {
                                         <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
                                             <ul class="py-1">
-                                                <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
-                                                <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                                <li (click)="reviewActionsService.editReview(menuToggle, reviews)" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                <li (click)="reviewActionsService.delReview(menuToggle, reviews, user)" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
                                             </ul>
                                         </div>
                                     }
@@ -65,7 +65,7 @@
                                 <img class="w-5 h-5" src="comments.svg" alt="">
                                 <p class="text-white">{{ review.comments_count }}</p>
                             </li>
-                            <li (click)="toggleLikeReview(review.liked_by_current_user, currentUser?.userId, review.id)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                            <li (click)="reviewActionsService.toggleLikeReview(review.liked_by_current_user, currentUser?.userId, review.id, reviews)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 @if (review.liked_by_current_user) {
                                     <img src="liked.svg" alt="">
                                 } @else {
@@ -73,7 +73,7 @@
                                 }
                                 <p class="text-white">{{ review.like_count }}</p>
                             </li>
-                            <li (click)="toggleSaveReview(review.saved_by_current_user, user.userId, review.id)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                            <li (click)="reviewActionsService.toggleSaveReview(review.saved_by_current_user, user.userId, review.id, reviews)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 @if (review.saved_by_current_user) {
                                     <img src="bookmarked.svg" alt="Icono de guardado">
                                 } @else {

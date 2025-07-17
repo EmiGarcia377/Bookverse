@@ -3,6 +3,8 @@ import { ReviewsService } from '../../services/reviews.service';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import User, { uuid } from '../../../models/User';
+import { RoutesService } from '../../services/routes.service';
+import { ReviewActionsService } from '../../services/review-actions.service';
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +28,9 @@ export class ProfileComponent implements OnInit{
     private reviewsService: ReviewsService, 
     private router: Router,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public routesService: RoutesService,
+    public reviewActionsService: ReviewActionsService
   ){}
   ngOnInit(): void {
     this.currentUser = this.userService.getCurrentUserData();
@@ -60,93 +64,6 @@ export class ProfileComponent implements OnInit{
         console.log(err);
       }
     });
-  }
-
-  toggleMenu(index: number){
-    this.menuToggle = this.menuToggle === index ? null : index;
-  }
-
-  editReview(){
-    if(this.menuToggle !== null){
-      this.router.navigate(['../edit-review/', this.reviews[this.menuToggle].id]);
-    }
-  }
-
-  goReview(reviewId: uuid){
-    this.router.navigate(['../review/', reviewId]);
-  }
-
-  delReview(){
-    if(this.menuToggle !== null){
-      const reviewId = this.reviews[this.menuToggle].id;
-
-      this.reviewsService.deleteReview(reviewId).subscribe({
-        next: res => {
-          if(this.menuToggle !== null){
-            this.message = res.message;
-            this.reviews.splice(this.menuToggle, 1);
-            this.menuToggle = null;
-          };
-          this.reviewsService.getUserReviews(this.user.userId, this.currentUser.userId).subscribe({
-              next: res => {
-                this.reviews = res.reviews;
-              },
-              error: err => {
-                console.log(err);
-              }
-          });
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
-    }
-  }
-
-  toggleLikeReview(liked: boolean, userId: uuid | null, reviewId: uuid){
-    if(!liked){
-      this.reviewsService.likeReview(userId, reviewId).subscribe({
-        next: res => {
-          const reviewIndex = this.reviews.findIndex((review) => review.id === reviewId);
-          this.reviews[reviewIndex].like_count = res.count;
-          this.reviews[reviewIndex].liked_by_current_user = true;
-        }
-      });
-    } else {
-      this.reviewsService.unlikeReview(userId, reviewId).subscribe({
-        next: res => {
-          const reviewIndex = this.reviews.findIndex((review) => review.id === reviewId);
-          this.reviews[reviewIndex].like_count = res.count;
-          this.reviews[reviewIndex].liked_by_current_user = false;
-        }
-      })
-    }
-  }
-
-  toggleSaveReview(saved: boolean, userId: uuid | null, reviewId: uuid){
-    if(!saved){
-      this.reviewsService.saveReview(userId, reviewId).subscribe({
-        next: res => {
-          const reviewIndex = this.reviews.findIndex((review) => review.id === reviewId);
-          this.reviews[reviewIndex].saved_count = res.count;
-          this.reviews[reviewIndex].saved_by_current_user = true;
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
-    } else {
-      this.reviewsService.unsaveReview(userId, reviewId).subscribe({
-        next: res => {
-          const reviewIndex = this.reviews.findIndex((review) => review.id === reviewId);
-          this.reviews[reviewIndex].saved_count = res.count;
-          this.reviews[reviewIndex].saved_by_current_user = false;
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
-    }
   }
   
   @HostListener('document:click', ['$event'])

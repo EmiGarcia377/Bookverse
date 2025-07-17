@@ -39,7 +39,7 @@
                                 <img class="w-5 h-5" src="comments.svg" alt="Icono de comentarios">
                                 <p class="text-white">{{ review.comments_count }}</p>
                             </li>
-                            <li (click)="toggleLikeReview(review.liked_by_current_user)" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                            <li (click)="reviewActionsService.toggleLikeReviewSingle(review.liked_by_current_user, review, userId)" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 @if (review.liked_by_current_user) {
                                     <img class="w-5 h-5" src="liked.svg" alt="Icono de me gusta">
                                 } @else {
@@ -47,7 +47,7 @@
                                 }
                                 <p class="text-white">{{ review.like_count }}</p>
                             </li>
-                            <li (click)="toggleSaveReview(review.saved_by_current_user)" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                            <li (click)="reviewActionsService.toggleSaveReviewSingle(review.saved_by_current_user, review, userId)" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 @if (review.saved_by_current_user) {
                                     <img src="bookmarked.svg" alt="Icono de guardado">
                                 } @else {
@@ -77,7 +77,7 @@
                                 </div>
                                 @if (comment.user_id === userId) {
                                     <div class="relative inline-block text-left" #menuContainer>
-                                        <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                        <button (click)="reviewActionsService.toggleMenu($index, menuToggle)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
                                         @if (menuToggle === $index) {
                                             <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
                                                 <ul class="py-1">

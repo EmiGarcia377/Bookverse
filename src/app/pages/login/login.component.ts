@@ -1,8 +1,9 @@
 import { Component, TemplateRef, viewChild, ViewContainerRef } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { DialogService } from '../../services/dialog.service';
+import { RoutesService } from '../../services/routes.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,11 @@ export class LoginComponent {
   error: string = '';
   message: string = '';
 
-  constructor(private userService: UserService, private router: Router, private dialogService: DialogService){
+  constructor(
+    private userService: UserService, 
+    private routesService: RoutesService, 
+    private dialogService: DialogService
+  ){
     this.email = new FormControl('', [Validators.required, Validators.email]);
     this.password = new FormControl('', [Validators.required, Validators.minLength(6)]);
     
@@ -39,7 +44,7 @@ export class LoginComponent {
         const storage = res?.rememberMe ? localStorage : sessionStorage;
         storage.setItem('user_id', res?.userId);
         if(res){
-          this.router.navigate(['../dashboard']);
+          this.routesService.goDashboard();
         }
         this.loginForm.reset();
       },

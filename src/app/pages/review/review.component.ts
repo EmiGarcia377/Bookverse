@@ -4,6 +4,7 @@ import { ReviewsService } from '../../services/reviews.service';
 import { UserService } from '../../services/user.service';
 import { uuid } from '../../../models/User';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReviewActionsService } from '../../services/review-actions.service';
 
 @Component({
   selector: 'app-review',
@@ -23,7 +24,12 @@ export class ReviewComponent implements OnInit {
   editCommentIndex: number | null = null;
   editedCommentContent: string = '';
 
-  constructor(private reviewsService: ReviewsService, private route: ActivatedRoute, private userService: UserService) { 
+  constructor(
+    private reviewsService: ReviewsService,
+    private route: ActivatedRoute, 
+    private userService: UserService,
+    public reviewActionsService: ReviewActionsService
+  ) { 
     this.commentInput = new FormControl('', [Validators.required, Validators.min(10)]);
   }
 
@@ -79,10 +85,6 @@ export class ReviewComponent implements OnInit {
     });
   }
 
-  toggleMenu(index: number){
-    this.menuToggle = this.menuToggle === index ? null : index;
-  }
-
   editComment(index: number, content: string){
     this.editCommentIndex = index;
     this.editedCommentContent = content;
@@ -126,48 +128,6 @@ export class ReviewComponent implements OnInit {
         });
       }
     })
-  }
-
-  toggleLikeReview(liked: boolean){
-    if(!liked){
-      this.reviewsService.likeReview(this.userId, this.review.id).subscribe({
-        next: res => {
-          this.review.like_count = res.count;
-          this.review.liked_by_current_user = true;
-        }
-      });
-    } else {
-      this.reviewsService.unlikeReview(this.userId, this.review.id).subscribe({
-        next: res => {
-          this.review.like_count = res.count;
-          this.review.liked_by_current_user = false;
-        }
-      })
-    }
-  }
-
-  toggleSaveReview(saved: boolean){
-    if(!saved){
-      this.reviewsService.saveReview(this.userId, this.review.id).subscribe({
-        next: res => {
-          this.review.saved_count = res.count;
-          this.review.saved_by_current_user = true;
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
-    } else {
-      this.reviewsService.unsaveReview(this.userId, this.review.id).subscribe({
-        next: res => {
-          this.review.saved_count = res.count;
-          this.review.saved_by_current_user = false;
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
-    }
   }
 
   submitComment(){
