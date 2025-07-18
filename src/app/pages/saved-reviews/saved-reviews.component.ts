@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { ReviewsService } from '../../services/reviews.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import User, { uuid } from '../../../models/User';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import User from '../../../models/User';
 import { UserService } from '../../services/user.service';
 import { RoutesService } from '../../services/routes.service';
 import { ReviewActionsService } from '../../services/review-actions.service';
+import Review from '../../../models/Review';
 
 @Component({
   selector: 'app-saved-reviews',
@@ -15,13 +16,12 @@ import { ReviewActionsService } from '../../services/review-actions.service';
 export class SavedReviewsComponent implements OnInit{
   userId: string | null = '';
   user: User = { message: undefined, userId: null, username: null, fullName: null };
-  reviews: any[] = [];
+  reviews: Review[] = [];
   menuToggle: number | null = null;
 
   constructor(
     private reviewsService: ReviewsService, 
     private route: ActivatedRoute,
-    private router: Router,
     private userService: UserService,
     private cdr: ChangeDetectorRef,
     public routesService: RoutesService,
@@ -38,7 +38,8 @@ export class SavedReviewsComponent implements OnInit{
         this.userService.setCurrentUserData(this.user);
         this.reviewsService.getSavedReviews(this.userId)?.subscribe({
           next: res => {
-            this.reviews = res.reviews;
+            console.log(res)
+            this.reviews = Array.isArray(res.reviews) ? res.reviews.filter((r: Review | undefined): r is Review => r !== undefined) : [];
           },
           error: err => {
             console.log(err);

@@ -5,10 +5,12 @@ import { UserService } from '../../services/user.service';
 import { ReviewsService } from '../../services/reviews.service';
 import { RoutesService } from '../../services/routes.service';
 import { ReviewActionsService } from '../../services/review-actions.service';
+import Review from '../../../models/Review';
+import { UserHomeComponent } from "../../components/user-home/user-home.component";
 
 @Component({
   selector: 'app-user-dash',
-  imports: [ RouterLink ],
+  imports: [RouterLink, UserHomeComponent],
   templateUrl: './user-dash.component.html',
   styles: ``
 })
@@ -16,8 +18,8 @@ export class UserDashComponent implements OnInit{
   error: string = '';
   message: string | undefined = '';
   user: User = { userId: null, username: '', fullName: ''};
-  recentSaved: any[] = [];
-  recentReviews: any[] = [];
+  recentSaved: Review[] = [];
+  recentReviews: Review[] = [];
   menuToggle: number | null = null;
   constructor(
     private userService: UserService, 
@@ -33,13 +35,7 @@ export class UserDashComponent implements OnInit{
         this.user.username = res.username;
         this.user.fullName = res.fullName;
         this.user.profilePic = res.profilePic;
-        this.reviewsService.getUserDashboard(this.user.userId).subscribe({
-          next: res => {
-            this.recentSaved = res.recentSavedReviews;
-            this.recentReviews = res.recentUserReviews;
-          },
-          error: err => console.log(err)
-        });
+        this.userService.setCurrentUserData(this.user);
       },
       error: err => {
         this.error = err.message;

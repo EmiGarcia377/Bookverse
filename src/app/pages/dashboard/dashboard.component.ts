@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ReviewsService } from '../../services/reviews.service';
-import User, { uuid } from '../../../models/User';
+import User from '../../../models/User';
 import { RoutesService } from '../../services/routes.service';
 import { ReviewActionsService } from '../../services/review-actions.service';
+import Review from '../../../models/Review';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,12 +17,11 @@ export class DashboardComponent implements OnInit {
   error: string = '';
   message: string | undefined = '';
   user: User = { message: undefined, userId: null, username: null, fullName: null };
-  reviews: any[] = []
+  reviews: Review[] = []
   menuToggle: number | null = null;
   constructor(
     private userService: UserService,
     private reviewsService: ReviewsService, 
-    private router: Router, 
     private cdr: ChangeDetectorRef,
     public routesService: RoutesService,
     public reviewActionsService: ReviewActionsService
@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
         this.userService.setCurrentUserData(this.user);
         this.reviewsService.getReview(this.user.userId).subscribe({
           next: res =>{
-            this.reviews = res.reviews;
+            this.reviews = Array.isArray(res.reviews) ? res.reviews.filter((r: Review | undefined): r is Review => r !== undefined) : [];
           },
           error: err => console.log(err)
         });
@@ -51,8 +51,8 @@ export class DashboardComponent implements OnInit {
         this.message = '';
         console.log(err);
         this.reviewsService.getReview(this.user.userId).subscribe({
-          next: res =>{
-            this.reviews = res.reviews;
+          next: res => {
+            this.reviews = Array.isArray(res.reviews) ? res.reviews.filter((r: Review | undefined): r is Review => r !== undefined) : [];
           },
           error: err => console.log(err)
         });

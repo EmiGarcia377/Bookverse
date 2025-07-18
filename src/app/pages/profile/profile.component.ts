@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ReviewsService } from '../../services/reviews.service';
 import { UserService } from '../../services/user.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import User, { uuid } from '../../../models/User';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import User from '../../../models/User';
 import { RoutesService } from '../../services/routes.service';
 import { ReviewActionsService } from '../../services/review-actions.service';
+import Review from '../../../models/Review';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,7 @@ export class ProfileComponent implements OnInit{
   error: string = '';
   message: string | undefined = '';
   user: User = { message: undefined, userId: null, username: null, fullName: null, followers: 0, following: 0, biography: '' };
-  reviews: any[] = [];
+  reviews: Review[] = [];
   menuToggle: number | null = null;
   revId: string | null = '';
   currentUser: any;
@@ -25,8 +26,7 @@ export class ProfileComponent implements OnInit{
 
   constructor(
     private userService: UserService, 
-    private reviewsService: ReviewsService, 
-    private router: Router,
+    private reviewsService: ReviewsService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     public routesService: RoutesService,
@@ -47,10 +47,12 @@ export class ProfileComponent implements OnInit{
         this.user.profilePic = res.data.profilepic_url;
         this.error = '';
         this.reviewsService.getUserReviews(this.user.userId, this.currentUser?.userId).subscribe({
-          next: res =>{
-            this.reviews = res.reviews;
+          next: res => {
+            this.reviews = Array.isArray(res.reviews) ? res.reviews.filter((r: Review | undefined): r is Review => r !== undefined) : [];
+            this.error = '';
+            this.message = '';
           },
-          error: err =>{
+          error: err => {
             this.error = err.error.message;
             this.message = '';
             this.reviews = [];

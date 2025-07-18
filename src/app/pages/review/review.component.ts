@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { uuid } from '../../../models/User';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReviewActionsService } from '../../services/review-actions.service';
+import Review from '../../../models/Review';
 
 @Component({
   selector: 'app-review',
@@ -15,7 +16,7 @@ import { ReviewActionsService } from '../../services/review-actions.service';
 export class ReviewComponent implements OnInit {
   error: string = '';
   message: string = '';
-  review: any = { id: '', content: '', score: 0, title: '', user_id: '', full_name: '', username: '', like_count: 0, liked_by_current_user: false };
+  review: Review | undefined = { id: null, content: '', score: 0, title: '', user_id: null, full_name: '', username: '', like_count: 0, liked_by_current_user: false };
   comments: any[] = [];
   userId: uuid | null = null;
   reviewId: string | null = '';
@@ -41,7 +42,7 @@ export class ReviewComponent implements OnInit {
         if(this.reviewId){
           this.reviewsService.getReviewById(this.reviewId, this.userId).subscribe({
             next: res => {
-              this.review = res.review;
+              this.review = Array.isArray(res.reviews) ? res.reviews.find((r: Review | undefined): r is Review => r !== undefined) || this.review : res.reviews;
               this.reviewsService.getCommentsByReview(this.reviewId).subscribe({
                 next: res => {
                   this.comments = res.comments;
@@ -64,7 +65,7 @@ export class ReviewComponent implements OnInit {
         if(this.reviewId){
           this.reviewsService.getReviewById(this.reviewId, this.userId).subscribe({
             next: res => {
-              this.review = res.review;
+              this.review = Array.isArray(res.reviews) ? res.reviews.find((r: Review | undefined): r is Review => r !== undefined) || this.review : res.reviews;
               this.reviewsService.getCommentsByReview(this.reviewId).subscribe({
                 next: res => {
                   this.comments = res.comments;
@@ -117,7 +118,9 @@ export class ReviewComponent implements OnInit {
     this.editedCommentContent = "";
     this.reviewsService.delComment(commentId, this.userId, this.reviewId).subscribe({
       next: res => {
-        this.review.comments_count = res.count;
+        if (this.review) {
+          this.review.comments_count = res.count;
+        }
         this.reviewsService.getCommentsByReview(this.reviewId).subscribe({
           next: res => {
             this.comments = res.comments;
@@ -131,9 +134,12 @@ export class ReviewComponent implements OnInit {
   }
 
   submitComment(){
+    if(!this.review) return 
     this.reviewsService.createComment(this.userId, this.review.id, this.commentInput.value).subscribe({
       next: res => {
-        this.review.comments_count = res.count
+        if (this.review) {
+          this.review.comments_count = res.count;
+        }
         this.commentInput.reset();
         this.reviewsService.getCommentsByReview(this.reviewId).subscribe({
           next: res => {

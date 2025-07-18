@@ -48,11 +48,11 @@ export class UserService {
     return this.http.post<string>(`${this.apiUrl}/users/updatepfp/${userId}`, formData, { params: { userId }});
   }
 
-  setCurrentUserData(data: any){
+  setCurrentUserData(data: User){
     this.userData = data;
   }
 
-  getCurrentUserData(){
+  getCurrentUserData(): User{
     return this.userData;
   }
 }

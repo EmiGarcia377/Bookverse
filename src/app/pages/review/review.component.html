@@ -4,125 +4,127 @@
             <button routerLink="../../dashboard" class="p-1 rounded-full cursor-pointer hover:bg-zinc-600 hover:scale-105 transition-all ease-in-out"><img src="arrow_left.svg" alt=""></button>
         </div>
         <div class="flex flex-col flex-wrap items-center gap-4">
-            <section class="flex flex-col w-11/12">
-                <div class="rounded-3xl bg-zinc-700 p-5 border-2 border-zinc-800">
-                    <div class="flex flex-row justify-between items-center pb-3">
-                        <div class="flex flex-row items-center gap-3 pb-3">
-                            <img class="rounded-full w-10 h-10" [src]="review.profilepic_url || 'userDef.png'" alt="User profile photo">
-                            <div class="flex flex-col">
-                                <p class="text-white font-bold">{{ review.full_name }}</p>
-                                <p class="text-white opacity-80 font-light">{{ review.username }}</p>
+            @if (review) {
+                <section class="flex flex-col w-11/12">
+                    <div class="rounded-3xl bg-zinc-700 p-5 border-2 border-zinc-800">
+                        <div class="flex flex-row justify-between items-center pb-3">
+                            <div class="flex flex-row items-center gap-3 pb-3">
+                                <img class="rounded-full w-10 h-10" [src]="review.profilepic_url || 'userDef.png'" alt="User profile photo">
+                                <div class="flex flex-col">
+                                    <p class="text-white font-bold">{{ review.full_name }}</p>
+                                    <p class="text-white opacity-80 font-light">{{ review.username }}</p>
+                                </div>
                             </div>
+                            <!-- @if (review.users.id === sessionId) {
+                                <div class="relative inline-block text-left" #menuContainer>
+                                    <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                    @if (menuToggle === $index) {
+                                        <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                            <ul class="py-1">
+                                                <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                            </ul>
+                                        </div>
+                                    }
+                                </div>
+                            } -->
                         </div>
-                        <!-- @if (review.users.id === sessionId) {
-                            <div class="relative inline-block text-left" #menuContainer>
-                                <button (click)="toggleMenu($index)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
-                                @if (menuToggle === $index) {
-                                    <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
-                                        <ul class="py-1">
-                                            <li (click)="editReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
-                                            <li (click)="delReview()" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
-                                        </ul>
-                                    </div>
-                                }
-                            </div>
-                        } -->
-                    </div>
-                    <p class="text-white text-xl font-bold pb-2">{{ review.title }}</p>
-                    <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
-                    <p class="text-white">
-                        {{ review.content }}
-                    </p>
-                    <div class="p-2">
-                        <ul class="flex flex-row gap-2">
-                            <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
-                                <img class="w-5 h-5" src="comments.svg" alt="Icono de comentarios">
-                                <p class="text-white">{{ review.comments_count }}</p>
-                            </li>
-                            <li (click)="reviewActionsService.toggleLikeReviewSingle(review.liked_by_current_user, review, userId)" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
-                                @if (review.liked_by_current_user) {
-                                    <img class="w-5 h-5" src="liked.svg" alt="Icono de me gusta">
-                                } @else {
-                                    <img class="w-5 h-5" src="favorites.svg" alt="Icono de me gusta">
-                                }
-                                <p class="text-white">{{ review.like_count }}</p>
-                            </li>
-                            <li (click)="reviewActionsService.toggleSaveReviewSingle(review.saved_by_current_user, review, userId)" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
-                                @if (review.saved_by_current_user) {
-                                    <img src="bookmarked.svg" alt="Icono de guardado">
-                                } @else {
-                                    <img class="w-5 h-5" src="bookmarkRev.svg" alt="Icono de guardados">
-                                }
-                                <p class="text-white">{{ review.saved_count }}</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-            <div class="p-3 flex flex-row justify-between items-center w-11/12">
-                <textarea #autoTextarea (input)="ajustarAltura()" [formControl]="commentInput" class="w-4/5 bg-zinc-800 p-2 rounded-lg inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/50 hover:shadow-zinc-900 focus:outline-0 focus-within:ring-2 focus-within:ring-amber-400 transition-all ease-out resize-none text-white" placeholder="Comenta algo..." type="text"></textarea>
-                <button (click)="submitComment()" [disabled]="commentInput.invalid" class="w-1/6 h-12 bg-amber-500 hover:bg-amber-600 inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/50 hover:shadow-zinc-900 text-white font-semibold px-6 py-3 rounded-lg cursor-pointer transition-all">Publicar</button>
-            </div>
-            @if (comments.length !== 0) {
-                @for (comment of comments; track $index) {
-                    <section class="flex flex-col w-11/12">
-                        <div class="rounded-3xl bg-zinc-700 p-5">
-                            <div class="flex flex-row justify-between items-center pb-3">
-                                <div class="flex flex-row items-center gap-3 pb-3">
-                                    <img class="rounded-full w-10 h-10" [src]="comment.profilepic_url || 'userDef.png'" alt="User profile photo">
-                                    <div class="flex flex-col">
-                                        <p class="text-white font-bold">{{ comment.full_name }}</p>
-                                        <p class="text-white opacity-80 font-light">{{ comment.username }}</p>
-                                    </div>
-                                </div>
-                                @if (comment.user_id === userId) {
-                                    <div class="relative inline-block text-left" #menuContainer>
-                                        <button (click)="reviewActionsService.toggleMenu($index, menuToggle)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
-                                        @if (menuToggle === $index) {
-                                            <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
-                                                <ul class="py-1">
-                                                    <li (click)="editComment($index, comment.content)" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
-                                                    <li (click)="delComment(comment.id)" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
-                                                </ul>
-                                            </div>
-                                        }
-                                    </div>
-                                }
-                            </div>
-                            @if (editCommentIndex !== $index) {
-                                <p class="text-white">
-                                    {{ comment.content }}
-                                </p>
-                            } @else if (editCommentIndex === $index) {
-                                <textarea [(ngModel)]="editedCommentContent" class="w-4/5 bg-zinc-800 p-2 rounded-lg inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/50 hover:shadow-zinc-900 focus:outline-0 focus-within:ring-2 focus-within:ring-amber-400 transition-all ease-out resize-none text-white"></textarea>
-                                <div class="flex flex-row gap-2">
-                                    <button (click)="confirmEditComment(comment.id)" class="bg-amber-500 px-4 py-2 rounded-lg text-white">Confirmar</button>
-                                    <button (click)="cancelEditComment()" class="bg-zinc-500 px-4 py-2 rounded-lg text-white">Cancelar</button>
-                                </div>
-                            }
-                            <div class="p-2">
-                                <ul class="flex flex-row gap-2">
-                                    <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
-                                        <img class="w-5 h-5" src="comments.svg" alt="Icono de comentarios">
-                                        <p class="text-white">0</p>
-                                    </li>
-                                    <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
-                                        <img class="w-5 h-5" src="favorites.svg" alt="Icono de likes">
-                                        <p class="text-white">0</p>
-                                    </li>
-                                    <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                        <p class="text-white text-xl font-bold pb-2">{{ review.title }}</p>
+                        <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
+                        <p class="text-white">
+                            {{ review.content }}
+                        </p>
+                        <div class="p-2">
+                            <ul class="flex flex-row gap-2">
+                                <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                    <img class="w-5 h-5" src="comments.svg" alt="Icono de comentarios">
+                                    <p class="text-white">{{ review.comments_count }}</p>
+                                </li>
+                                <li (click)="reviewActionsService.toggleLikeReviewSingle(review.liked_by_current_user ?? false, review, userId)" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                    @if (review.liked_by_current_user) {
+                                        <img class="w-5 h-5" src="liked.svg" alt="Icono de me gusta">
+                                    } @else {
+                                        <img class="w-5 h-5" src="favorites.svg" alt="Icono de me gusta">
+                                    }
+                                    <p class="text-white">{{ review.like_count }}</p>
+                                </li>
+                                <li (click)="reviewActionsService.toggleSaveReviewSingle(review.saved_by_current_user ?? false, review, userId)" class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                    @if (review.saved_by_current_user) {
+                                        <img src="bookmarked.svg" alt="Icono de guardado">
+                                    } @else {
                                         <img class="w-5 h-5" src="bookmarkRev.svg" alt="Icono de guardados">
-                                        <p class="text-white">0</p>
-                                    </li>
-                                </ul>
-                            </div>
+                                    }
+                                    <p class="text-white">{{ review.saved_count }}</p>
+                                </li>
+                            </ul>
                         </div>
-                    </section>
-                }
-            } @else{
-                <div class="p-4">
-                    <p class="text-white text-xl text-center">No se encontraron comentarios para esta reseña, se el primero en hacerlo!</p>
+                    </div>
+                </section>
+                <div class="p-3 flex flex-row justify-between items-center w-11/12">
+                    <textarea #autoTextarea (input)="ajustarAltura()" [formControl]="commentInput" class="w-4/5 bg-zinc-800 p-2 rounded-lg inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/50 hover:shadow-zinc-900 focus:outline-0 focus-within:ring-2 focus-within:ring-amber-400 transition-all ease-out resize-none text-white" placeholder="Comenta algo..." type="text"></textarea>
+                    <button (click)="submitComment()" [disabled]="commentInput.invalid" class="w-1/6 h-12 bg-amber-500 hover:bg-amber-600 inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/50 hover:shadow-zinc-900 text-white font-semibold px-6 py-3 rounded-lg cursor-pointer transition-all">Publicar</button>
                 </div>
+                @if (comments.length !== 0) {
+                    @for (comment of comments; track $index) {
+                        <section class="flex flex-col w-11/12">
+                            <div class="rounded-3xl bg-zinc-700 p-5">
+                                <div class="flex flex-row justify-between items-center pb-3">
+                                    <div class="flex flex-row items-center gap-3 pb-3">
+                                        <img class="rounded-full w-10 h-10" [src]="comment.profilepic_url || 'userDef.png'" alt="User profile photo">
+                                        <div class="flex flex-col">
+                                            <p class="text-white font-bold">{{ comment.full_name }}</p>
+                                            <p class="text-white opacity-80 font-light">{{ comment.username }}</p>
+                                        </div>
+                                    </div>
+                                    @if (comment.user_id === userId) {
+                                        <div class="relative inline-block text-left" #menuContainer>
+                                            <button (click)="reviewActionsService.toggleMenu($index, menuToggle)" class="p-1 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                            @if (menuToggle === $index) {
+                                                <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                                    <ul class="py-1">
+                                                        <li (click)="editComment($index, comment.content)" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                        <li (click)="delComment(comment.id)" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                                @if (editCommentIndex !== $index) {
+                                    <p class="text-white">
+                                        {{ comment.content }}
+                                    </p>
+                                } @else if (editCommentIndex === $index) {
+                                    <textarea [(ngModel)]="editedCommentContent" class="w-4/5 bg-zinc-800 p-2 rounded-lg inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/50 hover:shadow-zinc-900 focus:outline-0 focus-within:ring-2 focus-within:ring-amber-400 transition-all ease-out resize-none text-white"></textarea>
+                                    <div class="flex flex-row gap-2">
+                                        <button (click)="confirmEditComment(comment.id)" class="bg-amber-500 px-4 py-2 rounded-lg text-white">Confirmar</button>
+                                        <button (click)="cancelEditComment()" class="bg-zinc-500 px-4 py-2 rounded-lg text-white">Cancelar</button>
+                                    </div>
+                                }
+                                <div class="p-2">
+                                    <ul class="flex flex-row gap-2">
+                                        <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                            <img class="w-5 h-5" src="comments.svg" alt="Icono de comentarios">
+                                            <p class="text-white">0</p>
+                                        </li>
+                                        <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                            <img class="w-5 h-5" src="favorites.svg" alt="Icono de likes">
+                                            <p class="text-white">0</p>
+                                        </li>
+                                        <li class="flex flex-row items-center cursor-pointer gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                            <img class="w-5 h-5" src="bookmarkRev.svg" alt="Icono de guardados">
+                                            <p class="text-white">0</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    }
+                } @else{
+                    <div class="p-4">
+                        <p class="text-white text-xl text-center">No se encontraron comentarios para esta reseña, se el primero en hacerlo!</p>
+                    </div>
+                }   
             }
         </div>
     </div>

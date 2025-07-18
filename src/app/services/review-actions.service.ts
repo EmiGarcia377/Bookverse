@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReviewsService } from './reviews.service';
 import User, { uuid } from '../../models/User';
+import Review from '../../models/Review';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +15,16 @@ export class ReviewActionsService {
     menuToggle = menuToggle === index ? null : index;
   }
 
-  editReview(menuToggle: number | null, reviews: any[]){
+  editReview(menuToggle: number | null, reviews: Review[]){
     if(menuToggle !== null){
       this.router.navigate(['../edit-review/', reviews[menuToggle].id]);
     }
   }
 
-  delReview(menuToggle: number | null, reviews: any[], user: User){
+  delReview(menuToggle: number | null, reviews: Review[], user: User){
     if(menuToggle !== null){
       const reviewId = reviews[menuToggle].id;
-
+      if(!reviewId) return alert("No se encontro el id de la reseña")
       this.reviewsService.deleteReview(reviewId).subscribe({
         next: res => {
           if(menuToggle !== null){
@@ -32,7 +33,7 @@ export class ReviewActionsService {
           };
           this.reviewsService.getReview(user.userId).subscribe({
               next: res => {
-                reviews = res.reviews;
+                reviews = Array.isArray(res) ? res : [res];
               },
               error: err => {
                 console.log(err);
@@ -46,53 +47,56 @@ export class ReviewActionsService {
     }
   }
 
-  toggleLikeReview(liked: boolean, userId: uuid | null, reviewId: uuid, reviews: any[]){
-      if(!liked){
-        this.reviewsService.likeReview(userId, reviewId).subscribe({
-          next: res => {
-            const reviewIndex = reviews.findIndex((review) => review.id === reviewId);
-            reviews[reviewIndex].like_count = res.count;
-            reviews[reviewIndex].liked_by_current_user = true;
-          }
-        });
-      } else {
-        this.reviewsService.unlikeReview(userId, reviewId).subscribe({
-          next: res => {
-            const reviewIndex = reviews.findIndex((review) => review.id === reviewId);
-            reviews[reviewIndex].like_count = res.count;
-            reviews[reviewIndex].liked_by_current_user = false;
-          }
-        })
-      }
+  toggleLikeReview(liked: boolean, userId: uuid | null, reviewId: uuid | null, reviews: Review[]){
+    if(reviewId === null) return alert("No se encontro el id de la reseña");
+    if(!liked){
+      this.reviewsService.likeReview(userId, reviewId).subscribe({
+        next: res => {
+          const reviewIndex = reviews.findIndex((review) => review.id === reviewId);
+          reviews[reviewIndex].like_count = res.count;
+          reviews[reviewIndex].liked_by_current_user = true;
+        }
+      });
+    } else {
+      this.reviewsService.unlikeReview(userId, reviewId).subscribe({
+        next: res => {
+          const reviewIndex = reviews.findIndex((review) => review.id === reviewId);
+          reviews[reviewIndex].like_count = res.count;
+          reviews[reviewIndex].liked_by_current_user = false;
+        }
+      })
     }
+  }
   
-    toggleSaveReview(saved: boolean, userId: uuid | null, reviewId: uuid, reviews: any[]){
-      if(!saved){
-        this.reviewsService.saveReview(userId, reviewId).subscribe({
-          next: res => {
-            const reviewIndex = reviews.findIndex((review) => review.id === reviewId);
-            reviews[reviewIndex].saved_count = res.count;
-            reviews[reviewIndex].saved_by_current_user = true;
-          },
-          error: err => {
-            console.log(err);
-          }
-        });
-      } else {
-        this.reviewsService.unsaveReview(userId, reviewId).subscribe({
-          next: res => {
-            const reviewIndex = reviews.findIndex((review) => review.id === reviewId);
-            reviews[reviewIndex].saved_count = res.count;
-            reviews[reviewIndex].saved_by_current_user = false;
-          },
-          error: err => {
-            console.log(err);
-          }
-        });
-      }
+  toggleSaveReview(saved: boolean, userId: uuid | null, reviewId: uuid | null, reviews: Review[]){
+    if(reviewId === null) return alert("No se encontro el id de la reseña");
+    if(!saved){
+      this.reviewsService.saveReview(userId, reviewId).subscribe({
+        next: res => {
+          const reviewIndex = reviews.findIndex((review) => review.id === reviewId);
+          reviews[reviewIndex].saved_count = res.count;
+          reviews[reviewIndex].saved_by_current_user = true;
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+    } else {
+      this.reviewsService.unsaveReview(userId, reviewId).subscribe({
+        next: res => {
+          const reviewIndex = reviews.findIndex((review) => review.id === reviewId);
+          reviews[reviewIndex].saved_count = res.count;
+          reviews[reviewIndex].saved_by_current_user = false;
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
     }
+  }
 
-    toggleLikeReviewSingle(liked: boolean, review: any, userId: uuid | null){
+  toggleLikeReviewSingle(liked: boolean, review: Review, userId: uuid | null){
+    if(review.id === null) return alert("No se encontro el id de la reseña");
     if(!liked){
       this.reviewsService.likeReview(userId, review.id).subscribe({
         next: res => {
@@ -110,7 +114,8 @@ export class ReviewActionsService {
     }
   }
 
-  toggleSaveReviewSingle(saved: boolean, review: any, userId: uuid | null){
+  toggleSaveReviewSingle(saved: boolean, review: Review, userId: uuid | null){
+    if(review.id === null) return alert("No se encontro el id de la reseña");
     if(!saved){
       this.reviewsService.saveReview(userId, review.id).subscribe({
         next: res => {

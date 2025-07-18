@@ -18,7 +18,7 @@ export class RoutesService {
     this.router.navigate(['../user-dashboard/', userId]);
   }
 
-  goReview(reviewId: uuid){
+  goReview(reviewId: uuid | null){
     this.router.navigate(['../review/', reviewId]);
   }
 

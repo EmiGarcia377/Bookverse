@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { uuid } from '../../models/User';
+import Review from '../../models/Review';
 
 @Injectable({
   providedIn: 'root'
@@ -14,19 +15,22 @@ export class ReviewsService {
     return this.http.post<any>(`${this.apiUrl}/reviews/create`, reviewForm);
   }
 
-  getReview(userId: any){
-    return this.http.get<any>(`${this.apiUrl}/reviews/${userId}`, { params: { userId }});
+  getReview(userId: string | null){
+    if(!userId) userId = 'null'
+    return this.http.get<Review>(`${this.apiUrl}/reviews/${userId}`, { params: { userId }});
   }
 
-  getUserReviews(profileId: uuid | null, userId: any){
+  getUserReviews(profileId: uuid | null, userId: string | null){
     if (!profileId) {
       throw new Error(`El usuario con el id ${profileId} no existe`);
     }
+    if(!userId) userId = 'null';
     return this.http.get<any>(`${this.apiUrl}/reviews/getUserReviews/${profileId}/${userId}`, { params: { profileId, userId }});
   }
 
-  getReviewById(reviewId: string, userId: any){
-    return this.http.get<any>(`${this.apiUrl}/reviews/getReviewById/${reviewId}/${userId}`, { params: { reviewId, userId } });
+  getReviewById(reviewId: string, userId: string | null){
+    if(!userId) userId = 'null';
+    return this.http.get<Review>(`${this.apiUrl}/reviews/getReviewById/${reviewId}/${userId}`, { params: { reviewId, userId } });
   }
 
   getSavedReviews(userId: string | null){
@@ -34,7 +38,8 @@ export class ReviewsService {
     return this.http.get<any>(`${this.apiUrl}/reviews/getSavedReviews/${userId}`, { params: { userId }});
   }
 
-  editReview(reviewId: uuid, reviewData: any){
+  editReview(reviewId: uuid | null, reviewData: any){
+    if(!reviewId) throw new Error('No se encontro la reseña');
     return this.http.put<any>(`${this.apiUrl}/reviews/edit/${reviewId}`, reviewData, { params: { reviewId }});
   }
 
@@ -65,8 +70,8 @@ export class ReviewsService {
     return this.http.delete<any>(`${this.apiUrl}/reviews/unsave`, { body: { userId, reviewId }});
   }
 
-  createComment(userId: uuid | null, reviewId: uuid, comment: string){
-    if(!userId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
+  createComment(userId: uuid | null, reviewId: uuid | null, comment: string){
+    if(!userId || !reviewId) throw new Error('Necesitas iniciar sesion para poder realizar esta accion!');
     return this.http.post<any>(`${this.apiUrl}/reviews/comment`, { userId, reviewId, comment });
   }
 

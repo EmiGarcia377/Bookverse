@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, TemplateRef, viewChild, ViewChild, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../services/dialog.service';
 import { ReviewsService } from '../../services/reviews.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { RoutesService } from '../../services/routes.service';
+import User, { uuid } from '../../../models/User';
+import Review from '../../../models/Review';
 
 @Component({
   selector: 'app-edit-review',
@@ -20,10 +22,13 @@ export class EditReviewComponent implements OnInit{
 
   error: string = '';
   message: string = '';
-  revId: string | null = '';
-  userId: string | null = '';
-  review: any = {
+  revId: uuid | null = null;
+  user: User = { userId: null, username: '', fullName: ''};
+  review: Review | undefined = {
     id: this.revId,
+    user_id: this.user.userId,
+    full_name: '',
+    username: '',
     title: '',
     score: 0,
     content: ''
@@ -48,16 +53,18 @@ export class EditReviewComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.revId = this.route.snapshot.paramMap.get('reviewId');
-    this.userId = this.userService.getCurrentUserData();
+    this.revId = this.route.snapshot.paramMap.get('reviewId') as uuid | null;
+    this.user = this.userService.getCurrentUserData();
 
-    this.reviewService.getReviewById(this.revId!, this.userId).subscribe({
+    this.reviewService.getReviewById(this.revId!, this.user.userId).subscribe({
       next: res => {
-        this.review = res.review;
-        this.revTitle.setValue(this.review.title);
-        this.revScore.setValue(this.review.score);
-        this.revContent.setValue(this.review.content);
-        setTimeout(()=> this.ajustarAltura());
+        this.review = Array.isArray(res.reviews) ? res.reviews.find((r: Review | undefined): r is Review => r !== undefined) || this.review : res.reviews;
+        if(this.review){
+          this.revTitle.setValue(this.review.title);
+          this.revScore.setValue(this.review.score);
+          this.revContent.setValue(this.review.content);
+          setTimeout(()=> this.ajustarAltura());
+        }
       },
       error: err => {
         console.log(err);
@@ -76,6 +83,7 @@ export class EditReviewComponent implements OnInit{
   }
 
   submitRev(){
+    if(!this.review) return
     this.reviewService.editReview(this.review.id, this.editForm.value).subscribe({
       next: res => {
         this.message = res.message;

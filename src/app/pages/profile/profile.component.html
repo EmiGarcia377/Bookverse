@@ -65,7 +65,7 @@
                                 <img class="w-5 h-5" src="comments.svg" alt="">
                                 <p class="text-white">{{ review.comments_count }}</p>
                             </li>
-                            <li (click)="reviewActionsService.toggleLikeReview(review.liked_by_current_user, currentUser?.userId, review.id, reviews)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                            <li (click)="reviewActionsService.toggleLikeReview(review.liked_by_current_user ?? false, currentUser?.userId, review.id, reviews)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 @if (review.liked_by_current_user) {
                                     <img src="liked.svg" alt="">
                                 } @else {
@@ -73,7 +73,7 @@
                                 }
                                 <p class="text-white">{{ review.like_count }}</p>
                             </li>
-                            <li (click)="reviewActionsService.toggleSaveReview(review.saved_by_current_user, user.userId, review.id, reviews)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                            <li (click)="reviewActionsService.toggleSaveReview(review.saved_by_current_user ?? false, user.userId, review.id, reviews)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
                                 @if (review.saved_by_current_user) {
                                     <img src="bookmarked.svg" alt="Icono de guardado">
                                 } @else {
