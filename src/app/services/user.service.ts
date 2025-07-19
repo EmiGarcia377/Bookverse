@@ -20,6 +20,10 @@ export class UserService {
     return this.http.post<any>(`${this.apiUrl}/users/login`, userData);
   }
 
+  logoutUser(){
+    return this.http.post<any>(`${this.apiUrl}/users/logout`, {});
+  }
+
   getUser(){
     return this.http.get<User>(`${this.apiUrl}/users/getUser`);
   }

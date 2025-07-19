@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import User from '../../../models/User';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-config',
@@ -22,7 +22,7 @@ export class UserConfigComponent implements OnInit{
   emailInput: FormControl;
   passwordInput: FormControl;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
     this.fullNameInput = new FormControl('', [Validators.required, Validators.minLength(3), Validators.max(25)]);
     this.usernameInput = new FormControl('', [Validators.min(3), Validators.max(15)]);
     this.biographyInput = new FormControl('', [Validators.minLength(10), Validators.maxLength(100)]);
@@ -122,5 +122,17 @@ export class UserConfigComponent implements OnInit{
       this.emailInput.disable();
       this.emailInput.setValue(this.user.email);
     }
+  }
+
+  logout(){
+    this.userService.logoutUser().subscribe({
+      next: res => {
+        alert(res.message);
+        this.router.navigate(['../dashboard']);
+      },
+      error: err => {
+        alert(err.message);
+      }
+    })
   }
 }

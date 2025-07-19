@@ -41,6 +41,9 @@
                     <button [disabled]="userInfoForm.invalid" type="submit" class="bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 cursor-pointer">
                         Guardar cambios
                     </button>
+                    <button type="button" (click)="logout()" class="bg-amber-700 text-white px-4 py-2 rounded-md hover:bg-amber-800 cursor-pointer ml-4">
+                        Cerrar sesión
+                    </button>
                 </div>
             </form>
         </div>

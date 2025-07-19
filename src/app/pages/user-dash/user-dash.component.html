@@ -17,17 +17,17 @@
                 </div>
             </div>
             <div class="w-full flex flex-col items-start gap-1">
-                <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                <button (click)="activeSection = 'home'" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                    <img class="w-7" src="home.svg">
+                    <p class="text-white text-lg inline-block">Inicio</p>
+                </button>
+                <button (click)="activeSection = 'book tracker'" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                     <img class="w-7" src="booktracker.svg">
                     <p class="text-white text-lg inline-block">Book tracker</p>
                 </button>
-                <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                <button (click)="activeSection = 'reviews'" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                     <img class="w-7" src="post.svg">
                     <p class="text-white text-lg inline-block">Mis publicaciones</p>
-                </button>
-                <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
-                    <img class="w-7" src="notifications.svg">
-                    <p class="text-white text-lg inline-block">Notificaciones</p>
                 </button>
                 <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                     <img class="w-7" src="bookmark.svg">
@@ -50,7 +50,13 @@
             </button>
         </div>
     </nav>
-    <main class="w-4/5 flex flex-col gap-8 overflow-y-auto h-full">
-        <app-user-home></app-user-home>
+    <main class="w-4/5 flex flex-col gap-8 overflow-y-auto h-full ocultar-scroll">
+       @if (activeSection === 'home') {
+            <app-user-home></app-user-home>
+       } @else if (activeSection === 'reviews') {
+            <app-user-reviews></app-user-reviews>
+       } @else if (activeSection === 'book tracker') {
+            <app-user-book-tracker></app-user-book-tracker>
+       }
     </main>
 </div>
