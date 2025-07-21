@@ -17,23 +17,23 @@
                 </div>
             </div>
             <div class="w-full flex flex-col items-start gap-1">
-                <button (click)="activeSection = 'home'" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                <button (click)="setSection('home')" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                     <img class="w-7" src="home.svg">
                     <p class="text-white text-lg inline-block">Inicio</p>
                 </button>
-                <button (click)="activeSection = 'book tracker'" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                <button (click)="setSection('book tracker')" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                     <img class="w-7" src="booktracker.svg">
                     <p class="text-white text-lg inline-block">Book tracker</p>
                 </button>
-                <button (click)="activeSection = 'reviews'" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                <button (click)="setSection('reviews')" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                     <img class="w-7" src="post.svg">
                     <p class="text-white text-lg inline-block">Mis publicaciones</p>
                 </button>
-                <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                <button (click)="setSection('saved reviews')" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                     <img class="w-7" src="bookmark.svg">
                     <p class="text-white text-lg text-left inline-block">Publicaciones guardadas</p>
                 </button>
-                <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
+                <button (click)="setSection('favorite reviews')" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                     <img class="w-7" src="favorites.svg">
                     <p class="text-white text-lg inline-block">Favoritos</p>
                 </button>
@@ -57,6 +57,10 @@
             <app-user-reviews></app-user-reviews>
        } @else if (activeSection === 'book tracker') {
             <app-user-book-tracker></app-user-book-tracker>
+       } @else if (activeSection === 'saved reviews') {
+            <app-user-saved-reviews></app-user-saved-reviews>
+       } @else if (activeSection === 'favorite reviews') {
+            <app-user-favorite-reviews></app-user-favorite-reviews>
        }
     </main>
 </div>

@@ -5,6 +5,7 @@ import { RoutesService } from '../../services/routes.service';
 import { ReviewActionsService } from '../../services/review-actions.service';
 import { ReviewsService } from '../../services/reviews.service';
 import { UserService } from '../../services/user.service';
+import { SectionStateServiceService } from '../../services/section-state-service.service';
 
 @Component({
   selector: 'app-user-home',
@@ -23,7 +24,8 @@ export class UserHomeComponent implements OnInit {
     public routesService: RoutesService,
     public reviewActionsService: ReviewActionsService,
     private reviewsService: ReviewsService,
-    private userService: UserService
+    private userService: UserService,
+    private sectionState: SectionStateServiceService
   ) {}
  ngOnInit(): void {
   this.user = this.userService.getCurrentUserData();
@@ -35,4 +37,8 @@ export class UserHomeComponent implements OnInit {
       error: err => console.log(err)
     });
  }
+
+ setSection(section: string) {
+    this.sectionState.setSection(section);
+  }
 }

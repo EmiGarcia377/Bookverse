@@ -8,10 +8,20 @@ import Review from '../../../models/Review';
 import { UserHomeComponent } from "../../components/user-home/user-home.component";
 import { UserReviewsComponent } from '../../components/user-reviews/user-reviews.component';
 import { UserBookTrackerComponent } from '../../components/user-book-tracker/user-book-tracker.component';
+import { SectionStateServiceService } from '../../services/section-state-service.service';
+import { UserSavedReviewsComponent } from '../../components/user-saved-reviews/user-saved-reviews.component';
+import { UserFavoriteReviewsComponent } from '../../components/user-favorite-reviews/user-favorite-reviews.component';
 
 @Component({
   selector: 'app-user-dash',
-  imports: [RouterLink, UserHomeComponent, UserReviewsComponent, UserBookTrackerComponent],
+  imports: [
+    RouterLink, 
+    UserHomeComponent, 
+    UserReviewsComponent, 
+    UserBookTrackerComponent,
+    UserSavedReviewsComponent,
+    UserFavoriteReviewsComponent
+  ],
   templateUrl: './user-dash.component.html',
   styles: ``
 })
@@ -26,9 +36,14 @@ export class UserDashComponent implements OnInit{
   constructor(
     private userService: UserService, 
     public routesService: RoutesService,
-    public reviewActionsService: ReviewActionsService
+    public reviewActionsService: ReviewActionsService,
+    private sectionState: SectionStateServiceService
   ) {}
   ngOnInit(): void {
+    this.sectionState.setSection("home");
+    this.sectionState.section$.subscribe(section => {
+      this.activeSection = section;
+    });
     this.userService.getUser().subscribe({
       next: res => {
         this.message = res.message
@@ -44,5 +59,9 @@ export class UserDashComponent implements OnInit{
       }
     });
 
+  }
+
+  setSection(section: string) {
+    this.sectionState.setSection(section);
   }
 }

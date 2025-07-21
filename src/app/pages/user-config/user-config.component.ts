@@ -102,7 +102,6 @@ export class UserConfigComponent implements OnInit{
     };
     reader.readAsDataURL(file);
 
-    // Llama al servicio
     this.userService.updatepfp(file, this.user.userId).subscribe({
       next: (res) => {
         alert('Foto subida con éxito')
@@ -125,14 +124,18 @@ export class UserConfigComponent implements OnInit{
   }
 
   logout(){
-    this.userService.logoutUser().subscribe({
-      next: res => {
-        alert(res.message);
-        this.router.navigate(['../dashboard']);
-      },
-      error: err => {
-        alert(err.message);
-      }
-    })
+    const confirmLogout = confirm("¿Estas seguro de cerrar sesion?");
+    if(!confirmLogout) return
+    else{
+      this.userService.logoutUser().subscribe({
+        next: res => {
+          alert(res.message);
+          this.router.navigate(['../dashboard']);
+        },
+        error: err => {
+          alert(err.message);
+        }
+      });
+    }
   }
 }

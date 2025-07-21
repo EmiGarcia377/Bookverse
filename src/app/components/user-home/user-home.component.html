@@ -8,7 +8,7 @@
             <h3 class="text-3xl text-white font-medium p-4 mb-4">Book tracker</h3>
             <div class="flex flex-row justify-evenly">
                 <section>
-                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
                         <img class="rounded-2xl w-60 h-90" src="ElPrincipe.webp" alt="Titulo del libro">
                         <p class="text-white text-xl text-center">Titulo del libro</p>
                     </div>
@@ -20,7 +20,7 @@
                     </div>
                 </section>
                 <section>
-                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
                         <img class="rounded-2xl w-60 h-90" src="ElPoderDelAhora.webp" alt="Titulo del libro">
                         <p class="text-white text-xl text-center">Titulo del libro</p>
                     </div>
@@ -32,7 +32,7 @@
                     </div>
                 </section>
                 <section>
-                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
                         <img class="rounded-2xl w-60 h-90" src="NoMepuedesLastimar.webp" alt="Titulo del libro">
                         <p class="text-white text-xl text-center">Titulo del libro</p>
                     </div>
@@ -44,7 +44,7 @@
                     </div>
                 </section>
                 <section>
-                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
                         <img class="rounded-2xl w-60 h-90" src="NoMepuedesLastimar.webp" alt="Titulo del libro">
                         <p class="text-white text-xl text-center">Titulo del libro</p>
                     </div>
@@ -57,7 +57,7 @@
                 </section>
             </div>
             <div class="w-full flex justify-center mt-5">
-                <button class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full cursor-pointer shadow-lg/30 transition-all">
+                <button (click)="setSection('book tracker')" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full cursor-pointer shadow-lg/30 transition-all">
                     Ir a Book Tracker
                 </button>
             </div>
@@ -125,11 +125,11 @@
                     }
                 } @else {
                     <div class="w-full h-full flex items-center justify-center">
-                        <p class="text-white text-xl opacity-70 mb-4">No tienes ninguna publicacion, crea una y vealas aqui!</p>
+                        <p class="text-white text-xl text-center opacity-70 mb-4">No tienes ninguna publicacion, crea una y vealas aqui!</p>
                     </div>
                 }
                 <div class="w-full flex justify-center">
-                    <button class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full cursor-pointer shadow-lg/30 transition-all">
+                    <button (click)="setSection('reviews')" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full cursor-pointer shadow-lg/30 transition-all">
                         Ver mas
                     </button>
                 </div>
@@ -196,11 +196,11 @@
                     }
                 } @else {
                     <div class="w-full h-full flex items-center justify-center">
-                        <p class="text-white text-xl opacity-70 mb-4">No tienes ninguna publicacion guardada, explora y conoce la variedad de reseñas que hay!</p>
+                        <p class="text-white text-xl text-center opacity-70 mb-4">No tienes ninguna publicacion guardada, explora y conoce la variedad de reseñas que hay!</p>
                     </div>
                 }
                 <div class="w-full flex justify-center">
-                    <button class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full cursor-pointer shadow-lg/30 transition-all">
+                    <button (click)="setSection('saved reviews')" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full cursor-pointer shadow-lg/30 transition-all">
                         Ver mas
                     </button>
                 </div>

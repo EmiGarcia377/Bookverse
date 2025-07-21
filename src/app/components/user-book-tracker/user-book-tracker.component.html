@@ -1,7 +1,207 @@
-<div class="container mx-auto px-4 py-8 max-w-6xl">
-    <!-- Encabezado -->
-    <div class="text-center mb-12">
+<div class="container mx-auto px-4 py-8 max-w-8xl">
+    <div class="text-center mb-2">
         <h1 class="text-white text-5xl pb-4 font-bold mb-2">Book Tracker</h1>
         <p class="text-white text-lg opacity-80 ml-3">Seguimiento de tus lecturas y colección personal</p>
+    </div>
+    <div class="grid grid-cols-2 grid-rows-3 gap-2">
+        <div class="rounded-lg p-3 bg-zinc-700 min-h-150">
+            <div class="flex flex-col gap-4 h-full justify-between">
+                <div class="flex flex-row justify-between items-center">
+                    <p class="text-white text-2xl font-medium">Mis citas favoritas</p>
+                    <button class="text-3xl text-white hover:text-amber-400 hover:scale-110 transition-all rounded-full cursor-pointer">+</button>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
+                        <p class="text-white italic">"La mejor victoria es vencer sin combatir."</p>
+                        <div class="mt-2 flex items-center">
+                            <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">AP</div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-white opacity-80">El Arte de la Guerra</p>
+                                <p class="text-xs text-white opacity-70">Sun Tzu</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
+                        <p class="text-white italic">"La mejor victoria es vencer sin combatir."</p>
+                        <div class="mt-2 flex items-center">
+                            <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">AP</div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-white opacity-80">El Arte de la Guerra</p>
+                                <p class="text-xs text-white opacity-70">Sun Tzu</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
+                        <p class="text-white italic">"La mejor victoria es vencer sin combatir."</p>
+                        <div class="mt-2 flex items-center">
+                            <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">AP</div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-white opacity-80">El Arte de la Guerra</p>
+                                <p class="text-xs text-white opacity-70">Sun Tzu</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="w-full mt-6 py-2 cursor-pointer bg-amber-500 hover:bg-amber-600 text-gray-700 rounded-lg transition duration-300">
+                        Ver todas las citas
+                </button>
+            </div>
+        </div>
+        <div class="rounded-lg p-3 bg-zinc-700 min-h-150">
+            <div class="flex flex-col h-full justify-between gap-4">
+                <div class="flex flex-row justify-between">
+                    <p class="text-white text-2xl font-medium">Mis bibliotecas</p>
+                    <button class="text-3xl text-white hover:text-amber-400 hover:scale-110 transition-all rounded-full cursor-pointer">+</button>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <div class="bg-gradient-to-r from-35% from-zinc-700 to-120% to-amber-500 p-4 rounded-lg flex items-center hover:contrast-105 transition-all">
+                        <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center text-white">LA</div>
+                        <div class="ml-4 flex-1">
+                            <h3 class="font-medium text-white">Lectura Actual</h3>
+                            <p class="text-sm text-white opacity-80">5 libros en progreso</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-r from-35% from-zinc-700 to-120% to-sky-500 p-4 rounded-lg flex items-center hover:contrast-110 transition-all">
+                        <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center text-white">LA</div>
+                        <div class="ml-4 flex-1">
+                            <h3 class="font-medium text-white">Lectura Actual</h3>
+                            <p class="text-sm text-white opacity-80">5 libros en progreso</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-r from-35% from-zinc-700 to-120% to-lime-500 p-4 rounded-lg flex items-center hover:contrast-110 transition-all">
+                        <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center text-white">LA</div>
+                        <div class="ml-4 flex-1">
+                            <h3 class="font-medium text-white">Lectura Actual</h3>
+                            <p class="text-sm text-white opacity-80">5 libros en progreso</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="w-full mt-6 py-2 cursor-pointer bg-amber-500 hover:bg-amber-600 text-gray-700 rounded-lg transition duration-300">
+                    Gestionar bibliotecas
+                </button>
+            </div>
+        </div>
+        <div class="rounded-lg p-3 bg-zinc-700 min-h-70 col-span-2">
+            <div class="flex lg:flex-row lg:items-center lg:justify-between">
+                <div class="py-4 flex flex-row items-center">
+                    <img class="w-14 h-14" src="bookmarked.svg" alt="">
+                    <p class="text-white text-2xl font-medium">Mis libros en seguimiento</p>
+                </div>
+                <div class="py-4 flex flex-wrap gap-2">
+                    <button class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 transition duration-300">Todos</button>
+                    <button class="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition duration-300">En progreso</button>
+                    <button class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 transition duration-300">Completados</button>
+                </div>
+            </div>
+            <div class="rounded-xl p-4 bg-zinc-800 transition-all duration-300 hover:shadow-md hover:-translate-y-1 mb-5">
+                <div class="flex">
+                    <div class="w-16 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xl font-bold">PE</div>
+                    <div class="ml-4 flex-1">
+                        <h3 class="font-bold text-white">EL PRÍNCIPE</h3>
+                        <p class="text-sm text-white">Autor: Nicolás Maquiavelo</p>
+                        <p class="text-sm text-white">Páginas: 198</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">En progreso</span>
+                            <span class="text-xs text-gray-500">65%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rounded-xl p-4 bg-zinc-800 transition-all duration-300 hover:shadow-md hover:-translate-y-1 mb-5">
+                <div class="flex">
+                    <div class="w-16 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xl font-bold">PE</div>
+                    <div class="ml-4 flex-1">
+                        <h3 class="font-bold text-white">EL PRÍNCIPE</h3>
+                        <p class="text-sm text-white">Autor: Nicolás Maquiavelo</p>
+                        <p class="text-sm text-white">Páginas: 198</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">En progreso</span>
+                            <span class="text-xs text-gray-500">65%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rounded-xl p-4 bg-zinc-800 transition-all duration-300 hover:shadow-md hover:-translate-y-1 mb-5">
+                <div class="flex">
+                    <div class="w-16 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xl font-bold">PE</div>
+                    <div class="ml-4 flex-1">
+                        <h3 class="font-bold text-white">EL PRÍNCIPE</h3>
+                        <p class="text-sm text-white">Autor: Nicolás Maquiavelo</p>
+                        <p class="text-sm text-white">Páginas: 198</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">En progreso</span>
+                            <span class="text-xs text-gray-500">65%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <button class="px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-lg shadow transition duration-300 flex items-center justify-center mx-auto cursor-pointer">
+                    <p class="text-2xl font-bold mr-4">+</p><p>Agregar nuevo libro</p> 
+                </button>
+            </div>
+        </div>
+        <div class="rounded-lg p-3 bg-zinc-700 min-h-70 col-span-2 gap-4">
+            <div class="py-4 flex flex-row items-center">
+                <img class="w-14 h-14" src="star.svg" alt="">
+                <p class="text-white text-2xl font-medium">Mis reseñas recientes</p>
+            </div>
+            <div class="flex flex-col gap-5">
+                <div class="border-b border-zinc-800 pb-6">
+                    <div class="flex items-start">
+                        <div class="w-16 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xl font-bold">AP</div>
+                        <div class="ml-4 flex-1">
+                            <h3 class="text-xl font-bold text-white opacity-90">El Arte de la Guerra</h3>
+                            <div class="flex items-center mt-1">
+                            <span class="ml-2 text-white opacity-70">4 ⭐</span>
+                            </div>
+                            <p class="mt-3 text-white line-clamp-2">
+                                Un libro clásico que trasciende el tiempo. Las estrategias militares de Sun Tzu tienen aplicaciones sorprendentes en la vida cotidiana y los negocios. Aunque algunos conceptos pueden parecer obsoletos, la esencia de la estrategia sigue siendo relevante.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-b border-zinc-800 pb-6">
+                    <div class="flex items-start">
+                        <div class="w-16 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xl font-bold">AP</div>
+                        <div class="ml-4 flex-1">
+                            <h3 class="text-xl font-bold text-white opacity-90">El Arte de la Guerra</h3>
+                            <div class="flex items-center mt-1">
+                            <span class="ml-2 text-white opacity-70">4 ⭐</span>
+                            </div>
+                            <p class="mt-3 text-white line-clamp-2">
+                                Un libro clásico que trasciende el tiempo. Las estrategias militares de Sun Tzu tienen aplicaciones sorprendentes en la vida cotidiana y los negocios. Aunque algunos conceptos pueden parecer obsoletos, la esencia de la estrategia sigue siendo relevante.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-b border-zinc-800 pb-6">
+                    <div class="flex items-start">
+                        <div class="w-16 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xl font-bold">AP</div>
+                        <div class="ml-4 flex-1">
+                            <h3 class="text-xl font-bold text-white opacity-90">El Arte de la Guerra</h3>
+                            <div class="flex items-center mt-1">
+                            <span class="ml-2 text-white opacity-70">4 ⭐</span>
+                            </div>
+                            <p class="mt-3 text-white line-clamp-2">
+                                Un libro clásico que trasciende el tiempo. Las estrategias militares de Sun Tzu tienen aplicaciones sorprendentes en la vida cotidiana y los negocios. Aunque algunos conceptos pueden parecer obsoletos, la esencia de la estrategia sigue siendo relevante.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <button class="w-full mt-6 py-3 bg-amber-600 hover:bg-amber-700 text-gray-700 rounded-lg transition duration-300 cursor-pointer">
+                    Ver todas las reseñas
+                </button>
+            </div>
+        </div>
     </div>
 </div>
