@@ -6,6 +6,7 @@ import { uuid } from '../../../models/User';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReviewActionsService } from '../../services/review-actions.service';
 import Review from '../../../models/Review';
+import { RoutesService } from '../../services/routes.service';
 
 @Component({
   selector: 'app-review',
@@ -29,7 +30,8 @@ export class ReviewComponent implements OnInit {
     private reviewsService: ReviewsService,
     private route: ActivatedRoute, 
     private userService: UserService,
-    public reviewActionsService: ReviewActionsService
+    public reviewActionsService: ReviewActionsService,
+    public routesService: RoutesService
   ) { 
     this.commentInput = new FormControl('', [Validators.required, Validators.min(10)]);
   }

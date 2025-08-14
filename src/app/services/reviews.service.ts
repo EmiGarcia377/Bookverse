@@ -38,6 +38,11 @@ export class ReviewsService {
     return this.http.get<any>(`${this.apiUrl}/reviews/getSavedReviews/${userId}`, { params: { userId }});
   }
 
+  getLikedReviews(userId: string | null){
+    if(!userId) return
+    return this.http.get<any>(`${this.apiUrl}/reviews/getLikedReviews/${userId}`, { params: { userId }});
+  }
+
   editReview(reviewId: uuid | null, reviewData: any){
     if(!reviewId) throw new Error('No se encontro la reseña');
     return this.http.put<any>(`${this.apiUrl}/reviews/edit/${reviewId}`, reviewData, { params: { reviewId }});

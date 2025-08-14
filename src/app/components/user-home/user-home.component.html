@@ -7,54 +7,24 @@
         <div class="bg-zinc-800 rounded-xl p-3 flex flex-col">
             <h3 class="text-3xl text-white font-medium p-4 mb-4">Book tracker</h3>
             <div class="flex flex-row justify-evenly">
-                <section>
-                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
-                        <img class="rounded-2xl w-60 h-90" src="ElPrincipe.webp" alt="Titulo del libro">
-                        <p class="text-white text-xl text-center">Titulo del libro</p>
-                    </div>
-                    <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
-                        <p class="text-white text-sm">Autor:</p>
-                        <p class="text-white text-sm">Total de paginas: </p>
-                        <p class="text-white text-sm">Genero: </p>
-                        <p class="text-white text-sm">Estatus: </p>
-                    </div>
-                </section>
-                <section>
-                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
-                        <img class="rounded-2xl w-60 h-90" src="ElPoderDelAhora.webp" alt="Titulo del libro">
-                        <p class="text-white text-xl text-center">Titulo del libro</p>
-                    </div>
-                    <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
-                        <p class="text-white text-sm">Autor:</p>
-                        <p class="text-white text-sm">Total de paginas: </p>
-                        <p class="text-white text-sm">Genero: </p>
-                        <p class="text-white text-sm">Estatus: </p>
-                    </div>
-                </section>
-                <section>
-                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
-                        <img class="rounded-2xl w-60 h-90" src="NoMepuedesLastimar.webp" alt="Titulo del libro">
-                        <p class="text-white text-xl text-center">Titulo del libro</p>
-                    </div>
-                    <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
-                        <p class="text-white text-sm">Autor:</p>
-                        <p class="text-white text-sm">Total de paginas: </p>
-                        <p class="text-white text-sm">Genero: </p>
-                        <p class="text-white text-sm">Estatus: </p>
-                    </div>
-                </section>
-                <section>
-                    <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
-                        <img class="rounded-2xl w-60 h-90" src="NoMepuedesLastimar.webp" alt="Titulo del libro">
-                        <p class="text-white text-xl text-center">Titulo del libro</p>
-                    </div>
-                    <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
-                        <p class="text-white text-sm">Autor:</p>
-                        <p class="text-white text-sm">Total de paginas: </p>
-                        <p class="text-white text-sm">Genero: </p>
-                        <p class="text-white text-sm">Estatus: </p>
-                    </div>
-                </section>
+                @if (books.length) {
+                    @for (book of books; track $index) {
+                        <section>
+                            <div class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                                <img class="rounded-2xl w-60 h-90" [src]="book.thumbnail_url" alt="Titulo del libro">
+                                <p class="text-white text-xl text-center line-clamp-1">{{ book.title }}</p>
+                            </div>
+                            <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
+                                <p class="text-white text-sm">Autor: {{ book.authors[0] }}</p>
+                                <p class="text-white text-sm">Total de paginas: {{ book.num_pages }}</p>
+                                <p class="text-white text-sm">Genero: {{ book.categories?.join(', ') }}</p>
+                                <p class="text-white text-sm">Estatus: {{ book.status }}</p>
+                            </div>
+                        </section>
+                    }
+                } @else {
+                    <p class="text-center text-white text-3xl opacity-70">No tienes libros agregados! Agrega cualquier libro que quieras y visualizalo aqui</p>
+                }
             </div>
             <div class="w-full flex justify-center mt-5">
                 <button (click)="setSection('book tracker')" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full cursor-pointer shadow-lg/30 transition-all">
@@ -63,7 +33,7 @@
             </div>
         </div>
         <div class="mt-4 grid grid-cols-2 gap-4">
-            <div class="bg-zinc-800 rounded-xl p-3 flex flex-col">
+            <div class="bg-zinc-800 rounded-xl p-3 flex flex-col justify-between">
                 <h3 class="text-3xl text-white font-medium p-4 mb-4">Publicaciones recientes</h3>
                 @if (recentReviews.length !== 0) {
                     @for (review of recentReviews; track $index) {
@@ -93,7 +63,7 @@
                                 </div>
                                 <p class="text-white text-xl font-bold pb-2"> {{ review.title }}</p>
                                 <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
-                                <p class="text-white line-clamp-15">
+                                <p class="text-white line-clamp-10">
                                     {{ review.content }}
                                 </p>
                             </div>
@@ -134,7 +104,7 @@
                     </button>
                 </div>
             </div>
-            <div class="bg-zinc-800 rounded-xl p-3 flex flex-col">
+            <div class="bg-zinc-800 rounded-xl p-3 flex flex-col justify-between">
                 <h3 class="text-3xl text-white font-medium p-4 mb-4">Publicaciones guardadas</h3>
                 @if (recentSaved.length !== 0) {
                     @for (review of recentSaved; track $index) {
@@ -164,7 +134,7 @@
                                 </div>
                                 <p class="text-white text-xl font-bold pb-2"> {{ review.title }}</p>
                                 <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
-                                <p class="text-white line-clamp-15">
+                                <p class="text-white line-clamp-10">
                                     {{ review.content }}
                                 </p>
                             </div>

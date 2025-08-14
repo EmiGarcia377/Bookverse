@@ -1,1 +1,77 @@
-<p>user-favorite-reviews works!</p>
+<div class="container mx-auto px-4 py-8">
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-3xl font-bold text-white">Visualiza aqui todos tus me gusta!</h1>
+        </div>
+    </div>
+    <div class="flex space-x-4 mb-6">
+        <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 transition-colors">Todos</button>
+        <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 transition-colors">Recientes</button>
+        <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 transition-colors">Mejor valorados</button>
+    </div>
+    <div class="flex flex-col items-center space-y-6">
+        @if (reviews.length !== 0) {
+            @for (review of reviews; track $index) {
+                <section class="flex flex-col gap-7 w-full rounded-3xl bg-zinc-700 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
+                    <div (click)="routesService.goReview(review.id)">
+                        <div class="flex flex-row justify-between items-center pb-3">
+                            <div (click)="routesService.goProfile(review.user_id)" class="items-center flex flex-row gap-3 pb-3">
+                                <img class="rounded-full w-13 h-13" [src]="review.profilepic_url || 'userDef.png'" alt="User profile photo">
+                                <div class="flex flex-col hover:cursor-pointer">
+                                    <p class="text-white font-bold hover:underline hover:cursor-pointer">{{ review.full_name }}</p>
+                                    <p class="text-white opacity-80 font-light">{{ '@' + review.username }}</p>
+                                </div>
+                            </div>
+                            @if (review.username === user.username) {
+                                <div (click)="$event.stopPropagation()" (click)="reviewActionsService.toggleMenu($index, menuToggle)" class="inline-block text-left z-100 p-3" #menuContainer>
+                                    <button  class="p-2 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                    @if (menuToggle === $index) {
+                                        <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
+                                            <ul class="py-1">
+                                                <li (click)="reviewActionsService.editReview(menuToggle, reviews)" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                <li (click)="reviewActionsService.delReview(menuToggle, reviews, user)" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                            </ul>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <p class="text-white text-xl font-bold pb-2"> {{ review.title }}</p>
+                        <p class="text-white opacity-85 pb-2 italic">Puntuacion: {{ review.score }} ⭐</p>
+                        <p class="text-white line-clamp-15">
+                            {{ review.content }}
+                        </p>
+                    </div>
+                    <div class="p-2">
+                            <ul class="flex flex-row gap-2">
+                                <li (click)="routesService.goReview(review.id)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                    <img class="w-5 h-5" src="comments.svg" alt="">
+                                    <p class="text-white">{{ review.comments_count }}</p>
+                                </li>
+                                <li (click)="reviewActionsService.toggleLikeReview(review.liked_by_current_user ?? false, user.userId, review.id, reviews)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                    @if (review.liked_by_current_user) {
+                                        <img src="liked.svg" alt="">
+                                    } @else {
+                                        <img class="w-5 h-5" src="favorites.svg" alt="">
+                                    }
+                                    <p class="text-white">{{ review.like_count }}</p>
+                                </li>
+                                <li (click)="reviewActionsService.toggleSaveReview(review.saved_by_current_user ?? false, user.userId, review.id, reviews)" class="flex flex-row items-center gap-1.5 p-2 rounded-full hover:bg-zinc-800 hover:shadow-xl/30 transition-all ease-in">
+                                    @if (review.saved_by_current_user) {
+                                        <img src="bookmarked.svg" alt="Icono de guardado">
+                                    } @else {
+                                        <img class="w-5 h-5" src="bookmarkRev.svg" alt="Icono de guardados">
+                                    }
+                                    <p class="text-white">{{ review.saved_count }}</p>
+                                </li>
+                            </ul>
+                        </div>
+                </section>
+            }
+        } @else {
+            <div class="w-full h-full flex items-center justify-center">
+                <p class="text-white text-xl opacity-70 mb-4">No tienes ninguna publicacion guardada, explora y conoce la variedad de reseñas que hay!</p>
+            </div>
+        }
+    </div>
+</div>

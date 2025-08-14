@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import User, { uuid } from '../../models/User';
-import { param } from 'jquery';
 
 @Injectable({
   providedIn: 'root'

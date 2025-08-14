@@ -1,0 +1,123 @@
+<div class="flex flex-row justify-items-start w-full px-5 py-6">
+    <button (click)="setSection('book tracker')" class="p-1 rounded-full cursor-pointer hover:bg-zinc-600 hover:scale-105 transition-all ease-in-out"><img src="arrow_left.svg" alt=""></button>
+</div>
+<div class="px-10 flex flex-col flex-wrap">
+    <div class="flex flex-row justify-between mb-8">
+        <h1 class="text-3xl font-bold text-white">Mis libros guardados</h1>
+        <div (click)="openNewBookModal()" class="bg-amber-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-amber-600 hover:shadow-lg/30 hover:-translate-y-1 transition-all ease-in-out">
+            Agregar libro
+        </div>
+    </div>
+    <app-add-book-modal #addBookModal (closeModal)="closeNewBookModal()" (addBook)="setBookList($event)"></app-add-book-modal>
+    <div class="flex flex-col gap-8 w-full pb-8">
+        <div class="flex flex-row justify-between items-center">
+            <h2 class="text-2xl font-medium text-white">- Leidos</h2>
+            <p class="text-xl font-normal text-white opacity-90">Libros: {{ completedBooks.length }}</p>
+        </div>
+        <div class="flex flex-row flex-wrap gap-8">
+            @if (completedBooks.length) {
+                @for (book of completedBooks; track $index) {
+                    <section>
+                        <div (click)="openBookModal(book)" class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                            <img class="rounded-2xl w-60 h-90" [src]="book.thumbnail_url" alt="Titulo del libro">
+                            <p class="text-white text-xl text-center line-clamp-1">{{ book.title }}</p>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
+                            <p class="text-white text-sm">Autor: {{ book.authors[0] }}</p>
+                            <p class="text-white text-sm">Total de paginas: {{ book.num_pages }}</p>
+                            <p class="text-white text-sm">Genero: {{ book.authors?.join(', ') }}</p>
+                            <p class="text-white text-sm">Estatus: {{ book.status }}</p>
+                        </div>
+                    </section>
+                }
+            } @else {
+                <div class="w-full">
+                    <p class="text-center text-white text-3xl opacity-70">No tienes libros completados hasta el momento</p>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="flex flex-col gap-8 w-full pb-8">
+        <div class="flex flex-row justify-between items-center">
+            <h2 class="text-2xl font-medium text-white">- En progreso</h2>
+            <p class="text-xl font-normal text-white opacity-90">Libros: {{ progresBooks.length }}</p>
+        </div>
+        <div class="flex flex-row flex-wrap gap-8">
+            @if (progresBooks.length) {
+                @for (book of progresBooks; track $index) {
+                    <section>
+                        <div (click)="openBookModal(book)" class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                            <img class="rounded-2xl w-60 h-90" [src]="book.thumbnail_url" alt="Titulo del libro">
+                            <p class="text-white text-xl text-center line-clamp-1">{{ book.title }}</p>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
+                            <p class="text-white text-sm">Autor: {{ book.authors[0] }}</p>
+                            <p class="text-white text-sm">Total de paginas: {{ book.num_pages }}</p>
+                            <p class="text-white text-sm">Genero: {{ book.authors?.join(', ') }}</p>
+                            <p class="text-white text-sm">Estatus: {{ book.status }}</p>
+                        </div>
+                    </section>
+                }
+            } @else {
+                <div class="w-full">
+                    <p class="text-center text-white text-3xl opacity-70">No tienes libros en progreso ahora</p>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="flex flex-col gap-8 w-full pb-8">
+        <div class="flex flex-row justify-between items-center">
+            <h2 class="text-2xl font-medium text-white">- Sin leer</h2>
+            <p class="text-xl font-normal text-white opacity-90">Libros: {{ unreadBooks.length }}</p>
+        </div>
+        <div class="flex flex-row flex-wrap gap-8">
+            @if (unreadBooks.length) {
+                @for (book of unreadBooks; track $index) {
+                    <section>
+                        <div (click)="openBookModal(book)" class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                            <img class="rounded-2xl w-60 h-90" [src]="book.thumbnail_url" alt="Titulo del libro">
+                            <p class="text-white text-xl text-center line-clamp-1">{{ book.title }}</p>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
+                            <p class="text-white text-sm">Autor: {{ book.authors[0] }}</p>
+                            <p class="text-white text-sm">Total de paginas: {{ book.num_pages }}</p>
+                            <p class="text-white text-sm">Genero: {{ book.authors?.join(', ') }}</p>
+                            <p class="text-white text-sm">Estatus: {{ book.status }}</p>
+                        </div>
+                    </section>
+                }
+            } @else {
+                <div class="w-full">
+                    <p class="text-center text-white text-3xl opacity-70">No tienes libros por leer, sigue asi!</p>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="flex flex-col gap-8 w-full pb-8">
+        <div class="flex flex-row justify-between items-center">
+            <h2 class="text-2xl font-medium text-white">- Todos</h2>
+            <p class="text-xl font-normal text-white opacity-90">Libros: {{ allBooks.length }}</p>
+        </div>
+        <div class="flex flex-row flex-wrap gap-8">
+            @if (allBooks.length) {
+                @for (book of allBooks; track $index) {
+                    <section>
+                        <div (click)="openBookModal(book)" class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                            <img class="rounded-2xl w-60 h-90" [src]="book.thumbnail_url" alt="Titulo del libro">
+                            <p class="text-white text-xl text-center line-clamp-1">{{ book.title }}</p>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
+                            <p class="text-white text-sm">Autor: {{ book.authors[0] }}</p>
+                            <p class="text-white text-sm">Total de paginas: {{ book.num_pages }}</p>
+                            <p class="text-white text-sm">Genero: {{ book.authors?.join(', ') }}</p>
+                            <p class="text-white text-sm">Estatus: {{ book.status }}</p>
+                        </div>
+                    </section>
+                }
+            } @else {
+                <p class="text-center text-white text-3xl opacity-70">No tienes libros agregados! Agrega cualquier libro que quieras y visualizalo aqui</p>
+            }
+        </div>
+    </div>
+    <app-book-modal #bookModal (closeModal)="closeBookModal()"></app-book-modal>
+</div>

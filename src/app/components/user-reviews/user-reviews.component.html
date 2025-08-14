@@ -12,7 +12,7 @@
         <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 transition-colors">Recientes</button>
         <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 transition-colors">Mejor valorados</button>
     </div>
-    <div class="flex flex-col items-center space-y-6">
+    <div class="flex flex-col items-center space-y-6 h-full">
         @if (reviews.length !== 0) {
             @for (review of reviews; track $index) {
                 <section class="flex flex-col gap-7 w-full rounded-3xl bg-zinc-700 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
@@ -72,7 +72,7 @@
                 </section>
             }
         } @else {
-            <div class="w-full h-full flex items-center justify-center">
+            <div class="w-full h-full flex items-center justify-center py-10">
                 <p class="text-white text-xl opacity-70 mb-4">No tienes ninguna publicacion, crea una y vealas aqui!</p>
             </div>
         }

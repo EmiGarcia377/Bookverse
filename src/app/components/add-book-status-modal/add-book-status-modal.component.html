@@ -1,0 +1,25 @@
+@if (isOpen) {
+    <div (click)="close()" class="absolute inset-0 bg-black/40  flex justify-center items-center z-50">
+        <div (click)="$event.stopPropagation()" class="bg-zinc-700 rounded-lg p-6 w-full max-w-2xl relative">
+            <button (click)="close()" class="absolute top-5 right-5 text-white hover:text-red-400 text-xl transition-colors font-bold">x</button>
+            <h2 class="text-xl font-semibold mb-4 text-white">Agregar nuevo status a un libro</h2>
+            <form class="space-y-4">
+                <p class="text-white font-semibold mb-2">Selecciona un libro:</p>
+                <select [(ngModel)]="selectedBook" class="w-full p-2 inset-shadow-sm inset-shadow-zinc-900 rounded-xl bg-zinc-800 outline-1 outline-zinc-700 text-white mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400 transition-all ease-out" name="status" required>
+                    <option value="" disabled selected>Selecciona un libro</option>
+                    @for (book of allBooks; track $index) {
+                        <option [value]="book.id">{{ book.title }}</option>
+                    }
+                </select>
+                <p class="text-white font-semibold mb-2">Selecciona un status:</p>
+                <select [(ngModel)]="status" class="w-full p-2 inset-shadow-sm inset-shadow-zinc-900 rounded-xl bg-zinc-800 outline-1 outline-zinc-700 text-white mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400 transition-all ease-out" name="status" required>
+                    <option value="" disabled selected>Estado</option>
+                    <option value="Leido">Leido</option>
+                    <option value="En progreso">En progreso</option>
+                    <option value="Sin leer">Sin leer</option>
+                </select>
+                <button (click)="updateStatus()" type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded">Guardar libro</button>
+            </form>
+        </div>
+    </div>
+}

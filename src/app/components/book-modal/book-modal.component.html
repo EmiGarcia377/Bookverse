@@ -1,0 +1,40 @@
+@if (isOpen) {
+    <div (click)="close()" class="absolute inset-0 bg-black/40  flex justify-center items-center z-50">
+        <div (click)="$event.stopPropagation()" class="bg-zinc-700 rounded-xl p-6 w-full max-w-4xl max-h-2xl relative">
+            <button (click)="close()" class="absolute top-5 right-5 text-white hover:text-red-400 text-xl transition-colors font-bold">x</button>
+            <div class="grid grid-cols-2 justify-evenly w-11/12 gap-1 max-h-3xl">
+                <div class="flex flex-col justify-center gap-2 items-center">
+                    <img [src]="book.thumbnail_url" alt="{{ book.title }}" class="rounded-2xl w-60 h-90 mr-1">
+                    <div class="flex flex-row justify-evenly items-center w-full">
+                        <p class="text-lg text-white opacity-90">Progreso:</p>
+                        <div class="w-60 h-2 bg-gray-300 rounded-full">
+                            <div class="bg-gradient-to-r from-0% from-amber-700 to-50% to-amber-400 h-full rounded-full max-w-full" [style.width.%]="(book.actual_page / book.num_pages) * 100"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center items-center overflow-y-scroll p-3 ocultar-scroll">
+                    <div class="flex flex-col gap-2">
+                        <h2 class="text-3xl font-bold text-white text-center mb-2">{{ book.title }}</h2>
+                        <div class="flex justify-evenly items-center">
+                            <p class="text-lg text-white opacity-90 mb-2">Paginas: {{ book.num_pages }}</p>
+                            <p class="text-lg text-white opacity-90 mb-2">Generos: {{ book.categories?.join(', ') }}</p>
+                        </div>
+                        <div>
+                            <p class="text-lg text-white mb-2">Estatus: <span class="bg-zinc-800 rounded-full hover:shadow-xl/30 hover:shadow-zinc-800 py-2 px-4 transition-shadow ease-in">{{ book.status }}</span></p>
+                        </div>
+                        <div class="flex flex-col gap-2 justify-evenly">
+                            <p class="text-yellow-400 font-semibold">Autor(es): {{ book.authors }}</p>
+                            <p class="text-yellow-400 font-semibold">Descripcion:</p>
+                            <p class="text-gray-300 text-lg text-justify">{{ book.description }}</p>
+                            <div class="flex flex-row gap-2 items-center justify-between">
+                                <p class="text-white mb-2">Pagina actual:</p><input type="number" [(ngModel)]="book.actual_page" min="0" max="{{ book.num_pages }}" value="{{ book.actual_page }}" class="w-full p-2 rounded-lg bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors">
+                                <button (click)="updateActualPages()" class="w-1/4 py-2 cursor-pointer bg-amber-500 hover:bg-amber-600 text-gray-700 rounded-lg transition duration-300">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

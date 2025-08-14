@@ -40,10 +40,6 @@
             </div>
         </div>
         <div class="w-3/4 flex flex-col gap-2">
-            <button class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
-                    <img class="w-7" src="feedback.svg">
-                    <p class="text-white text-lg inline-block">Feedback</p>
-            </button>
             <button routerLink="../../user-config" class=" flex flex-row gap-3 items-center rounded-2xl p-3 w-full cursor-pointer hover:scale-105 hover:bg-neutral-900 transition-all ease-in-out">
                     <img class="w-7" src="settings.svg">
                     <p class="text-white text-lg inline-block">Configuracion</p>
@@ -61,6 +57,8 @@
             <app-user-saved-reviews></app-user-saved-reviews>
        } @else if (activeSection === 'favorite reviews') {
             <app-user-favorite-reviews></app-user-favorite-reviews>
+       } @else if(activeSection === 'book list') {
+            <app-user-book-list></app-user-book-list>
        }
     </main>
 </div>
