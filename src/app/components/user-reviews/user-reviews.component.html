@@ -15,7 +15,7 @@
     <div class="flex flex-col items-center space-y-6 h-full">
         @if (reviews.length !== 0) {
             @for (review of reviews; track $index) {
-                <section class="flex flex-col gap-7 w-full rounded-3xl bg-zinc-700 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
+                <section class="flex flex-col gap-7 w-full rounded-3xl bg-zinc-700 border-1 border-zinc-600 shadow-xs shadow-zinc-500 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
                     <div (click)="routesService.goReview(review.id)">
                         <div class="flex flex-row justify-between items-center pb-3">
                             <div (click)="routesService.goProfile(review.user_id)" class="items-center flex flex-row gap-3 pb-3">

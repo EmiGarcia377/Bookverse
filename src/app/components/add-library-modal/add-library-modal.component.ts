@@ -12,10 +12,12 @@ import { UserService } from '../../services/user.service';
 })
 export class AddLibraryModalComponent{
   @Output() closeModal = new EventEmitter<void>();
+  @Output() createdLibrary = new EventEmitter<void>();
 
   libraryForm: FormGroup;
   libraryTitle: FormControl;
   libraryDesc: FormControl;
+  libraryColor: FormControl;
 
   isOpen = false;
   user: User = { userId: null, fullName: null, username: null };
@@ -23,9 +25,11 @@ export class AddLibraryModalComponent{
   constructor(private booksService: BooksService, private userService: UserService) {
     this.libraryTitle = new FormControl('', [Validators.required, Validators.minLength(3)]);
     this.libraryDesc = new FormControl('');
+    this.libraryColor = new FormControl('#FE9A00');
     this.libraryForm = new FormGroup({
       name: this.libraryTitle,
-      description: this.libraryDesc
+      description: this.libraryDesc,
+      color: this.libraryColor
     });
   }
 
@@ -44,6 +48,9 @@ export class AddLibraryModalComponent{
     this.booksService.createLibrary(this.user.userId, this.libraryForm.value).subscribe({
       next: res => {
         alert(res.message);
+        const library = {...res.library};
+        library.book_count = 0;
+        this.createdLibrary.emit(library);
         this.close();
       },
       error: err => {

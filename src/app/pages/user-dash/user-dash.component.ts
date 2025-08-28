@@ -12,6 +12,7 @@ import { SectionStateServiceService } from '../../services/section-state-service
 import { UserSavedReviewsComponent } from '../../components/user-saved-reviews/user-saved-reviews.component';
 import { UserFavoriteReviewsComponent } from '../../components/user-favorite-reviews/user-favorite-reviews.component';
 import { UserBookListComponent } from '../../components/user-book-list/user-book-list.component';
+import { UserBookLibrariesComponent } from '../../components/user-book-libraries/user-book-libraries.component';
 
 @Component({
   selector: 'app-user-dash',
@@ -22,7 +23,8 @@ import { UserBookListComponent } from '../../components/user-book-list/user-book
     UserBookTrackerComponent,
     UserSavedReviewsComponent,
     UserFavoriteReviewsComponent,
-    UserBookListComponent
+    UserBookListComponent,
+    UserBookLibrariesComponent
   ],
   templateUrl: './user-dash.component.html',
   styles: ``

@@ -32,12 +32,12 @@ export class UserBookListComponent implements OnInit{
     if(this.user.userId){
       this.booksService.getUserBooks(this.user.userId).subscribe({
         next: res => {
-          console.log(res);
           this.allBooks = res.books
           this.loadProgress();
         },
         error: err => console.log(err)
       });
+      
     }
   }
 
@@ -50,8 +50,7 @@ export class UserBookListComponent implements OnInit{
   }
 
   openBookModal(book: any) {
-    this.bookModal.open();
-    this.bookModal.book = book;
+    this.bookModal.open(book);
   }
 
   closeBookModal(){

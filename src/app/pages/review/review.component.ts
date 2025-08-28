@@ -33,7 +33,7 @@ export class ReviewComponent implements OnInit {
     public reviewActionsService: ReviewActionsService,
     public routesService: RoutesService
   ) { 
-    this.commentInput = new FormControl('', [Validators.required, Validators.min(10)]);
+    this.commentInput = new FormControl('', [Validators.required, Validators.minLength(10)]);
   }
 
   ngOnInit(): void {

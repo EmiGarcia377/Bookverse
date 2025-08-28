@@ -53,7 +53,6 @@ export class DashboardComponent implements OnInit {
         this.reviewsService.getReview(this.user.userId).subscribe({
           next: res => {
             this.reviews = Array.isArray(res.reviews) ? res.reviews.filter((r: Review | undefined): r is Review => r !== undefined) : [];
-            console.log(res);
           },
           error: err => console.log(err)
         });

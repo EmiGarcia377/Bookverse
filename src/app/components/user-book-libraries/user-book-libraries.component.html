@@ -1,0 +1,62 @@
+<div class="flex flex-row justify-items-start w-full px-2 pt-3">
+    <button (click)="setSection('book tracker')" class="p-1 rounded-full cursor-pointer hover:bg-zinc-600 hover:scale-105 transition-all ease-in-out"><img src="arrow_left.svg" alt=""></button>
+</div>
+<div class="px-10 p-5 flex flex-col flex-wrap gap-3">
+    <div class="flex flex-col items-center mb-8">
+        <h1 class="text-4xl font-bold text-center text-white">Mis Bibliotecas Personalizadas</h1>
+        <p class="text-white mt-2">Gestiona y organiza tu colección personal de libros</p>
+    </div>
+    @if (customLibraries.length) {
+        @for (library of customLibraries; track $index) {
+            <div class="flex flex-col gap-8 w-full pb-8 bg-zinc-600 rounded-3xl">
+                <div [style.background-color]="library.library_color" class="flex flex-col justify-between gap-2 p-3 rounded-t-3xl shadow-lg/30">
+                    <div class="w-full flex flex-row justify-between items-center">
+                        <h2 class="text-2xl font-medium text-white">- {{ library.library_name }}</h2>
+                        <button class="p-2 cursor-pointer rounded-full hover:bg-black/20 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                    </div>
+                    <div class="w-full flex flex-row justify-between">
+                        <p class="pl-5 w-1/2 text-white opacity-90">{{ library.library_description }}</p>
+                        <p class="text-xl font-normal text-white opacity-90">Libros: {{ library.book_count }}</p>
+                    </div>
+                </div>
+                <div class="flex flex-row flex-wrap gap-8 px-4">
+                    @if (library.books.length) {
+                        @for (book of library.books; track $index) {
+                            <section>
+                                <div (click)="openBookModal(book)" class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                                    <img class="rounded-2xl w-60 h-90" [src]="book.thumbnail_url" alt="Titulo del libro">
+                                    <p class="text-white text-xl text-center line-clamp-1">{{ book.title }}</p>
+                                </div>
+                                <div class="flex flex-col gap-1.5 bg-zinc-900 p-2 rounded-lg">
+                                    <p class="text-white text-sm">Autor: {{ book.authors[0] }}</p>
+                                    <p class="text-white text-sm">Total de paginas: {{ book.num_pages }}</p>
+                                    <p class="text-white text-sm">Genero: {{ book.authors?.join(', ') }}</p>
+                                    <p class="text-white text-sm">Estatus: {{ book.status }}</p>
+                                </div>
+                            </section>
+                        }
+                    } @else {
+                        <div class="w-full">
+                            <p class="text-center text-white text-3xl opacity-70">No tienes libros guardados en esta libreria</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    } @else {
+        <div class="flex flex-col gap-8 w-full pb-8 bg-zinc-600 rounded-3xl">
+            <div class="flex flex-col bg-amber-500 justify-between gap-2 p-3 rounded-t-3xl shadow-lg/30">
+                <div class="w-full flex flex-row justify-between items-center">
+                    <h2 class="text-2xl font-medium text-white">- Libreria personalizada</h2>
+                </div>
+                <div class="w-full flex flex-row justify-between">
+                    <p class="pl-5 w-1/2 text-white opacity-90">Parece que por el momento no tienes ninguna libreria personalizada. Empieza creando tus librerias personalizadas y visualizalas aqui!</p>
+                    <p class="text-xl font-normal text-white opacity-90">Libros: 0</p>
+                </div>
+            </div>
+            <div class="flex flex-row flex-wrap gap-8 px-4">
+            </div>
+        </div>
+    }
+    <app-book-modal #bookModal (closeModal)="closeBookModal()"></app-book-modal>
+</div>

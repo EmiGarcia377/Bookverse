@@ -1,20 +1,26 @@
 @if (isOpen) {
-    <div (click)="close()" class="absolute inset-0 bg-black/40  flex justify-center items-center z-50">
-        <div (click)="$event.stopPropagation()" class="bg-zinc-700 rounded-xl p-6 w-full max-w-4xl max-h-2xl relative">
-            <button (click)="close()" class="absolute top-5 right-5 text-white hover:text-red-400 text-xl transition-colors font-bold">x</button>
-            <div class="grid grid-cols-2 justify-evenly w-11/12 gap-1 max-h-3xl">
-                <div class="flex flex-col justify-center gap-2 items-center">
-                    <img [src]="book.thumbnail_url" alt="{{ book.title }}" class="rounded-2xl w-60 h-90 mr-1">
+    <div (click)="close()" class="absolute max-h-screen inset-0 bg-black/40 flex justify-center items-center z-50">
+        <div (scroll)="onScroll($event)" (click)="$event.stopPropagation()" class="bg-zinc-700 rounded-xl p-6 w-full max-w-4xl max-h-4/5 relative overflow-y-scroll ocultar-scroll">
+            <button (click)="close()" class="z-100 absolute text-white hover:text-red-400 text-xl transition-colors font-bold">x</button>
+            @if (showFloatingTitle) {
+                <div class="sticky z-50 top-0 w-full rounded-full bg-zinc-800 p-2 shadow-lg/20 text-center text-white font-bold text-lg">
+                    {{ book.title }}
+                </div>
+            }
+            <div class="grid grid-cols-2 justify-evenly items-center w-11/12 gap-1 max-h-3xl">
+                <div class="flex flex-col justify-evenly gap-2 items-center">
+                    <img [src]="book.thumbnail_url" alt="{{ book.title }}" class="rounded-2xl w-60 h-90">
                     <div class="flex flex-row justify-evenly items-center w-full">
+                        <img src="progress.svg" alt="Icono de progreso" class="w-8 h-8">
                         <p class="text-lg text-white opacity-90">Progreso:</p>
                         <div class="w-60 h-2 bg-gray-300 rounded-full">
                             <div class="bg-gradient-to-r from-0% from-amber-700 to-50% to-amber-400 h-full rounded-full max-w-full" [style.width.%]="(book.actual_page / book.num_pages) * 100"></div>
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col justify-center items-center overflow-y-scroll p-3 ocultar-scroll">
+                <div class="flex flex-col justify-center items-center overflow-y-scroll max-h-full p-3 ocultar-scroll">
                     <div class="flex flex-col gap-2">
-                        <h2 class="text-3xl font-bold text-white text-center mb-2">{{ book.title }}</h2>
+                        <h2 #mainTitle class="text-3xl font-bold text-white text-center mb-2">{{ book.title }}</h2>
                         <div class="flex justify-evenly items-center">
                             <p class="text-lg text-white opacity-90 mb-2">Paginas: {{ book.num_pages }}</p>
                             <p class="text-lg text-white opacity-90 mb-2">Generos: {{ book.categories?.join(', ') }}</p>
@@ -23,17 +29,153 @@
                             <p class="text-lg text-white mb-2">Estatus: <span class="bg-zinc-800 rounded-full hover:shadow-xl/30 hover:shadow-zinc-800 py-2 px-4 transition-shadow ease-in">{{ book.status }}</span></p>
                         </div>
                         <div class="flex flex-col gap-2 justify-evenly">
-                            <p class="text-yellow-400 font-semibold">Autor(es): {{ book.authors }}</p>
-                            <p class="text-yellow-400 font-semibold">Descripcion:</p>
+                            <div class="flex flex-row items-center gap-1">
+                                <img src="author.svg" alt="Icono de autor">
+                                <p class="text-yellow-400 font-semibold">Autor(es): {{ book.authors }}</p>
+                            </div>
+                            <div class="flex flex-row items-center gap-1">
+                                <img src="desc.svg" alt="Icono de descripcion">
+                                <p class="text-yellow-400 font-semibold">Descripcion:</p>
+                            </div>
                             <p class="text-gray-300 text-lg text-justify">{{ book.description }}</p>
                             <div class="flex flex-row gap-2 items-center justify-between">
-                                <p class="text-white mb-2">Pagina actual:</p><input type="number" [(ngModel)]="book.actual_page" min="0" max="{{ book.num_pages }}" value="{{ book.actual_page }}" class="w-full p-2 rounded-lg bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors">
+                                <p class="text-white mb-2">Pagina actual:</p><input type="number" [(ngModel)]="book.actual_page" min="0" max="{{ book.num_pages }}" value="{{ book.actual_page }}" class="w-full p-2 rounded-lg bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all">
                                 <button (click)="updateActualPages()" class="w-1/4 py-2 cursor-pointer bg-amber-500 hover:bg-amber-600 text-gray-700 rounded-lg transition duration-300">Confirmar</button>
                             </div>
                         </div>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex flex-row items-center justify-between">
+                                <h2 class="text-lg text-white">Librerias:</h2>
+                                <button (click)="openLibraryModal()" class="p-1 cursor-pointer bg-amber-500 hover:bg-amber-600 text-gray-700 rounded-lg transition duration-300">Agregar biblioteca</button>
+                            </div>
+                            @if (bookLibraries.length) {
+                                 @for (library of bookLibraries; track $index) {
+                                    <div class="bg-gradient-to-r from-35% from-zinc-700 to-120% to-amber-500 p-4 rounded-lg flex items-center hover:contrast-105 transition-all">
+                                        <div class="w-10 h-10 bg-gradient-to-r from-amber-600 to-amber-400 text-white rounded-lg flex items-center justify-center">{{ library.abreviation }}</div>
+                                        <div class="ml-4 flex-1">
+                                            <h3 class="font-medium text-white">{{ library.name }}</h3>
+                                            <p class="text-sm text-white opacity-80">{{ library.book_count }} libros en esta libreria</p>
+                                        </div>
+                                    </div>
+                                }
+                            } @else {
+                                <p class="text-sm text-white opacity-80 text-center">Este libro no esta guardado en ninguna libreria</p>
+                            }
+                        </div>
                     </div>
-
+                    @if(changeLibrary){
+                        <div class="absolute max-h-full inset-0 bg-black/60  flex justify-center items-center z-70">
+                            <div class="relative w-xl h-96 bg-zinc-700 rounded-xl p-6">
+                                <button (click)="changeLibrary = false" class="absolute left-5 text-white hover:text-red-400 text-xl transition-colors font-bold">x</button>
+                                <h2 class="text-xl text-white font-bold text-center">Agregar biblioteca</h2>
+                                <div class="flex flex-col gap-2 py-4">
+                                    <p class="text-white font-medium text-lg">Bibliotecas</p>
+                                    <input type="text" placeholder="Busca una de tus librerias personalizadas" class="w-full bg-zinc-800 p-2 rounded-lg inset-shadow-sm inset-shadow-zinc-900 hover:inset-shadow-none hover:shadow-lg/20 hover:shadow-zinc-900 focus:outline-0 focus:shadow-zinc-900 focus:shadow-lg/20 focus-within:ring-2 focus-within:ring-amber-400 transition-all ease-out text-white">
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <ul class="bg-zinc-800 rounded-lg mt-2 max-h-50 overflow-y-auto">
+                                        @if(libraries.length){
+                                            @for (library of libraries; track $index) {
+                                                <li (click)="addbookToLib(library.id)" class="p-2 flex flex-row gap-2 items-center hover:bg-zinc-600 transition-colors cursor-pointer">
+                                                    <div class="w-10 h-10 bg-gradient-to-r from-amber-600 to-amber-400 text-white rounded-lg flex items-center justify-center">{{ library.abreviation }}</div>
+                                                    <div class="flex flex-col w-4/5 gap-1 p-2">
+                                                        <p class="text-white text-center font-bold text-lg line-clamp-2">{{ library.name }}</p>
+                                                        <p class="text-white font-medium text-sm">{{ library.book_count }} libros en esta libreria</p>
+                                                        @if (library.description) {
+                                                            <p class="text-white text-md font-medium opacity-80 line-clamp-3 text-justify">{{ library.description }}</p>
+                                                        } @else {
+                                                            <p class="text-sm text-white opacity-80 text-center">Esta libreria no tiene ninguna descripcion</p>
+                                                        }
+                                                    </div>
+                                                </li>
+                                            }
+                                        } @else {
+                                            <p class="text-white opacity-80 text-center p-4">No tienes ninguna libreria creada actualmente</p>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
+            </div>
+            <div class="px-5 pb-3">
+                <div class="flex flex-row items-center justify-between">
+                    <h2 class="text-2xl font-medium text-white pb-3">Citas</h2>
+                    <img (click)="toggleQuotes()" src="arrowDown.svg" [class]="isQuotesOpen ? 'rotate-180' : 'rotate-0'" class="cursor-pointer transition-transform">
+                </div>
+                @if (isQuotesOpen) {
+                    <div class="flex flex-col gap-4">
+                        @if (bookQuotes.length === 0) {
+                            @if (!createNewQuote) {
+                                <div class="flex flex-col items-center justify-center bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 border-r-4 shadow-sm/10">
+                                    <p class="text-white font-medium text-center">Aun no tienes citas de este libro. Crea una y visualizala aqui!</p>
+                                    <button (click)="createNewQuote = true" class="cursor-pointer mt-4 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
+                                        Añadir libro
+                                    </button>
+                                </div>
+                            } @else {
+                                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
+                                    <textarea [formControl]="quoteInput" class="text-white p-2 italic w-full focus:outline-none focus:ring-1 focus:ring-yellow-400 rounded-2xl transition-all" placeholder='"Escribe tu cita aqui"'></textarea>
+                                    <div class="mt-2 flex items-center justify-between">
+                                        <div class="mt-2 flex items-center">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">A</div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-white opacity-80">{{ book.title }}</p>
+                                                <p class="text-xs text-white opacity-70">{{ book.authors.join(', ') }}</p>
+                                            </div>
+                                        </div>
+                                        <button (click)="submitQuote()" class="w-6 h-6 rounded-full bg-emerald-700 flex items-center cursor-pointer justify-center scale-110 hover:bg-emerald-800 hover:scale-125 transition-all"><img src="checkmark.svg" alt="confirmar"></button>
+                                    </div>
+                                </div>
+                            }
+                        } @else {
+                            @for (quote of bookQuotes; track $index) {
+                                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
+                                    <p class="text-white italic">"{{ quote.content }}"</p>
+                                    <div class="mt-2 flex items-center">
+                                        <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">AP</div>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium text-white opacity-80">{{ book.title }}</p>
+                                            <p class="text-xs text-white opacity-70">{{ book.authors.join(', ') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (!createNewQuote) {
+                                <button (click)="createNewQuote = true" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg shadow transition duration-300 flex items-center justify-center mx-auto cursor-pointer">
+                                    <p class="text-2xl font-extrabold mr-4">+</p><p>Agregar libro</p> 
+                                </button>
+                            } @else {
+                                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
+                                    <textarea [formControl]="quoteInput" class="text-white p-2 italic w-full focus:outline-none focus:ring-1 focus:ring-yellow-400 rounded-2xl transition-all" placeholder='"Escribe tu cita aqui"'></textarea>
+                                    <div class="mt-2 flex items-center justify-between">
+                                        <div class="mt-2 flex items-center">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">A</div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-white opacity-80">{{ book.title }}</p>
+                                                <p class="text-xs text-white opacity-70">{{ book.authors.join(', ') }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-row gap-3">
+                                            <button (click)="createNewQuote = false" class="w-6 h-6 rounded-full bg-red-700 flex items-center cursor-pointer justify-center scale-110 hover:bg-red-800 hover:scale-125 transition-all"><img src="closeBtn.svg" alt="Cerrar"></button>
+                                            <button (click)="submitQuote()" class="w-6 h-6 rounded-full bg-emerald-700 flex items-center cursor-pointer justify-center scale-110 hover:bg-emerald-800 hover:scale-125 transition-all"><img src="checkmark.svg" alt="confirmar"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        } 
+                    </div>
+                }
+            </div>
+            <div class="px-5">
+                <div class="flex flex-row items-center justify-between">
+                    <h2 class="text-2xl font-medium text-white pb-3">Resumen</h2>
+                    <img (click)="toggleResume()" src="arrowDown.svg" [class]="isSummaryOpen ? 'rotate-180' : 'rotate-0'" class="cursor-pointer transition-transform">
+                </div>
+                @if (isSummaryOpen) {
+                    <textarea class="text-white w-full text-lg focus:outline-none resize-none" [formControl]="summaryControl" (input)="ajustarAltura()" #autoTextarea placeholder="Escribe aqui tu resumen de este libro..." [value]="book.summary"></textarea>
+                }
             </div>
         </div>
     </div>

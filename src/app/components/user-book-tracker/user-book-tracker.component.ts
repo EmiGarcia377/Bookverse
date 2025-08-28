@@ -7,6 +7,7 @@ import User from '../../../models/User';
 import { UserService } from '../../services/user.service';
 import { BookModalComponent } from "../book-modal/book-modal.component";
 import { AddLibraryModalComponent } from '../add-library-modal/add-library-modal.component';
+import { QuotesService } from '../../services/quotes.service';
 
 @Component({
   selector: 'app-user-book-tracker',
@@ -25,6 +26,8 @@ export class UserBookTrackerComponent implements OnInit{
   inProgressBooks: any[] = [];
   unreadBooks: any[] = [];
   libraries: any[] = [];
+  quotes: any[] = [];
+
   user: User = { userId: null, username: '', fullName: ''};
   bookStatus: 'Sin leer' | 'En progreso' | 'Leidos' = 'Sin leer';
   readonly activeToggleClass = 'px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition duration-300';
@@ -33,7 +36,8 @@ export class UserBookTrackerComponent implements OnInit{
   constructor(
     private sectionState: SectionStateServiceService,
     private booksService: BooksService,
-    private userService: UserService
+    private userService: UserService,
+    private quotesService: QuotesService
   ) {}
 
   ngOnInit(): void {
@@ -60,8 +64,12 @@ export class UserBookTrackerComponent implements OnInit{
       this.booksService.getCustomLibraries(this.user.userId).subscribe({
         next: res => {
           this.libraries = res.libraries;
-          console.log(res)
         },
+        error: err => console.log(err)
+      });
+
+      this.quotesService.getQuotesSection(this.user.userId).subscribe({
+        next: res => this.quotes = res.quotes,
         error: err => console.log(err)
       });
     }
@@ -84,8 +92,7 @@ export class UserBookTrackerComponent implements OnInit{
   }
 
   openBookModal(book: any) {
-    this.bookModal.open();
-    this.bookModal.book = book;
+    this.bookModal.open(book);
   }
 
   closeBookModal(){
@@ -110,6 +117,15 @@ export class UserBookTrackerComponent implements OnInit{
     }
   }
 
+  addLibrary(library: any){
+    if(this.libraries.length === 4){
+      this.libraries.pop();
+      this.libraries.unshift(library);
+    } else {
+      this.libraries.unshift(library);
+    }
+  }
+
   switchBookStatus(newStatus: 'Sin leer' | 'En progreso' | 'Leidos' = 'Sin leer'){
     if(newStatus === 'Sin leer'){
       this.bookStatus = 'Sin leer';
@@ -123,7 +139,6 @@ export class UserBookTrackerComponent implements OnInit{
   handleNewBook(book: any) {
     this.books.push(book);
     console.log("Nuevo libro agregado:", book);
-    // Llamar al servicio para guardarlo en Supabase
   }
 
   setSection(section: string) {

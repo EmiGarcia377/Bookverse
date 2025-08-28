@@ -1,10 +1,10 @@
-<div class="container mx-auto px-4 py-8 max-w-8xl">
+<div class="container mx-auto px-4 pt-8 max-w-8xl">
     <div class="text-center mb-2">
         <h1 class="text-white text-5xl pb-4 font-bold mb-2">Book Tracker</h1>
         <p class="text-white text-lg opacity-80 pb-3">Seguimiento de tus lecturas y colección personal</p>
     </div>
     <div class="flex flex-col gap-2">
-        <div class="rounded-lg p-3 bg-zinc-700 col-span-2 flex flex-col min-h-140 justify-between">
+        <div class="rounded-lg p-3 bg-zinc-700 border-1 border-zinc-600 shadow-xs shadow-zinc-500 col-span-2 flex flex-col min-h-140 justify-between">
             <div class="flex flex-col gap-4 h-full">
                 <p class="text-white text-2xl font-medium text-center py-4">Asistente de lectura</p>
             </div>
@@ -13,7 +13,7 @@
                 <button class="bg-gradient-to-r from-amber-600 to-amber-400 text-white rounded-3xl p-2 cursor-pointer hover:contrast-125 transition-all ease-in-out">Enviar</button>
             </div>
         </div>
-        <div class="flex flex-col justify-between rounded-lg p-3 bg-zinc-700 col-span-2 gap-4">
+        <div class="flex flex-col justify-between rounded-lg p-3 bg-zinc-700 border-1 border-zinc-600 shadow-xs shadow-zinc-500 col-span-2 gap-4">
             <div class="py-4 flex flex-row items-center justify-between">
                 <div class="flex flex-row items-center">
                     <img class="w-14 h-14" src="star.svg" alt="">
@@ -45,11 +45,11 @@
                 }
             </div>
             <app-book-modal #bookModal (closeModal)="closeBookModal()"></app-book-modal>
-            <button (click)="setSection('book list')" class="w-full mt-6 py-3 bg-amber-600 hover:bg-amber-700 text-gray-700 rounded-lg transition duration-300 cursor-pointer">
+            <button (click)="setSection('book list')" class="w-full mt-6 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition duration-300 cursor-pointer">
                 Ver todos los libros guardados
             </button>
         </div>
-        <div class="rounded-lg p-3 bg-zinc-700 col-span-2 h-full">
+        <div class="rounded-lg p-3 bg-zinc-700 border-1 border-zinc-600 shadow-xs shadow-zinc-500 col-span-2 h-full">
             <div class="flex lg:flex-row lg:items-center lg:justify-between">
                 <div class="py-4 flex flex-row items-center">
                     <img class="w-14 h-14" src="bookmarked.svg" alt="">
@@ -86,7 +86,7 @@
                         </div>
                     }
                 } @else {
-                    <p class="text-center text-white text-3xl opacity-70 p-4">Aun no tienes ningun libro sin leer, sigue asi!</p>
+                    <p class="text-center text-white text-3xl opacity-70 p-4">No tienes ningun libro sin leer, sigue asi!</p>
                 }
             } @else if (bookStatus === "En progreso") {
                 @if (inProgressBooks.length){
@@ -144,7 +144,7 @@
                 }
             }
             <div class="mt-2 text-center">
-                <button (click)="openBookStatusModal()" class="px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-lg shadow transition duration-300 flex items-center justify-center mx-auto cursor-pointer">
+                <button (click)="openBookStatusModal()" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg shadow transition duration-300 flex items-center justify-center mx-auto cursor-pointer">
                     <p class="text-2xl font-bold mr-4">+</p><p>Agregar libro</p> 
                 </button>
             </div>
@@ -152,51 +152,32 @@
             </app-add-book-status-modal>
         </div>
         <div class="grid grid-cols-2 gap-2">
-            <div class="rounded-lg p-3 bg-zinc-700">
+            <div class="rounded-lg p-3 bg-zinc-700 border-1 border-zinc-600 shadow-xs shadow-zinc-500">
                 <div class="flex flex-col gap-4 h-full justify-between">
                     <div class="flex flex-row justify-between items-center">
                         <p class="text-white text-2xl font-medium">Mis citas favoritas</p>
                         <button class="text-3xl text-white hover:text-amber-400 hover:scale-110 transition-all rounded-full cursor-pointer mr-4">+</button>
                     </div>
-                    
                     <div class="flex flex-col gap-2">
-                        <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
-                            <p class="text-white italic">"La mejor victoria es vencer sin combatir."</p>
-                            <div class="mt-2 flex items-center">
-                                <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">AP</div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium text-white opacity-80">El Arte de la Guerra</p>
-                                    <p class="text-xs text-white opacity-70">Sun Tzu</p>
+                        @for (quote of quotes; track $index) {
+                            <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
+                                <p class="text-white italic">"{{ quote.content }}"</p>
+                                <div class="mt-2 flex items-center">
+                                    <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">A</div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium text-white opacity-80">{{ quote.books.title }}</p>
+                                        <p class="text-xs text-white opacity-70">{{ quote.books.authors.join(', ')}}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
-                            <p class="text-white italic">"La mejor victoria es vencer sin combatir."</p>
-                            <div class="mt-2 flex items-center">
-                                <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">AP</div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium text-white opacity-80">El Arte de la Guerra</p>
-                                    <p class="text-xs text-white opacity-70">Sun Tzu</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
-                            <p class="text-white italic">"La mejor victoria es vencer sin combatir."</p>
-                            <div class="mt-2 flex items-center">
-                                <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">AP</div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium text-white opacity-80">El Arte de la Guerra</p>
-                                    <p class="text-xs text-white opacity-70">Sun Tzu</p>
-                                </div>
-                            </div>
-                        </div>
+                        }
                     </div>
                     <button class="w-full mt-6 py-2 cursor-pointer bg-amber-500 hover:bg-amber-600 text-gray-700 rounded-lg transition duration-300">
                             Ver todas las citas
                     </button>
                 </div>
             </div>
-            <div class="rounded-lg p-3 bg-zinc-700">
+            <div class="rounded-lg p-3 bg-zinc-700 border-1 border-zinc-600 shadow-xs shadow-zinc-500">
                 <div class="flex flex-col h-full justify-between gap-4">
                     <div class="flex flex-row justify-between">
                         <p class="text-white text-2xl font-medium">Mis bibliotecas</p>
@@ -205,11 +186,11 @@
                     <div class="flex flex-col gap-2">
                         @if (libraries.length) {
                             @for (library of libraries; track $index) {
-                                <div class="bg-gradient-to-r from-35% from-zinc-700 to-120% to-amber-500 p-4 rounded-lg flex items-center hover:contrast-105 transition-all">
-                                    <div class="w-10 h-10 bg-gradient-to-r from-amber-600 to-amber-400 text-white rounded-lg flex items-center justify-center">LA</div>
+                                <div class="p-4 rounded-lg flex items-center hover:bg-zinc-800 transition-all">
+                                    <div [style.background-color]="library.library_color" class="w-10 h-10 text-white rounded-lg flex items-center justify-center">{{ library.abreviation }}</div>
                                     <div class="ml-4 flex-1">
-                                        <h3 class="font-medium text-white">{{ library.library_name }}</h3>
-                                        <p class="text-sm text-white opacity-80">{{ library.book_count }} libros en progreso</p>
+                                        <h3 class="font-medium text-white">{{ library.name }}</h3>
+                                        <p class="text-sm text-white opacity-80">{{ library.book_count }} libros en esta libreria</p>
                                     </div>
                                 </div>
                             }
@@ -217,12 +198,12 @@
                             <p class="text-center text-white text-3xl opacity-70 p-4">Aun no tienes ninguna biblioteca creada, crea una y agrega libros a ella!</p>
                         }
                     </div>
-                    <button class="w-full mt-6 py-2 cursor-pointer bg-amber-500 hover:bg-amber-600 text-gray-700 rounded-lg transition duration-300">
+                    <button (click)="setSection('book libraries')" class="w-full mt-6 py-2 cursor-pointer bg-amber-500 hover:bg-amber-600 text-gray-700 rounded-lg transition duration-300">
                         Gestionar bibliotecas
                     </button>
                 </div>
             </div>
-            <app-add-library-modal #addLibraryModal (closeModal)="closeAddLibraryModal()"></app-add-library-modal>      
+            <app-add-library-modal #addLibraryModal (createdLibrary)="addLibrary($event)" (closeModal)="closeAddLibraryModal()"></app-add-library-modal>      
         </div>
     </div>
 </div>
