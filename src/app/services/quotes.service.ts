@@ -23,4 +23,8 @@ export class QuotesService {
   getQuotesSection(userId: uuid){
     return this.http.get<any>(`${this.apiUrl}/quotes/getQuotesSection/${userId}`);
   }
+
+  getAllQuotes(userId: uuid){
+    return this.http.get<any>(`${this.apiUrl}/quotes/getAllQuotes/${userId}`);
+  }
 }

@@ -28,7 +28,7 @@
                 @if (books.length) {
                     @for (book of books; track $index) {
                         <section>
-                            <div (click)="openBookModal(book)" class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                            <div (click)="openBookModal(book)" class="bg-amber-600 border-1 border-amber-500 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
                                 <img class="rounded-2xl w-60 h-90" [src]="book.thumbnail_url" alt="Titulo del libro">
                                 <p class="text-white text-xl text-center line-clamp-1">{{ book.title }}</p>
                             </div>
@@ -156,7 +156,7 @@
                 <div class="flex flex-col gap-4 h-full justify-between">
                     <div class="flex flex-row justify-between items-center">
                         <p class="text-white text-2xl font-medium">Mis citas favoritas</p>
-                        <button class="text-3xl text-white hover:text-amber-400 hover:scale-110 transition-all rounded-full cursor-pointer mr-4">+</button>
+                        <button (click)="openAddQuoteModal()" class="text-3xl text-white hover:text-amber-400 hover:scale-110 transition-all rounded-full cursor-pointer mr-4">+</button>
                     </div>
                     <div class="flex flex-col gap-2">
                         @for (quote of quotes; track $index) {
@@ -172,7 +172,7 @@
                             </div>
                         }
                     </div>
-                    <button class="w-full mt-6 py-2 cursor-pointer bg-amber-500 hover:bg-amber-600 text-gray-700 rounded-lg transition duration-300">
+                    <button (click)="setSection('book quotes')" class="w-full mt-6 py-2 cursor-pointer bg-amber-500 hover:bg-amber-600 text-gray-700 rounded-lg transition duration-300">
                             Ver todas las citas
                     </button>
                 </div>
@@ -203,6 +203,7 @@
                     </button>
                 </div>
             </div>
+            <app-add-quote-modal #addQuoteModal (createdQuote)="addQuote($event)"></app-add-quote-modal>
             <app-add-library-modal #addLibraryModal (createdLibrary)="addLibrary($event)" (closeModal)="closeAddLibraryModal()"></app-add-library-modal>      
         </div>
     </div>

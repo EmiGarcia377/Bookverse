@@ -23,7 +23,7 @@
                     @if (library.books.length) {
                         @for (book of library.books; track $index) {
                             <section>
-                                <div (click)="openBookModal(book)" class="bg-amber-600 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
+                                <div (click)="openBookModal(book)" class="bg-amber-600 border-1 border-amber-500 p-2 cursor-pointer rounded-lg mb-4 hover:shadow-xl/30 hover:-translate-y-3 ease-in transition">
                                     <img class="rounded-2xl w-60 h-90" [src]="book.thumbnail_url" alt="Titulo del libro">
                                     <p class="text-white text-xl text-center line-clamp-1">{{ book.title }}</p>
                                 </div>

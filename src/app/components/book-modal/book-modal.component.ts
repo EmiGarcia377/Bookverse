@@ -162,6 +162,7 @@ export class BookModalComponent implements OnInit{
     this.book = {};
     this.book.summary = '';
     this.bookLibraries = [];
+    this.bookQuotes = [];
     this.showFloatingTitle = false;
     this.createNewQuote = false;
   }

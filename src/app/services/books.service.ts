@@ -59,6 +59,10 @@ export class BooksService {
     return this.http.get<any>(`${this.apiUrl}/books/getBookSummary/${bookId}`);
   }
 
+  getBooksWAuthors(userId: uuid){
+    return this.http.get<any>(`${this.apiUrl}/books/getBooksWAuthors/${userId}`);
+  }
+
   //P A T C H
   updateStatus(bookName: string, newStatus: string){
     return this.http.patch<any>(`${this.apiUrl}/books/updateStatus/${bookName}`, { newStatus });

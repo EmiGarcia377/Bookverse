@@ -14,7 +14,7 @@ import { BookModalComponent } from '../book-modal/book-modal.component';
 export class UserBookLibrariesComponent implements OnInit{
   @ViewChild('bookModal') bookModal!: BookModalComponent;
   customLibraries: any[] = [];
-  user: User = { userId: null, username: '', fullName: ''};
+  user: User = { userId: null, username: '', fullName: '' };
 
   constructor(
     private sectionState: SectionStateServiceService, 
@@ -25,10 +25,7 @@ export class UserBookLibrariesComponent implements OnInit{
     this.user = this.userService.getCurrentUserData();
     if(this.user.userId){
       this.booksService.getLibrariesWBooks(this.user.userId).subscribe({
-        next: res => {
-          this.customLibraries = res.data;
-          console.log(this.customLibraries);
-        },
+        next: res => this.customLibraries = res.data,
         error: err => console.log(err)
       });
     }

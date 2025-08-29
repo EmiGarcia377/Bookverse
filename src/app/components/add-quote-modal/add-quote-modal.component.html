@@ -1,0 +1,39 @@
+@if (isOpen) {
+    <div (click)="close()" class="absolute inset-0 bg-black/40  flex justify-center items-center z-50">
+        <div (click)="$event.stopPropagation()" class="bg-zinc-700 rounded-lg p-6 w-full max-w-2xl relative my-5">
+                <button (click)="close()" class="absolute top-5 right-5 text-white hover:text-red-400 text-xl transition-colors font-bold">x</button>
+                <h2 class="text-2xl text-white font-bold mb-4 text-center">Crear cita</h2>
+                <div>
+                    <p class="text-white font-bold mb-4">Selecciona el libro al que agregar la cita</p>
+                    <select (change)="onBookChange($event)" class="w-full p-2 inset-shadow-sm inset-shadow-zinc-900 rounded-xl bg-zinc-800 outline-1 outline-zinc-700 text-white mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400 transition-all ease-out">
+                        <option value="" selected disabled>Selecciona un libro</option>
+                        @for (book of userBooks; track $index) {
+                            <option [value]="book.id">{{ book.title }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
+                    <textarea [formControl]="quoteInput" class="text-white p-2 italic w-full focus:outline-none focus:ring-1 focus:ring-yellow-400 rounded-2xl transition-all" placeholder='"Escribe tu cita aqui"'></textarea>
+                    <div class="mt-2 flex items-center justify-between">
+                        <div class="mt-2 flex items-center">
+                            <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">A</div>
+                            <div class="ml-3">
+                                @if (selectedBook) {
+                                    <p class="text-sm font-medium text-white opacity-80">{{ selectedBook.title }}</p>
+                                    <p class="text-xs text-white opacity-70">{{ selectedBook.authors?.join(', ') }}</p>
+                                } @else {
+                                    <p class="text-sm font-medium text-white opacity-80">Titulo del libro</p>
+                                    <p class="text-xs text-white opacity-70">Autores del libro</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-5">
+                    <button [disabled]="quoteInput.invalid" (click)="submitQuote()" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg shadow transition duration-300 flex items-center justify-center mx-auto cursor-pointer">
+                        <p class="text-2xl font-extrabold mr-4">+</p><p>Agregar cita</p> 
+                    </button>
+                </div>
+        </div> 
+    </div>
+}

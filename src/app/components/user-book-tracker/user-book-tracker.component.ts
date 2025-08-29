@@ -8,10 +8,11 @@ import { UserService } from '../../services/user.service';
 import { BookModalComponent } from "../book-modal/book-modal.component";
 import { AddLibraryModalComponent } from '../add-library-modal/add-library-modal.component';
 import { QuotesService } from '../../services/quotes.service';
+import { AddQuoteModalComponent } from '../add-quote-modal/add-quote-modal.component';
 
 @Component({
   selector: 'app-user-book-tracker',
-  imports: [AddBookStatusModalComponent, AddBookModalComponent, BookModalComponent, AddLibraryModalComponent],
+  imports: [AddBookStatusModalComponent, AddBookModalComponent, BookModalComponent, AddLibraryModalComponent, AddQuoteModalComponent],
   templateUrl: './user-book-tracker.component.html',
   styles: ``
 })
@@ -20,6 +21,7 @@ export class UserBookTrackerComponent implements OnInit{
   @ViewChild('addBookModal') addBookModal!: AddBookModalComponent;
   @ViewChild('bookModal') bookModal!: BookModalComponent;
   @ViewChild('addLibraryModal') addLibraryModal!: AddLibraryModalComponent;
+  @ViewChild('addQuoteModal') addQuoteModal!: AddQuoteModalComponent;
 
   books: any[] = [];
   readBooks: any[] = [];
@@ -108,6 +110,14 @@ export class UserBookTrackerComponent implements OnInit{
     this.addLibraryModal.libraryForm.reset();
   }
 
+  openAddQuoteModal(){
+    this.addQuoteModal.open();
+  }
+
+  closeAddQuoteModal(){
+    this.addQuoteModal.close();
+  }
+
   setBookList(event: any){
     if(this.books.length == 4){
       this.books.pop();
@@ -123,6 +133,15 @@ export class UserBookTrackerComponent implements OnInit{
       this.libraries.unshift(library);
     } else {
       this.libraries.unshift(library);
+    }
+  }
+
+  addQuote(quote: any){
+    if(this.quotes.length === 3){
+      this.quotes.pop();
+      this.quotes.unshift(quote);
+    } else {
+      this.quotes.unshift(quote);
     }
   }
 

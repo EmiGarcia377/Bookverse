@@ -13,6 +13,7 @@ import { UserSavedReviewsComponent } from '../../components/user-saved-reviews/u
 import { UserFavoriteReviewsComponent } from '../../components/user-favorite-reviews/user-favorite-reviews.component';
 import { UserBookListComponent } from '../../components/user-book-list/user-book-list.component';
 import { UserBookLibrariesComponent } from '../../components/user-book-libraries/user-book-libraries.component';
+import { UserBookQuotesComponent } from '../../components/user-book-quotes/user-book-quotes.component';
 
 @Component({
   selector: 'app-user-dash',
@@ -24,7 +25,8 @@ import { UserBookLibrariesComponent } from '../../components/user-book-libraries
     UserSavedReviewsComponent,
     UserFavoriteReviewsComponent,
     UserBookListComponent,
-    UserBookLibrariesComponent
+    UserBookLibrariesComponent,
+    UserBookQuotesComponent
   ],
   templateUrl: './user-dash.component.html',
   styles: ``
