@@ -1,0 +1,35 @@
+@if (isOpen) {
+    <div (click)="close()" class="absolute max-h-screen inset-0 bg-black/40 flex justify-center items-center z-50">
+        <div (click)="$event.stopPropagation()" class="bg-zinc-700 rounded-xl p-6 w-full max-w-4xl max-h-4/5 relative overflow-y-scroll ocultar-scroll">
+            <button (click)="close()" class="z-100 absolute text-white hover:text-red-400 text-xl transition-colors font-bold">x</button>
+            <h2 class="text-2xl font-bold mb-4 text-center text-white">{{ library.name }}</h2>
+            <div class="flex flex-col gap-4 px-5">
+                <p class="text-white text-lg font-medium opacity-80">{{ library.description }}</p>
+                @if (libraryBooks.length) {
+                    @for (book of libraryBooks; track $index) {
+                        <div class="bg-zinc-800 p-4 rounded-lg border-r-4 shadow-sm flex flex-row gap-5 border-amber-500">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center justify-center text-white text-xl font-bold">
+                                    <img class="max-w-40 rounded-lg" [src]="book.books.thumbnail_url" alt="Titulo">
+                                </div>
+                            </div>
+                            <div class="mt-2 flex items-center">
+                                <div>
+                                    <p class="text-white italic font-bold">{{ book.books.title }}</p>
+                                    <p class="text-sm font-medium text-white opacity-90 line-clamp-4 pb-1 text-justify">{{ book.books.description }}</p>
+                                    <p class="text-sm text-white opacity-80">Autor(es): {{ book.books.authors.join(', ') }}</p>
+                                    <p class="text-sm text-white opacity-80">Genero(s): {{ book.books.categories.join(', ') }}</p>
+                                    <p class="text-xs text-white opacity-80 pt-3">Paginas: {{ book.books.num_pages }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                } @else {
+                    <div class="bg-zinc-800 p-4 rounded-lg shadow-sm flex flex-row gap-5 justify-center items-center">
+                        <p class="text-white text-lg font-medium opacity-80">No hay libros en esta biblioteca.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

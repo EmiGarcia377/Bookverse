@@ -9,10 +9,18 @@ import { BookModalComponent } from "../book-modal/book-modal.component";
 import { AddLibraryModalComponent } from '../add-library-modal/add-library-modal.component';
 import { QuotesService } from '../../services/quotes.service';
 import { AddQuoteModalComponent } from '../add-quote-modal/add-quote-modal.component';
+import { LibraryModalComponent } from '../library-modal/library-modal.component';
 
 @Component({
   selector: 'app-user-book-tracker',
-  imports: [AddBookStatusModalComponent, AddBookModalComponent, BookModalComponent, AddLibraryModalComponent, AddQuoteModalComponent],
+  imports: [
+    AddBookStatusModalComponent, 
+    AddBookModalComponent, 
+    BookModalComponent, 
+    AddLibraryModalComponent, 
+    AddQuoteModalComponent,
+    LibraryModalComponent
+  ],
   templateUrl: './user-book-tracker.component.html',
   styles: ``
 })
@@ -22,6 +30,7 @@ export class UserBookTrackerComponent implements OnInit{
   @ViewChild('bookModal') bookModal!: BookModalComponent;
   @ViewChild('addLibraryModal') addLibraryModal!: AddLibraryModalComponent;
   @ViewChild('addQuoteModal') addQuoteModal!: AddQuoteModalComponent;
+  @ViewChild('libraryModal') libraryModal!: LibraryModalComponent;
 
   books: any[] = [];
   readBooks: any[] = [];
@@ -116,6 +125,14 @@ export class UserBookTrackerComponent implements OnInit{
 
   closeAddQuoteModal(){
     this.addQuoteModal.close();
+  }
+
+  openLibraryModal(library: any){
+    this.libraryModal.open(library, this.user.userId);
+  }
+
+  closeLibraryModal(){
+    this.libraryModal.close();
   }
 
   setBookList(event: any){

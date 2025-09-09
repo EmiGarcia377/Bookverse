@@ -67,7 +67,7 @@
                         <div class="rounded-xl p-4 bg-zinc-800 transition-all duration-300 hover:shadow-md hover:-translate-y-1 mb-5">
                             <div class="flex items-center">
                                 <div class="w-16 h-20 rounded-md flex items-center justify-center text-white text-xl font-bold">
-                                    <img [src]="book.thumbnail_url" alt="">
+                                    <img class="rounded-lg" [src]="book.thumbnail_url" alt="">
                                 </div>
                                 <div class="ml-4 flex-1">
                                     <h3 class="font-bold text-white">{{ book.title }}</h3>
@@ -94,7 +94,7 @@
                         <div class="rounded-xl p-4 bg-zinc-800 transition-all duration-300 hover:shadow-md hover:-translate-y-1 mb-5">
                             <div class="flex items-center">
                                 <div class="w-16 h-20 rounded-md flex items-center justify-center text-white text-xl font-bold">
-                                    <img [src]="book.thumbnail_url" alt="">
+                                    <img class="rounded-lg" [src]="book.thumbnail_url" alt="">
                                 </div>
                                 <div class="ml-4 flex-1">
                                     <h3 class="font-bold text-white">{{ book.title }}</h3>
@@ -120,8 +120,8 @@
                     @for (book of readBooks; track $index) {
                         <div class="rounded-xl p-4 bg-zinc-800 transition-all duration-300 hover:shadow-md hover:-translate-y-1 mb-5">
                             <div class="flex items-center">
-                                <div class="w-16 h-20 rounded-md flex items-center justify-center text-white text-xl font-bold">
-                                    <img [src]="book.thumbnail_url" alt="">
+                                <div class="w-16 h-20 flex items-center justify-center text-white text-xl font-bold">
+                                    <img class="rounded-lg" [src]="book.thumbnail_url" alt="">
                                 </div>
                                 <div class="ml-4 flex-1">
                                     <h3 class="font-bold text-white">{{ book.title }}</h3>
@@ -186,11 +186,11 @@
                     <div class="flex flex-col gap-2">
                         @if (libraries.length) {
                             @for (library of libraries; track $index) {
-                                <div class="p-4 rounded-lg flex items-center hover:bg-zinc-800 transition-all">
+                                <div (click)="openLibraryModal(library)" class="cursor-pointer p-4 rounded-lg flex items-center hover:bg-zinc-800 transition-all">
                                     <div [style.background-color]="library.library_color" class="w-10 h-10 text-white rounded-lg flex items-center justify-center">{{ library.abreviation }}</div>
                                     <div class="ml-4 flex-1">
                                         <h3 class="font-medium text-white">{{ library.name }}</h3>
-                                        <p class="text-sm text-white opacity-80">{{ library.book_count }} libros en esta libreria</p>
+                                        <p class="texts-sm text-white opacity-80">{{ library.book_count }} libros en esta libreria</p>
                                     </div>
                                 </div>
                             }
@@ -203,6 +203,7 @@
                     </button>
                 </div>
             </div>
+            <app-library-modal #libraryModal ></app-library-modal>
             <app-add-quote-modal #addQuoteModal (createdQuote)="addQuote($event)"></app-add-quote-modal>
             <app-add-library-modal #addLibraryModal (createdLibrary)="addLibrary($event)" (closeModal)="closeAddLibraryModal()"></app-add-library-modal>      
         </div>

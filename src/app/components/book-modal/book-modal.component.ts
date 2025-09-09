@@ -19,7 +19,7 @@ export class BookModalComponent implements OnInit{
   libraries: any[] = [];
   bookQuotes: any[] = [];
 
-  userId: uuid | null = null
+  userId: uuid | null = null;
   isOpen: boolean = false;
   changeLibrary: boolean = false;
   originalActualPage: number | null = null;
@@ -52,7 +52,7 @@ export class BookModalComponent implements OnInit{
   open(book: any) {
     this.userId = this.userService.getCurrentUserData().userId;
     this.isOpen = true;
-    this.book = book;;
+    this.book = book;
     this.originalActualPage = book.actual_page;
     this.booksService.getBookLibraries(book.id).subscribe({
       next: res =>this.bookLibraries = res.libraries,
