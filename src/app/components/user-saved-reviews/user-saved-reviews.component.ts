@@ -29,4 +29,8 @@ export class UserSavedReviewsComponent implements OnInit{
       error: err => console.log(err)
     })
   }
+
+  toggleMenu(index: number){
+    this.menuToggle = this.reviewActionsService.toggleMenu(index, this.menuToggle);
+  }
 }

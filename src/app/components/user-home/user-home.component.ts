@@ -56,6 +56,10 @@ export class UserHomeComponent implements OnInit {
   });
  }
 
+ toggleMenu(index: number){
+    this.menuToggle = this.reviewActionsService.toggleMenu(index, this.menuToggle);
+  }
+
  setSection(section: string) {
     this.sectionState.setSection(section);
   }

@@ -8,14 +8,14 @@
         </div>
     </div>
     <div class="flex space-x-4 mb-6">
-        <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 transition-colors">Todos</button>
-        <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 transition-colors">Recientes</button>
-        <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 transition-colors">Mejor valorados</button>
+        <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 hover:inset-shadow-xs/50 transition-colors">Todos</button>
+        <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 hover:inset-shadow-xs/50 transition-colors">Recientes</button>
+        <button class="px-4 py-2 bg-zinc-600 rounded-lg shadow text-white hover:bg-zinc-800 hover:inset-shadow-xs/50 transition-colors">Mejor valorados</button>
     </div>
     <div class="flex flex-col items-center space-y-6 h-full">
         @if (reviews.length !== 0) {
             @for (review of reviews; track $index) {
-                <section class="flex flex-col gap-7 w-full rounded-3xl bg-zinc-700 border-1 border-zinc-600 shadow-xs shadow-zinc-500 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
+                <section class="flex flex-col gap-7 w-full rounded-3xl bg-zinc-700 border-1 border-zinc-600 shadow-xs shadow-zinc-500 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-all ease-out">
                     <div (click)="routesService.goReview(review.id)">
                         <div class="flex flex-row justify-between items-center pb-3">
                             <div (click)="routesService.goProfile(review.user_id)" class="items-center flex flex-row gap-3 pb-3">
@@ -26,8 +26,8 @@
                                 </div>
                             </div>
                             @if (review.username === user.username) {
-                                <div (click)="$event.stopPropagation()" (click)="reviewActionsService.toggleMenu($index, menuToggle)" class="inline-block text-left z-100 p-3" #menuContainer>
-                                    <button  class="p-2 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                <div (click)="$event.stopPropagation()" class="inline-block text-left z-100 p-3" #menuContainer>
+                                    <button (click)="toggleMenu($index)" class="p-2 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
                                     @if (menuToggle === $index) {
                                         <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
                                             <ul class="py-1">

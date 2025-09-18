@@ -67,6 +67,10 @@ export class ProfileComponent implements OnInit{
       }
     });
   }
+
+  toggleMenu(index: number){
+    this.menuToggle = this.reviewActionsService.toggleMenu(index, this.menuToggle);
+  }
   
   @HostListener('document:click', ['$event'])
   cerrarMenus(event: MouseEvent) {

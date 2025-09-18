@@ -52,6 +52,10 @@ export class SavedReviewsComponent implements OnInit{
     });
   }
 
+  toggleMenu(index: number){
+    this.menuToggle = this.reviewActionsService.toggleMenu(index, this.menuToggle);
+  }
+
   @HostListener('document:click', ['$event'])
   cerrarMenus(event: MouseEvent) {
     const target = event.target as HTMLElement;

@@ -3,13 +3,15 @@ import { AddBookStatusModalComponent } from '../add-book-status-modal/add-book-s
 import { SectionStateServiceService } from '../../services/section-state-service.service';
 import { AddBookModalComponent } from '../add-book-modal/add-book-modal.component';
 import { BooksService } from '../../services/books.service';
-import User from '../../../models/User';
+import User, { uuid } from '../../../models/User';
 import { UserService } from '../../services/user.service';
 import { BookModalComponent } from "../book-modal/book-modal.component";
 import { AddLibraryModalComponent } from '../add-library-modal/add-library-modal.component';
 import { QuotesService } from '../../services/quotes.service';
 import { AddQuoteModalComponent } from '../add-quote-modal/add-quote-modal.component';
 import { LibraryModalComponent } from '../library-modal/library-modal.component';
+import { ReviewActionsService } from '../../services/review-actions.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-book-tracker',
@@ -19,7 +21,8 @@ import { LibraryModalComponent } from '../library-modal/library-modal.component'
     BookModalComponent, 
     AddLibraryModalComponent, 
     AddQuoteModalComponent,
-    LibraryModalComponent
+    LibraryModalComponent,
+    FormsModule
   ],
   templateUrl: './user-book-tracker.component.html',
   styles: ``
@@ -40,6 +43,10 @@ export class UserBookTrackerComponent implements OnInit{
   quotes: any[] = [];
 
   user: User = { userId: null, username: '', fullName: ''};
+  menuToggle: number | null = null;
+  editIndex: number | null = null;
+  editQuote = false;
+  editedQuote: string = '';
   bookStatus: 'Sin leer' | 'En progreso' | 'Leidos' = 'Sin leer';
   readonly activeToggleClass = 'px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition duration-300';
   readonly inactiveToggleClass = 'px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 transition duration-300';
@@ -48,7 +55,8 @@ export class UserBookTrackerComponent implements OnInit{
     private sectionState: SectionStateServiceService,
     private booksService: BooksService,
     private userService: UserService,
-    private quotesService: QuotesService
+    private quotesService: QuotesService,
+    private reviewActionsService: ReviewActionsService
   ) {}
 
   ngOnInit(): void {
@@ -81,6 +89,47 @@ export class UserBookTrackerComponent implements OnInit{
 
       this.quotesService.getQuotesSection(this.user.userId).subscribe({
         next: res => this.quotes = res.quotes,
+        error: err => console.log(err)
+      });
+    }
+  }
+
+  toggleEdit(index: number){
+    if(this.editQuote === true){
+      this.editIndex = null;
+      this.editQuote = !this.editQuote;
+      this.menuToggle = null;
+    } else{
+      this.editIndex = index;
+      this.editQuote = !this.editQuote;
+      this.editedQuote = this.quotes[index].content;
+    }
+  }
+
+  submitEditedQuote(quoteId: uuid){
+    if(this.user.userId && this.editIndex !== null){
+      this.quotesService.updateQuote(quoteId, this.user.userId, this.editedQuote).subscribe({
+        next: res => {
+          this.quotes[this.editIndex!] = res.updatedQuote;
+          this.editQuote = false;
+          this.editIndex = null;
+          this.menuToggle = null;
+        },
+        error: err => console.log(err)
+      });
+    }
+  }
+
+  deleteQuote(quoteId: uuid){
+    if(this.user.userId){
+      this.quotesService.deleteQuote(this.user.userId, quoteId).subscribe({
+        next: res => {
+          alert(res.message);
+          this.quotes = this.quotes.filter(quote => quote.id !== quoteId);
+          this.menuToggle = null;
+          this.editQuote = false;
+          this.editIndex = null;
+        },
         error: err => console.log(err)
       });
     }
@@ -133,6 +182,10 @@ export class UserBookTrackerComponent implements OnInit{
 
   closeLibraryModal(){
     this.libraryModal.close();
+  }
+
+  toggleMenu(index: number){
+    this.menuToggle = this.reviewActionsService.toggleMenu(index, this.menuToggle);
   }
 
   setBookList(event: any){

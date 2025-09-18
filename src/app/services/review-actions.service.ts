@@ -13,6 +13,7 @@ export class ReviewActionsService {
 
   toggleMenu(index: number, menuToggle: number | null){
     menuToggle = menuToggle === index ? null : index;
+    return menuToggle;
   }
 
   editReview(menuToggle: number | null, reviews: Review[]){

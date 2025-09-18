@@ -161,12 +161,36 @@
                     <div class="flex flex-col gap-2">
                         @for (quote of quotes; track $index) {
                             <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
-                                <p class="text-white italic">"{{ quote.content }}"</p>
-                                <div class="mt-2 flex items-center">
-                                    <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">A</div>
-                                    <div class="ml-3">
-                                        <p class="text-sm font-medium text-white opacity-80">{{ quote.books.title }}</p>
-                                        <p class="text-xs text-white opacity-70">{{ quote.books.authors.join(', ')}}</p>
+                                @if (editQuote && editIndex === $index) {
+                                    <textarea [(ngModel)]="editedQuote" class="text-white p-2 italic w-full focus:outline-none focus:ring-1 focus:ring-yellow-400 rounded-2xl transition-all"></textarea>
+                                } @else {
+                                    <p class="text-white italic">"{{ quote.content }}"</p>
+                                }
+                                <div class="flex justify-between items-center mt-2">
+                                    <div class="mt-2 flex items-center">
+                                        <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">A</div>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium text-white opacity-80">{{ quote.books.title }}</p>
+                                            <p class="text-xs text-white opacity-70">{{ quote.books.authors.join(', ') }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="gap-2 relative inline-block text-left z-100">
+                                        @if (editQuote && editIndex === $index) {
+                                            <div class="flex flex-row gap-3">
+                                                <button (click)="toggleEdit($index)" class="w-6 h-6 rounded-full bg-red-700 flex items-center cursor-pointer justify-center scale-110 hover:bg-red-800 hover:scale-125 transition-all"><img src="closeBtn.svg" alt="Cerrar"></button>
+                                                <button (click)="submitEditedQuote(quote.id)" class="w-6 h-6 rounded-full bg-emerald-700 flex items-center cursor-pointer justify-center scale-110 hover:bg-emerald-800 hover:scale-125 transition-all"><img src="checkmark.svg" alt="confirmar"></button>
+                                            </div>
+                                        } @else {
+                                            <button (click)="toggleMenu($index)" class="p-2 cursor-pointer rounded-full hover:bg-zinc-700 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                            @if (menuToggle === $index) {
+                                                <div class="absolute right-0 z-50 bg-zinc-700 text-white rounded-md shadow-lg w-48">
+                                                    <ul class="py-1">
+                                                        <li (click)="toggleEdit($index)" class="px-4 py-2 hover:contrast-75 cursor-pointer">Editar</li>
+                                                        <li (click)="deleteQuote(quote.id)" class="px-4 py-2 hover:contrast-75 cursor-pointer">Eliminar</li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>

@@ -27,4 +27,14 @@ export class QuotesService {
   getAllQuotes(userId: uuid){
     return this.http.get<any>(`${this.apiUrl}/quotes/getAllQuotes/${userId}`);
   }
+
+  //P A T C H
+  updateQuote(quoteId: uuid, userId: uuid, content: string){
+    return this.http.patch<any>(`${this.apiUrl}/quotes/updateQuote/${userId}/${quoteId}`, { content });
+  }
+
+  //D E L E T E
+  deleteQuote(userId: uuid, quoteId: uuid){
+    return this.http.delete<any>(`${this.apiUrl}/quotes/deleteQuote/${userId}/${quoteId}`);
+  }
 }

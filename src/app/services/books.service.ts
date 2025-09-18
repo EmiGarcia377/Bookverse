@@ -79,4 +79,14 @@ export class BooksService {
   updateBookSummary(bookId: uuid, summary: string){
     return this.http.patch<any>(`${this.apiUrl}/books/updateBookSummary/${bookId}`, { summary });
   }
+
+  //P U T
+  updateBook(book: any, bookId: uuid){
+    return this.http.put<any>(`${this.apiUrl}/books/updateBook/${bookId}`, book);
+  }
+
+  //D E L E T E
+  removeBookFromLib(bookId: uuid, libraryId: uuid){
+    return this.http.delete<any>(`${this.apiUrl}/books/removeBookFromLib/${bookId}/${libraryId}`);
+  }
 }

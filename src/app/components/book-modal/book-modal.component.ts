@@ -5,12 +5,24 @@ import { UserService } from '../../services/user.service';
 import { uuid } from '../../../models/User';
 import { QuotesService } from '../../services/quotes.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { ReviewActionsService } from '../../services/review-actions.service';
+import { BookSettingsComponent } from '../book-settings/book-settings.component';
 
 @Component({
   selector: 'app-book-modal',
-  imports: [ FormsModule, ReactiveFormsModule ],
+  imports: [ FormsModule, ReactiveFormsModule, BookSettingsComponent ],
   templateUrl: './book-modal.component.html',
-  styles: ``
+  styles: `
+  .fadeIn{
+    animation: fadeIn 0.2s linear;
+  }
+  .fadeOut{
+    animation: fadeIn 0.3 linear reverse;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }`
 })
 export class BookModalComponent implements OnInit{
   @Output() closeModal = new EventEmitter<void>();
@@ -27,7 +39,13 @@ export class BookModalComponent implements OnInit{
   isSummaryOpen = false;
   showFloatingTitle = false;
   createNewQuote = false;
+  menuToggle: number | null = null;
+  editIndex: number | null = null;
+  editQuote = false;
+  editedQuote: string = '';
+  mainPage: boolean = true;
   @ViewChild('autoTextarea') textarea!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('bookSettings') bookSettings!: BookSettingsComponent;
 
   quoteInput: FormControl;
   summaryControl: FormControl = new FormControl('');
@@ -35,7 +53,8 @@ export class BookModalComponent implements OnInit{
   constructor(
     private booksService: BooksService, 
     private userService: UserService,
-    private quotesService: QuotesService
+    private quotesService: QuotesService,
+    private reviewActionsService: ReviewActionsService
   ) { 
     this.quoteInput = new FormControl('', [Validators.required, Validators.minLength(10)]);
   }
@@ -74,11 +93,77 @@ export class BookModalComponent implements OnInit{
     this.showFloatingTitle = scrollTop > 100;
   }
 
+  toggleMenu(index: number){
+    this.menuToggle = this.reviewActionsService.toggleMenu(index, this.menuToggle);
+  }
+
+  toggleEdit(index: number){
+    if(this.editQuote === true){
+      this.editIndex = null;
+      this.editQuote = !this.editQuote;
+      this.menuToggle = null;
+    } else{
+      this.editIndex = index;
+      this.editQuote = !this.editQuote;
+      this.editedQuote = this.bookQuotes[index].content;
+    }
+  }
+
+  openConfiguration(){
+    this.mainPage = false;
+  }
+
+  closeConfiguration(){
+    if(this.bookSettings.closeConfig() === false){
+      this.mainPage = true;
+    } else {
+      return;
+    }
+  }
+
+  removeLibrary(libId: uuid, index: number){
+    this.booksService.removeBookFromLib(this.book.id, libId).subscribe({
+      next: res => this.bookLibraries.splice(index, 1),
+      error: err => console.log(err)
+    });
+  }
+
+  submitEditedQuote(quoteId: uuid){
+    if(this.userId && this.editIndex !== null){
+      this.quotesService.updateQuote(quoteId, this.userId, this.editedQuote).subscribe({
+        next: res => {
+          this.bookQuotes[this.editIndex!] = res.updatedQuote;
+          this.editQuote = false;
+          this.editIndex = null;
+          this.menuToggle = null;
+        },
+        error: err => console.log(err)
+      });
+    }
+  }
+
+  deleteQuote(quoteId: uuid){
+    if(this.userId){
+      this.quotesService.deleteQuote(this.userId, quoteId).subscribe({
+        next: res => {
+          alert(res.message);
+          this.bookQuotes = this.bookQuotes.filter(quote => quote.id !== quoteId);
+          this.menuToggle = null;
+          this.editQuote = false;
+          this.editIndex = null;
+        },
+        error: err => console.log(err)
+      });
+    }
+  }
+
   toggleQuotes(){
     if(!this.userId) return
     if(this.bookQuotes.length === 0 && this.isQuotesOpen === false){
       this.quotesService.getBookQuotes(this.book.id).subscribe({
-        next: res => this.bookQuotes = res.quotes,
+        next: res => {
+          this.bookQuotes = res.quotes
+        },
         error: err => console.log(err)
       });
       this.isQuotesOpen = !this.isQuotesOpen;
@@ -165,6 +250,7 @@ export class BookModalComponent implements OnInit{
     this.bookQuotes = [];
     this.showFloatingTitle = false;
     this.createNewQuote = false;
+    this.mainPage = true;
   }
 
   openLibraryModal(){

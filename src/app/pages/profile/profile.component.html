@@ -29,7 +29,7 @@
         </div>
         <div class="flex flex-col flex-wrap items-center">
             @for (review of reviews; track $index) {
-                <section class="flex flex-col gap-7 w-11/12 rounded-3xl bg-zinc-700 p-5 m-6 shadow-xl/30 hover:contrast-110 cursor-pointer transition-shadow ease-out">
+                <section class="flex flex-col gap-7 w-11/12 rounded-3xl bg-zinc-700 border-1 border-zinc-600 shadow-xs shadow-zinc-500 shadow-xl/30 transition-all p-5 m-6 hover:contrast-110 cursor-pointer ease-out">
                 <div (click)="routesService.goReview(review.id)">
                     <div class="flex flex-row justify-between items-center pb-3">
                             <div class="items-center flex flex-row gap-3 pb-3">
@@ -40,8 +40,8 @@
                                 </div>
                             </div>
                             @if (review.username === currentUser?.username) {
-                                <div class="relative inline-block text-left z-100" #menuContainer>
-                                    <button (click)="reviewActionsService.toggleMenu($index, menuToggle)" class="p-2 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
+                                <div (click)="$event.stopPropagation()" class="relative inline-block text-left z-100" #menuContainer>
+                                    <button (click)="toggleMenu($index)" class="p-2 cursor-pointer rounded-full hover:bg-zinc-800 transition-colors ease-in"><img src="more_menu.svg" alt=""></button>
                                     @if (menuToggle === $index) {
                                         <div class="absolute right-0 z-50 bg-zinc-800 text-white rounded-md shadow-lg w-48">
                                             <ul class="py-1">
