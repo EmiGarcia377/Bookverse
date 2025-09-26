@@ -19,7 +19,7 @@ export class UserBookLibrariesComponent implements OnInit{
   constructor(
     private sectionState: SectionStateServiceService, 
     private userService: UserService,
-    private booksService: BooksService,
+    public booksService: BooksService,
   ) {}
   ngOnInit(): void {
     this.user = this.userService.getCurrentUserData();

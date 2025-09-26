@@ -28,7 +28,7 @@ export class UserHomeComponent implements OnInit {
     private reviewsService: ReviewsService,
     private userService: UserService,
     private sectionState: SectionStateServiceService,
-    private booksService: BooksService
+    public booksService: BooksService
   ) {}
  ngOnInit(): void {
   this.userService.getUser().subscribe({

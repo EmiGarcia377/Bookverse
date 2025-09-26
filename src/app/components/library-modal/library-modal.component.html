@@ -10,7 +10,7 @@
                         <div class="bg-zinc-800 p-4 rounded-lg border-r-4 shadow-sm flex flex-row gap-5 border-amber-500">
                             <div class="flex flex-col gap-3">
                                 <div class="flex items-center justify-center text-white text-xl font-bold">
-                                    <img class="max-w-40 rounded-lg" [src]="book.books.thumbnail_url" alt="Titulo">
+                                    <img class="max-w-40 rounded-lg" [src]="booksService.getFreshUrl(book.books.thumbnail_url)" alt="Titulo">
                                 </div>
                             </div>
                             <div class="mt-2 flex items-center">

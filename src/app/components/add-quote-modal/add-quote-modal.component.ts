@@ -2,12 +2,12 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { uuid } from '../../../models/User';
 import { UserService } from '../../services/user.service';
 import { BooksService } from '../../services/books.service';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { QuotesService } from '../../services/quotes.service';
 
 @Component({
   selector: 'app-add-quote-modal',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './add-quote-modal.component.html',
   styles: ``
 })
@@ -19,6 +19,7 @@ export class AddQuoteModalComponent implements OnInit{
   userBooks: any[] = [];
   selectedBook: any = null;
   quoteInput: FormControl;
+  editedPage: number | null = null;
 
   constructor(
     private userService: UserService,
@@ -43,8 +44,8 @@ export class AddQuoteModalComponent implements OnInit{
   }
 
   submitQuote(){
-    if(this.userId){
-      this.quotesService.createQuote(this.userId, this.selectedBook.id, this.quoteInput.value).subscribe({
+    if(this.userId && this.selectedBook && this.quoteInput.valid && this.editedPage !== null && this.editedPage > 0){
+      this.quotesService.createQuote(this.userId, this.selectedBook.id, this.quoteInput.value, this.editedPage).subscribe({
         next: res => {
           alert("Cita agregada con exito");
           const quote: any = { content: this.quoteInput.value, books: { title: this.selectedBook.title, authors: this.selectedBook.authors }};

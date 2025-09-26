@@ -47,13 +47,14 @@ export class UserBookTrackerComponent implements OnInit{
   editIndex: number | null = null;
   editQuote = false;
   editedQuote: string = '';
+  editedPage: number | null = null;
   bookStatus: 'Sin leer' | 'En progreso' | 'Leidos' = 'Sin leer';
   readonly activeToggleClass = 'px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition duration-300';
   readonly inactiveToggleClass = 'px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 transition duration-300';
 
   constructor(
     private sectionState: SectionStateServiceService,
-    private booksService: BooksService,
+    public booksService: BooksService,
     private userService: UserService,
     private quotesService: QuotesService,
     private reviewActionsService: ReviewActionsService
@@ -103,14 +104,17 @@ export class UserBookTrackerComponent implements OnInit{
       this.editIndex = index;
       this.editQuote = !this.editQuote;
       this.editedQuote = this.quotes[index].content;
+      this.editedPage = this.quotes[index].num_page;
     }
   }
 
   submitEditedQuote(quoteId: uuid){
-    if(this.user.userId && this.editIndex !== null){
-      this.quotesService.updateQuote(quoteId, this.user.userId, this.editedQuote).subscribe({
+    if(this.user.userId && this.editIndex !== null && this.editedPage !== null && this.editedPage > 0){
+      this.quotesService.updateQuote(quoteId, this.user.userId, this.editedQuote, this.editedPage).subscribe({
         next: res => {
-          this.quotes[this.editIndex!] = res.updatedQuote;
+          console.log(res)
+          this.quotes[this.editIndex!].content = res.updatedQuote.content;
+          this.quotes[this.editIndex!].num_page = res.updatedQuote.num_page;
           this.editQuote = false;
           this.editIndex = null;
           this.menuToggle = null;

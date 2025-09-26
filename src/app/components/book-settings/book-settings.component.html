@@ -1,87 +1,98 @@
-    <button (click)="closeConfig()" class="absolute top-4 right-4 text-white hover:text-red-400 font-bold text-2xl">
-      ✕
-    </button>
-    <h2 class="text-2xl font-bold text-white mb-4 text-center">Configuración del Libro</h2>
-    <form class="flex flex-col gap-4">
-      <div class="flex flex-col">
-        <label for="title" class="text-white font-medium mb-1">Título</label>
-        <input type="text" [(ngModel)]="editedBook.title" name="title"
-               class="p-2 rounded-lg bg-zinc-800 text-white outline-1 outline-zinc-800 mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400"/>
-      </div>
-      <div class="flex flex-col">
-        <label for="description" class="text-white font-medium mb-1">Descripción</label>
-        <textarea [(ngModel)]="editedBook.description" name="description" rows="4"
-                  class="p-2 rounded-lg bg-zinc-800 text-white outline-1 outline-zinc-800 mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400 resize-none"></textarea>
-      </div>
-      <div class="flex flex-col">
-        <label for="genres" class="text-white font-medium mb-1">Géneros</label>
-        <div class="flex flex-row items-center gap-1 w-full rounded-xl bg-zinc-800 p-3 outline-1 outline-zinc-800 text-white mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400 transition-all ease-out">
-            <input type="text" class="bg-transparent focus:outline-none w-full placeholder-white/70" placeholder="Separar por comas (ej. Fantasía, Drama)" [(ngModel)]="genresInput" name="genres">
-            <button (click)="submitGenre()" class="text-white text-2xl rounded-3xl cursor-pointer hover:contrast-125 transition-all ease-in-out">+</button>
-        </div>
-        <div class="flex flex-wrap gap-2 mt-2">
-            @for (genre of editedBook.categories; track $index) {
-                 @if (selectedGenre && genreIndex === $index) {
-                    <span (click)="deleteGenre($index)" class="px-3 py-1 bg-amber-400 text-center w-15 hover:bg-amber-500 transition-colors text-gray-900 rounded-full flex items-center justify-center text-sm font-semibold">
-                        <img src="remove.svg" alt="">
-                    </span>
-                  } @else {
-                    <span (click)="selectGenre(genre, $index)" class="px-3 py-1 bg-amber-400 hover:bg-amber-500 transition-colors text-gray-900 rounded-full text-sm font-semibold">
-                        {{ genre }}
-                    </span> 
-                  }
-            }
-            <span>
-                <button (click)="addNewGenre()" class="px-3 py-1 bg-amber-500 text-gray-900 rounded-full text-sm font-semibold hover:bg-amber-600 transition-colors">
-                    +
-                </button>
-            </span>
-        </div>
-      </div>
-      <div class="flex flex-col">
-        <label for="num_pages" class="text-white font-medium mb-1">Número total de páginas</label>
-        <input type="number" [(ngModel)]="editedBook.num_pages" name="num_pages"
-               class="p-2 rounded-lg bg-zinc-800 text-white outline-1 outline-zinc-800 mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400"/>
-      </div>
-      <div class="flex flex-col">
-        <label for="cover" class="text-white font-medium mb-1">Portada</label>
-        <div class="flex items-center gap-4">
-          <img [src]="editedBook.thumbnail_url" alt="Portada actual"
-               class="w-24 h-32 object-cover rounded-lg border border-zinc-600" />
-          <input name="cover" type="file" (change)="onFileSelected($event)"
-                 class="text-white bg-zinc-800 p-2 rounded-xl" />
-        </div>
-      </div>
-      <div class="flex flex-col">
-        <label for="authors" class="text-white font-medium mb-1">Autores</label>
-        <div class="flex flex-row items-center gap-1 w-full rounded-xl bg-zinc-800 p-3 outline-1 outline-zinc-800 text-white mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400 transition-all ease-out">
-            <input type="text" class="bg-transparent focus:outline-none w-full placeholder-white/70" placeholder="Separar por comas (ej. Tolkien, C.S. Lewis)" [(ngModel)]="authorsInput" name="authors">
-            <button (click)="submitAuthor()" class="text-white text-2xl rounded-3xl cursor-pointer hover:contrast-125 transition-all ease-in-out">+</button>
-        </div>
-        <div class="flex flex-wrap gap-2 mt-2">
-            @for (author of editedBook.authors; track $index) {
-              @if (selectedAuthor && authorIndex === $index) {
-                <span (click)="deleteAuthor($index)" class="px-3 py-1 bg-amber-400 text-center w-15 hover:bg-amber-500 transition-colors text-gray-900 rounded-full flex items-center justify-center text-sm font-semibold">
+<h2 class="text-2xl font-bold text-white mb-4 text-center">Configuración del Libro</h2>
+<form class="flex flex-col gap-4">
+  <div class="flex flex-col">
+    <label for="title" class="text-white font-medium mb-1">Título</label>
+    <input type="text" [(ngModel)]="editedBook.title" name="title"
+            class="p-2 rounded-lg bg-zinc-800 text-white outline-1 outline-zinc-800 mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400"/>
+  </div>
+  <div class="flex flex-col">
+    <label for="description" class="text-white font-medium mb-1">Descripción</label>
+    <textarea [(ngModel)]="editedBook.description" name="description" rows="4"
+              class="p-2 rounded-lg bg-zinc-800 text-white outline-1 outline-zinc-800 mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400"></textarea>
+  </div>
+  <div class="flex flex-col">
+    <label for="genres" class="text-white font-medium mb-1">Géneros</label>
+    <div class="flex flex-row items-center gap-1 w-full rounded-xl bg-zinc-800 p-3 outline-1 outline-zinc-800 text-white mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400 transition-all ease-out">
+        <input type="text" class="bg-transparent focus:outline-none w-full placeholder-white/70" placeholder="Separar por comas (ej. Fantasía, Drama)" [(ngModel)]="genresInput" name="genres">
+        <button (click)="submitGenre()" class="text-white text-2xl rounded-3xl cursor-pointer hover:contrast-125 transition-all ease-in-out">+</button>
+    </div>
+    <div class="flex flex-wrap gap-2 mt-2">
+        @for (genre of editedBook.categories; track $index) {
+              @if (selectedGenre && genreIndex === $index) {
+                <span (click)="deleteGenre($index)" class="px-3 py-1 bg-amber-400 text-center w-15 hover:bg-amber-500 transition-colors text-gray-900 rounded-full flex items-center justify-center text-sm font-semibold">
                     <img src="remove.svg" alt="">
                 </span>
               } @else {
-                <span (click)="selectAuthor(author, $index)" class="px-3 py-1 bg-amber-400 hover:bg-amber-500 transition-colors text-gray-900 rounded-full text-sm font-semibold">
-                    {{ author }}
+                <span (click)="selectGenre(genre, $index)" class="px-3 py-1 bg-amber-400 hover:bg-amber-500 transition-colors text-gray-900 rounded-full text-sm font-semibold">
+                    {{ genre }}
                 </span> 
               }
-            }
-            <span>
-                <button (click)="addNewAuthor()" class="px-3 py-1 bg-amber-400 hover:bg-amber-500 transition-colors text-gray-900 rounded-full text-sm font-semibold">
-                    +
-                </button>
-            </span>
+        }
+        <span>
+            <button (click)="addNewGenre()" class="px-3 py-1 bg-amber-500 text-gray-900 rounded-full text-sm font-semibold hover:bg-amber-600 transition-colors">
+                +
+            </button>
+        </span>
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <label for="num_pages" class="text-white font-medium mb-1">Número total de páginas</label>
+    <input type="number" [(ngModel)]="editedBook.num_pages" name="num_pages"
+            class="p-2 rounded-lg bg-zinc-800 text-white outline-1 outline-zinc-800 mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400"/>
+  </div>
+  <div class="flex flex-col">
+    <label for="cover" class="text-white font-medium mb-1">Portada</label>
+    <div class="flex items-center justify-evenly gap-4">
+      <img [src]="editedBook.thumbnail_url || previewImage" alt="Portada actual" class="w-48 h-64 object-cover rounded-lg border border-zinc-600" />
+      <div class="flex flex-col gap-2 w-1/2">
+        <div class="flex gap-2 items-center mb-2">
+            <button class="hover:shadow-xl hover:shadow-zinc-800 transition-all ease-in" type="button" (click)="switchType('file')" [class]="coverMode === 'file' ? activeToggleClass : inactiveToggleClass">
+                Subir archivo
+            </button>
+            <button class="hover:shadow-xl hover:shadow-zinc-800 transition-all ease-in" type="button" (click)="switchType('url')" [class]="coverMode === 'url' ? activeToggleClass : inactiveToggleClass">
+                Usar URL
+            </button>
         </div>
+        @if (coverMode === 'file') {
+          <input name="cover" type="file" (change)="onFileChange($event)"
+              class="text-white bg-zinc-800 p-3 w-full rounded-xl" />
+        } @else if (coverMode === 'url') {
+          <input [(ngModel)]="coverUrl" name="cover" type="url" placeholder="https://ejemplo.com/portada.jpg" class="inset-shadow-sm w-full inset-shadow-zinc-900 rounded-xl bg-zinc-800 p-3 outline-1 outline-zinc-700 text-white focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400 transition-all ease-out"/>
+        }
       </div>
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <label for="authors" class="text-white font-medium mb-1">Autores</label>
+    <div class="flex flex-row items-center gap-1 w-full rounded-xl bg-zinc-800 p-3 outline-1 outline-zinc-800 text-white mb-4 focus-within:ring-2 focus-within:ring-amber-400 hover:outline-amber-400 transition-all ease-out">
+        <input type="text" class="bg-transparent focus:outline-none w-full placeholder-white/70" placeholder="Separar por comas (ej. Tolkien, C.S. Lewis)" [(ngModel)]="authorsInput" name="authors">
+        <button (click)="submitAuthor()" class="text-white text-2xl rounded-3xl cursor-pointer hover:contrast-125 transition-all ease-in-out">+</button>
+    </div>
+    <div class="flex flex-wrap gap-2 mt-2">
+        @for (author of editedBook.authors; track $index) {
+          @if (selectedAuthor && authorIndex === $index) {
+            <span (click)="deleteAuthor($index)" class="px-3 py-1 bg-amber-400 text-center w-15 hover:bg-amber-500 transition-colors text-gray-900 rounded-full flex items-center justify-center text-sm font-semibold">
+                <img src="remove.svg" alt="">
+            </span>
+          } @else {
+            <span (click)="selectAuthor(author, $index)" class="px-3 py-1 bg-amber-400 hover:bg-amber-500 transition-colors text-gray-900 rounded-full text-sm font-semibold">
+                {{ author }}
+            </span> 
+          }
+        }
+        <span>
+            <button (click)="addNewAuthor()" class="px-3 py-1 bg-amber-400 hover:bg-amber-500 transition-colors text-gray-900 rounded-full text-sm font-semibold">
+                +
+            </button>
+        </span>
+    </div>
+  </div>
 
-      <div class="flex justify-end mt-4">
-        <button type="submit" (click)="saveBookConfig()" 
-                class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-semibold px-6 py-2 rounded-lg">
-          Guardar cambios
-        </button>
-      </div>
-    </form>
+  <div class="flex justify-center gap-5 mt-4">
+    <button type="submit" (click)="saveBookConfig()" 
+            class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-semibold px-6 py-2 rounded-lg">
+      Guardar cambios
+    </button>
+    <button class="bg-red-500 hover:bg-red-600 text-gray-900 font-semibold px-6 py-2 rounded-lg" (click)="deleteBook()">Eliminar libro</button>
+  </div>
+</form>

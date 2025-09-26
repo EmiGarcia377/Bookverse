@@ -15,7 +15,7 @@ export class LibraryModalComponent {
   userId: uuid | null = null;
   isOpen:boolean = false;
   libraryBooks: any[] = [];
-  constructor(private booksService: BooksService) {}
+  constructor(public booksService: BooksService) {}
 
   open(library: any, userId: uuid | null) {
     this.userId = userId;

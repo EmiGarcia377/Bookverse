@@ -137,8 +137,13 @@
                                     <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
                                         @if (editQuote && editIndex === $index) {
                                             <textarea [(ngModel)]="editedQuote" class="text-white p-2 italic w-full focus:outline-none focus:ring-1 focus:ring-yellow-400 rounded-2xl transition-all"></textarea>
+                                            <div class="mt-2 flex items-center gap-3 flex-row">
+                                                <p class="text-sm font-light text-white italic opacity-80">Pagina: </p>
+                                                <input type="number" [(ngModel)]="editedPage" min="1" class="bg-transparent border-b border-white text-white w-16 focus:outline-none focus:ring-1 focus:ring-yellow-400 rounded transition-all">
+                                            </div>
                                         } @else {
                                             <p class="text-white italic">"{{ quote.content }}"</p>
+                                            <p class="text-sm font-light text-white italic opacity-80 mt-1">Pagina: {{ quote.num_page }}</p>
                                         }
                                         <div class="flex justify-between items-center mt-2">
                                             <div class="mt-2 flex items-center">
@@ -176,6 +181,12 @@
                                 } @else {
                                     <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
                                         <textarea [formControl]="quoteInput" class="text-white p-2 italic w-full focus:outline-none focus:ring-1 focus:ring-yellow-400 rounded-2xl transition-all" placeholder='"Escribe tu cita aqui"'></textarea>
+                                        <div class="gap-2 relative inline-block text-left z-100 mt-2">
+                                            <div class="flex flex-row gap-3">
+                                                <p class="text-sm font-light text-white italic opacity-80">Pagina: </p>
+                                                <input type="number" [(ngModel)]="editedPage" min="1" class="bg-transparent border-b border-white text-white w-16 focus:outline-none focus:ring-1 focus:ring-yellow-400 rounded transition-all">
+                                            </div>
+                                        </div>
                                         <div class="mt-2 flex items-center justify-between">
                                             <div class="mt-2 flex items-center">
                                                 <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md flex items-center justify-center text-white text-xs">A</div>
@@ -206,7 +217,7 @@
                 </div>
             } @else {
                 <button (click)="closeConfiguration()" class="p-1 rounded-full cursor-pointer hover:bg-zinc-600 hover:scale-105 transition-all ease-in-out"><img src="arrow_left.svg" alt=""></button>
-                <app-book-settings #bookSettings [book]="book" (closeSettings)="mainPage = true"></app-book-settings>
+                <app-book-settings #bookSettings [book]="book" (closeConfig)="mainPage"></app-book-settings>
             }
         </div>
     </div>

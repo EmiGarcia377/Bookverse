@@ -163,8 +163,13 @@
                             <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-amber-600 shadow-sm">
                                 @if (editQuote && editIndex === $index) {
                                     <textarea [(ngModel)]="editedQuote" class="text-white p-2 italic w-full focus:outline-none focus:ring-1 focus:ring-yellow-400 rounded-2xl transition-all"></textarea>
+                                    <div class="mt-2 flex items-center gap-3 flex-row">
+                                        <p class="text-sm font-light text-white italic opacity-80">Pagina: </p>
+                                        <input type="number" [(ngModel)]="editedPage" class="bg-transparent border-b border-white text-white w-16 focus:outline-none focus:ring-1 focus:ring-yellow-400 rounded transition-all">
+                                    </div>
                                 } @else {
                                     <p class="text-white italic">"{{ quote.content }}"</p>
+                                    <p class="text-sm font-light text-white italic opacity-80 mt-1">Pagina: {{ quote.num_page }}</p>
                                 }
                                 <div class="flex justify-between items-center mt-2">
                                     <div class="mt-2 flex items-center">
@@ -174,7 +179,7 @@
                                             <p class="text-xs text-white opacity-70">{{ quote.books.authors.join(', ') }}</p>
                                         </div>
                                     </div>
-                                    <div class="gap-2 relative inline-block text-left z-100">
+                                    <div class="gap-2 relative inline-block text-left z-50">
                                         @if (editQuote && editIndex === $index) {
                                             <div class="flex flex-row gap-3">
                                                 <button (click)="toggleEdit($index)" class="w-6 h-6 rounded-full bg-red-700 flex items-center cursor-pointer justify-center scale-110 hover:bg-red-800 hover:scale-125 transition-all"><img src="closeBtn.svg" alt="Cerrar"></button>

@@ -11,8 +11,8 @@ export class QuotesService {
   constructor(private http: HttpClient) { }
 
   //P O S T
-  createQuote(userId: uuid, bookId: uuid, content: string){
-    return this.http.post<any>(`${this.apiUrl}/quotes/createQuote/${userId}/${bookId}`, { content });
+  createQuote(userId: uuid, bookId: uuid, content: string, quotePage: number){
+    return this.http.post<any>(`${this.apiUrl}/quotes/createQuote/${userId}/${bookId}`, { content, quotePage });
   }
 
   //G E T
@@ -29,8 +29,8 @@ export class QuotesService {
   }
 
   //P A T C H
-  updateQuote(quoteId: uuid, userId: uuid, content: string){
-    return this.http.patch<any>(`${this.apiUrl}/quotes/updateQuote/${userId}/${quoteId}`, { content });
+  updateQuote(quoteId: uuid, userId: uuid, content: string, quotePage: number){
+    return this.http.patch<any>(`${this.apiUrl}/quotes/updateQuote/${userId}/${quoteId}`, { content, quotePage });
   }
 
   //D E L E T E

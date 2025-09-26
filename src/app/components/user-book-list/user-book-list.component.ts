@@ -24,7 +24,7 @@ export class UserBookListComponent implements OnInit{
   constructor(
     private sectionState: SectionStateServiceService,
     private userService: UserService,
-    private booksService: BooksService
+    public booksService: BooksService
   ) {}
 
   ngOnInit(): void {

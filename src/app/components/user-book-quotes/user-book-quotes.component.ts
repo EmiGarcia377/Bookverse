@@ -19,6 +19,7 @@ export class UserBookQuotesComponent implements OnInit{
   editIndex: number | null = null;
   editQuote = false;
   editedQuote: string = '';
+  editedPage: number | null = null;
 
   constructor(
     private sectionState: SectionStateServiceService, 
@@ -41,23 +42,26 @@ export class UserBookQuotesComponent implements OnInit{
     this.menuToggle = this.reviewActionsService.toggleMenu(index, this.menuToggle);
   }
 
-  toggleEdit(index: number){
+  toggleEdit(index: number, quoteId: uuid){
     if(this.editQuote === true){
-      this.editIndex = null;
+      this.editIndex = null; 
       this.editQuote = !this.editQuote;
       this.menuToggle = null;
     } else{
+      const bookIndex = this.booksQuotes.findIndex(book => book.quotes.some((quote: any) => quote.id === quoteId));
       this.editIndex = index;
       this.editQuote = !this.editQuote;
-      this.editedQuote = this.booksQuotes[index].content;
+      this.editedQuote = this.booksQuotes[bookIndex].quotes[index].content;
+      this.editedPage = this.booksQuotes[bookIndex].quotes[index].num_page;
     }
   }
 
   submitEditedQuote(quoteId: uuid){
-    if(this.user.userId && this.editIndex !== null){
-      this.quotesService.updateQuote(quoteId, this.user.userId, this.editedQuote).subscribe({
+    const bookIndex = this.booksQuotes.findIndex(book => book.quotes.some((quote: any) => quote.id === quoteId));
+    if(this.user.userId && this.editIndex !== null && this.editIndex !== null && this.editedPage !== null && this.editedPage > 0){
+      this.quotesService.updateQuote(quoteId, this.user.userId, this.editedQuote, this.editedPage).subscribe({
         next: res => {
-          this.booksQuotes[this.editIndex!] = res.updatedQuote;
+          this.booksQuotes[bookIndex].quotes[this.editIndex!] = res.updatedQuote;
           this.editQuote = false;
           this.editIndex = null;
           this.menuToggle = null;

@@ -10,6 +10,10 @@ export class BooksService {
 
   constructor(private http: HttpClient) { }
 
+  getFreshUrl(bookUrl: string): string {
+    return `${bookUrl}?t=${Date.now()}`;
+  }
+ 
   //P O S T
   addBookTodb(userId: uuid, book: any, library: string){
     return this.http.post<any>(`${this.apiUrl}/books/addBook/${userId}`, { book, library });
@@ -85,8 +89,18 @@ export class BooksService {
     return this.http.put<any>(`${this.apiUrl}/books/updateBook/${bookId}`, book);
   }
 
+  uploadCover(file: File, userId: uuid, bookTitle: string){
+    const formData = new FormData();
+    formData.append('book-covers', file);
+    return this.http.put<any>(`${this.apiUrl}/books/uploadCover/${userId}/${bookTitle}`, formData);
+  }
+
   //D E L E T E
   removeBookFromLib(bookId: uuid, libraryId: uuid){
     return this.http.delete<any>(`${this.apiUrl}/books/removeBookFromLib/${bookId}/${libraryId}`);
+  }
+
+  deleteBook(bookId: uuid, userId: uuid) {
+    return this.http.delete<any>(`${this.apiUrl}/books/deleteBook/${bookId}/${userId}`);
   }
 }

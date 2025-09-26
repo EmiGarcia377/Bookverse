@@ -41,6 +41,7 @@ export class BookModalComponent implements OnInit{
   createNewQuote = false;
   menuToggle: number | null = null;
   editIndex: number | null = null;
+  editedPage: number | null = null;
   editQuote = false;
   editedQuote: string = '';
   mainPage: boolean = true;
@@ -48,10 +49,11 @@ export class BookModalComponent implements OnInit{
   @ViewChild('bookSettings') bookSettings!: BookSettingsComponent;
 
   quoteInput: FormControl;
+  quotePage: FormControl = new FormControl('', [Validators.required, Validators.min(1)]);
   summaryControl: FormControl = new FormControl('');
 
   constructor(
-    private booksService: BooksService, 
+    public booksService: BooksService, 
     private userService: UserService,
     private quotesService: QuotesService,
     private reviewActionsService: ReviewActionsService
@@ -106,6 +108,7 @@ export class BookModalComponent implements OnInit{
       this.editIndex = index;
       this.editQuote = !this.editQuote;
       this.editedQuote = this.bookQuotes[index].content;
+      this.editedPage = this.bookQuotes[index].num_page;
     }
   }
 
@@ -129,8 +132,8 @@ export class BookModalComponent implements OnInit{
   }
 
   submitEditedQuote(quoteId: uuid){
-    if(this.userId && this.editIndex !== null){
-      this.quotesService.updateQuote(quoteId, this.userId, this.editedQuote).subscribe({
+    if(this.userId && this.editIndex !== null && this.editedPage !== null && this.editedPage > 0){
+      this.quotesService.updateQuote(quoteId, this.userId, this.editedQuote, this.editedPage).subscribe({
         next: res => {
           this.bookQuotes[this.editIndex!] = res.updatedQuote;
           this.editQuote = false;
@@ -222,8 +225,8 @@ export class BookModalComponent implements OnInit{
   }
 
   submitQuote(){
-    if(this.userId){
-      this.quotesService.createQuote(this.userId, this.book.id, this.quoteInput.value).subscribe({
+    if(this.userId && this.editIndex !== null && this.editedPage !== null && this.editedPage > 0){
+      this.quotesService.createQuote(this.userId, this.book.id, this.quoteInput.value, this.quotePage.value).subscribe({
         next: res => {
           this.bookQuotes.push(res.quote);
           this.createNewQuote = false;
